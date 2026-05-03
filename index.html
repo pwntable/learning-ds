@@ -17,17 +17,17 @@
     <nav class="sidebar-nav">
       <div class="sidebar-section">Basics</div>
       <button class="sidebar-btn active" onclick="go(1)" id="btn1">1. Variables & Types</button>
-      <button class="sidebar-btn" onclick="go(2)" id="btn2">2. Your First Program</button>
-      <button class="sidebar-btn" onclick="go(3)" id="btn3">3. Input & Output</button>
+      <button class="sidebar-btn" onclick="go(2)" id="btn2" disabled>2. Your First Program</button>
+      <button class="sidebar-btn" onclick="go(3)" id="btn3" disabled>3. Input & Output</button>
       <div class="sidebar-section">Control Flow</div>
-      <button class="sidebar-btn" onclick="go(4)" id="btn4">4. If Statements</button>
-      <button class="sidebar-btn" onclick="go(5)" id="btn5">5. Loops</button>
+      <button class="sidebar-btn" onclick="go(4)" id="btn4" disabled>4. If Statements</button>
+      <button class="sidebar-btn" onclick="go(5)" id="btn5" disabled>5. Loops</button>
       <div class="sidebar-section">Data Structures</div>
-      <button class="sidebar-btn" onclick="go(6)" id="btn6">6. Arrays</button>
-      <button class="sidebar-btn" onclick="go(7)" id="btn7">7. Struct & Typedef</button>
+      <button class="sidebar-btn" onclick="go(6)" id="btn6" disabled>6. Arrays</button>
+      <button class="sidebar-btn" onclick="go(7)" id="btn7" disabled>7. Struct & Typedef</button>
       <div class="sidebar-section">Advanced</div>
-      <button class="sidebar-btn" onclick="go(8)" id="btn8">8. Linked Lists</button>
-      <button class="sidebar-btn" onclick="go(9)" id="btn9">9. Final Project</button>
+      <button class="sidebar-btn" onclick="go(8)" id="btn8" disabled>8. Linked Lists</button>
+      <button class="sidebar-btn" onclick="go(9)" id="btn9" disabled>9. Final Project</button>
     </nav>
   </aside>
 
@@ -90,6 +90,16 @@
               <td><span class="tag">float</span></td>
               <td>Decimals</td>
               <td>3.14</td>
+            </tr>
+            <tr>
+              <td><span class="tag">double</span> / <span class="tag">long float</span></td>
+              <td>Large Decimals</td>
+              <td>3.14159265</td>
+            </tr>
+            <tr>
+              <td><span class="tag">long</span></td>
+              <td>Large Whole Numbers</td>
+              <td>100000L</td>
             </tr>
             <tr>
               <td><span class="tag">char</span></td>
@@ -353,6 +363,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     let mastery = 0;
     const totalLessons = 9;
     const completedLessons = new Set();
+    const unlockedLessons = new Set([1]);
     const correctAnswers = {
       1: 1,
       2: 1,
@@ -366,6 +377,10 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     };
 
     function go(n) {
+      if (!unlockedLessons.has(n)) {
+        return;
+      }
+
       document.getElementById(`lesson${currentLesson}`).classList.remove('active');
       document.getElementById(`btn${currentLesson}`).classList.remove('active');
 
@@ -382,8 +397,33 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
       const isCorrect = choiceIndex === correctAnswers[lessonId];
       const container = btn.parentElement;
 
+      let feedbackEl = document.getElementById(`feedback${lessonId}`);
+      if (!feedbackEl) {
+        feedbackEl = document.createElement('div');
+        feedbackEl.id = `feedback${lessonId}`;
+        feedbackEl.style.marginTop = '15px';
+        feedbackEl.style.fontSize = '0.95rem';
+        feedbackEl.style.fontWeight = '600';
+        container.appendChild(feedbackEl);
+      }
+
+      const hints = {
+        1: ["Hint: 'int' is for whole numbers only. 5.50 has a decimal.", "Correct! 'float' or 'double' is for decimals.", "Hint: 'char' is for single characters like 'A'."],
+        2: ["Hint: '#import' is used in Objective-C, not standard C.", "Correct! stdio.h is the standard input/output header.", "Hint: 'using' is used in C++ namespaces, not C."],
+        3: ["Hint: '*' is for pointers, but not basic scanf address passing.", "Hint: '$' is not used for variables in C.", "Correct! '&' gives the memory address where the value should go."],
+        4: ["Hint: '=' is the assignment operator (puts a value into a variable).", "Correct! '==' checks if two values are equal.", "Hint: '!=' checks if they are NOT equal."],
+        5: ["Hint: To decrement, you would use 'i--'.", "Correct! 'i++' adds 1 to i.", "Hint: Setting to 0 would be 'i = 0'."],
+        6: ["Hint: Arrays in C don't start at 1.", "Correct! Arrays are 0-indexed in C.", "Hint: Indices cannot be negative in standard C arrays."],
+        7: ["Hint: 'struct' groups data, but doesn't create a nickname on its own.", "Hint: '#define' is a preprocessor macro, not specifically for type nicknames.", "Correct! 'typedef' defines a new name for an existing type."],
+        8: ["Hint: The head is the first node.", "Correct! The last node points to NULL, indicating the end.", "Hint: Pointing to itself would create an infinite loop."],
+        9: ["Correct! Let's go!"]
+      };
+
       if (isCorrect) {
         btn.classList.add('correct');
+        feedbackEl.style.color = '#10b981';
+        feedbackEl.textContent = hints[lessonId][choiceIndex];
+
         confetti({
           particleCount: 100,
           spread: 70,
@@ -393,6 +433,11 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         completedLessons.add(lessonId);
         document.getElementById(`btn${lessonId}`).classList.add('done');
+
+        if (lessonId < totalLessons) {
+          unlockedLessons.add(lessonId + 1);
+          document.getElementById(`btn${lessonId + 1}`).disabled = false;
+        }
 
         const nextBtn = document.getElementById(`nextBtn${lessonId}`);
         if (nextBtn) nextBtn.disabled = false;
@@ -408,6 +453,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         updateProgress();
       } else {
         btn.classList.add('wrong');
+        feedbackEl.style.color = '#ef4444';
+        feedbackEl.textContent = hints[lessonId][choiceIndex];
         setTimeout(() => {
           btn.classList.remove('wrong');
         }, 1000);
