@@ -424,11 +424,12 @@ const QuizEngine = (() => {
   }
 
   function normalise(str) {
-    // Keep case (C is case-sensitive!), collapse whitespace, strip surrounding quotes
-    return String(str)
+    const res = String(str)
       .replace(/\s+/g, ' ')
       .trim()
       .replace(/^["']|["']$/g, '');
+    console.log(`[QuizEngine] Normalising: "${str}" -> "${res}"`);
+    return res;
   }
 
   function escHtml(str) {
