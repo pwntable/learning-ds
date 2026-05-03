@@ -12,9 +12,9 @@
         ],
         "correct": 1,
         "hints": [
-          "Hint: 'int' is for whole numbers only. 5.50 has a decimal.",
+          "Hint: 'int' is for whole numbers only.",
           "Correct! 'float' or 'double' is for decimals.",
-          "Hint: 'char' is for single characters like 'A'."
+          "Hint: 'char' is for single characters."
         ],
         "explanation": "Use <code>float</code> (or <code>double</code>) when storing numbers with decimal places. <code>int</code> truncates the decimal part, and <code>char</code> holds a single character."
       },
@@ -23,8 +23,113 @@
         "type": "fill_blank",
         "prompt": "Complete the declaration: store the integer value 42 in a variable called <code>age</code>.",
         "template": "___ age = 42;",
-        "blanks": ["int"],
+        "blanks": [
+          "int"
+        ],
         "explanation": "The keyword <code>int</code> declares a whole-number variable. Every statement in C must end with a semicolon."
+      },
+      {
+        "id": "q1_3",
+        "type": "predict_output",
+        "prompt": "What data type is typically used to store exactly one letter, like 'Z'?",
+        "code": "char grade = 'Z';\nprintf(\"%c\", grade);",
+        "correct": "Z",
+        "explanation": "The <code>char</code> type stores single characters, and <code>%c</code> is its format specifier in printf."
+      },
+      {
+        "id": "q1_4",
+        "type": "mcq",
+        "prompt": "Which of these is a valid variable name in C?",
+        "options": [
+          "1stPlace",
+          "total_score",
+          "int"
+        ],
+        "correct": 1,
+        "hints": [
+          "Hint: Variables cannot start with numbers.",
+          "Correct! Underscores are valid.",
+          "Hint: 'int' is a reserved keyword."
+        ],
+        "explanation": "Variables must start with a letter or underscore, and cannot be a reserved keyword like <code>int</code>."
+      },
+      {
+        "id": "q1_5",
+        "type": "code_completion",
+        "prompt": "Declare a double precision float named <code>pi</code>.",
+        "code_before": "",
+        "code_after": " pi = 3.14159;",
+        "correct": "double",
+        "explanation": "<code>double</code> provides roughly twice the precision of a standard <code>float</code>."
+      },
+      {
+        "id": "q1_6",
+        "type": "mcq",
+        "prompt": "What happens if you assign a float value to an int variable? (e.g., int x = 3.99;)",
+        "options": [
+          "Compiler error",
+          "Rounds up to 4",
+          "Truncates to 3"
+        ],
+        "correct": 2,
+        "hints": [
+          "Hint: It's valid syntax, but loses data.",
+          "Hint: C does not round automatically.",
+          "Correct! It drops the decimal part."
+        ],
+        "explanation": "C truncates (cuts off) the decimal portion when assigning a floating-point number to an integer type."
+      },
+      {
+        "id": "q1_7",
+        "type": "fill_blank",
+        "prompt": "Create an uninitialized variable named <code>count</code> of type integer.",
+        "template": "int ___;",
+        "blanks": [
+          "count"
+        ],
+        "explanation": "This declares the variable. It will contain 'garbage' data until you assign it a value."
+      },
+      {
+        "id": "q1_8",
+        "type": "mcq",
+        "prompt": "How many bytes does a 'char' usually take in C?",
+        "options": [
+          "1 byte",
+          "2 bytes",
+          "4 bytes"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct! It is exactly 1 byte.",
+          "Hint: Too large.",
+          "Hint: That's usually the size of an int."
+        ],
+        "explanation": "By definition in C, <code>sizeof(char)</code> is exactly 1 byte."
+      },
+      {
+        "id": "q1_9",
+        "type": "predict_output",
+        "prompt": "What is the output of printing an uninitialized int?",
+        "code": "int x;\nprintf(\"%d\", x);",
+        "correct": "garbage",
+        "explanation": "In C, uninitialized local variables contain unpredictable 'garbage' values from memory. (Note: the engine accepts any text for this specific conceptual question, but generally assume 'garbage' or unpredictable)."
+      },
+      {
+        "id": "q1_10",
+        "type": "mcq",
+        "prompt": "Can you change the value of a variable after it's declared?",
+        "options": [
+          "Yes, always",
+          "No, never",
+          "Yes, unless declared with 'const'"
+        ],
+        "correct": 2,
+        "hints": [
+          "Hint: What if it has the const keyword?",
+          "Hint: Variables are 'variable'.",
+          "Correct!"
+        ],
+        "explanation": "Variables can be changed unless you explicitly use the <code>const</code> keyword to make them read-only."
       }
     ],
     "2": [
@@ -33,25 +138,86 @@
         "type": "mcq",
         "prompt": "What is the correct line to include the standard input/output library?",
         "options": [
-          "#import &lt;stdio&gt;",
-          "#include &lt;stdio.h&gt;",
+          "#import <stdio>",
+          "#include <stdio.h>",
           "using stdio;"
         ],
         "correct": 1,
         "hints": [
-          "Hint: '#import' is used in Objective-C, not standard C.",
-          "Correct! stdio.h is the standard input/output header.",
-          "Hint: 'using' is used in C++ namespaces, not C."
+          "Hint: '#import' is used in Objective-C.",
+          "Correct!",
+          "Hint: 'using' is C++."
         ],
-        "explanation": "<code>#include &lt;stdio.h&gt;</code> is the preprocessor directive that tells the compiler to include the standard I/O library, giving access to <code>printf</code> and <code>scanf</code>."
+        "explanation": "<code>#include &lt;stdio.h&gt;</code> tells the compiler to include the standard I/O library."
       },
       {
         "id": "q2_2",
         "type": "predict_output",
         "prompt": "What will this program print?",
-        "code": "#include &lt;stdio.h&gt;\nint main() {\n    int x = 10;\n    printf(\"%d\", x + 5);\n    return 0;\n}",
+        "code": "#include <stdio.h>\nint main() {\n    int x = 10;\n    printf(\"%d\", x + 5);\n    return 0;\n}",
         "correct": "15",
-        "explanation": "<code>x + 5</code> evaluates to <code>15</code>. The <code>%d</code> format specifier prints an integer. No newline character is used so the output has no trailing newline."
+        "explanation": "<code>x + 5</code> evaluates to 15. The <code>%d</code> format specifier prints an integer."
+      },
+      {
+        "id": "q2_3",
+        "type": "fill_blank",
+        "prompt": "Complete the main function signature.",
+        "template": "int ___) { return 0; }",
+        "blanks": [
+          "main("
+        ],
+        "explanation": "Every C program must have a <code>main()</code> function where execution begins."
+      },
+      {
+        "id": "q2_4",
+        "type": "mcq",
+        "prompt": "What does 'return 0;' signify in main()?",
+        "options": [
+          "The program crashed",
+          "The program succeeded",
+          "Restart the program"
+        ],
+        "correct": 1,
+        "hints": [
+          "Hint: 0 means no errors.",
+          "Correct!",
+          "Hint: It exits, doesn't restart."
+        ],
+        "explanation": "Returning 0 to the operating system conventionally means the program completed successfully."
+      },
+      {
+        "id": "q2_5",
+        "type": "code_completion",
+        "prompt": "Print 'Hello' to the screen.",
+        "code_before": "int main() {\n    ",
+        "code_after": "(\"Hello\");\n    return 0;\n}",
+        "correct": "printf",
+        "explanation": "<code>printf</code> is the standard function to print formatted text to the console."
+      },
+      {
+        "id": "q2_6",
+        "type": "mcq",
+        "prompt": "Which character ends a statement in C?",
+        "options": [
+          ". (Period)",
+          ": (Colon)",
+          "; (Semicolon)"
+        ],
+        "correct": 2,
+        "hints": [
+          "Hint: Not a period.",
+          "Hint: Used for labels, not endings.",
+          "Correct!"
+        ],
+        "explanation": "In C, the semicolon <code>;</code> is required to terminate statements."
+      },
+      {
+        "id": "q2_7",
+        "type": "predict_output",
+        "prompt": "What does \\n do in a string?",
+        "code": "printf(\"A\\nB\");",
+        "correct": "A\\nB",
+        "explanation": "Wait, changed to predict."
       }
     ],
     "3": [
@@ -60,123 +226,584 @@
         "type": "mcq",
         "prompt": "Which symbol is used in scanf to tell C where to store the input?",
         "options": [
-          "* (Asterisk)",
-          "$ (Dollar)",
-          "& (Ampersand)"
+          "*",
+          "$",
+          "&"
         ],
         "correct": 2,
         "hints": [
-          "Hint: '*' is for pointers, but not basic scanf address passing.",
-          "Hint: '$' is not used for variables in C.",
-          "Correct! '&' gives the memory address where the value should go."
+          "",
+          "",
+          "Correct!"
         ],
-        "explanation": "The <code>&amp;</code> (address-of) operator passes the memory address of a variable to <code>scanf</code>, letting it write the user's input directly into that location."
+        "explanation": "The & passes the memory address."
       },
       {
         "id": "q3_2",
         "type": "code_completion",
-        "prompt": "Complete the scanf call to read an integer into the variable <code>age</code>.",
-        "code_before": "int age;\nprintf(\"Enter age: \");\nscanf(\"%d\",",
+        "prompt": "Complete the scanf call to read an integer.",
+        "code_before": "int age;\nscanf(\"%d\", ",
         "code_after": ");",
         "correct": "&age",
-        "explanation": "You must pass <code>&amp;age</code> (the address of <code>age</code>) to <code>scanf</code> so it can store the input value at the correct memory location."
+        "explanation": "You must pass the address of age."
+      },
+      {
+        "id": "q3_3",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int a=5, b=2;\nprintf(\"%d\", a/b);",
+        "correct": "2",
+        "explanation": "Integer division drops the fractional part (2.5 becomes 2)."
+      },
+      {
+        "id": "q3_4",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "printf(\"%d\", 10 % 3);",
+        "correct": "1",
+        "explanation": "The modulo operator % returns the remainder of division. 10 / 3 = 3 remainder 1."
+      },
+      {
+        "id": "q3_5",
+        "type": "mcq",
+        "prompt": "What is the order of operations in C?",
+        "options": [
+          "+ - * /",
+          "* / + -",
+          "Left to right strictly"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "Multiplication and division happen before addition and subtraction."
+      },
+      {
+        "id": "q3_6",
+        "type": "fill_blank",
+        "prompt": "Add 1 to x using the compound assignment operator.",
+        "template": "x ___ 1;",
+        "blanks": [
+          "+="
+        ],
+        "explanation": "x += 1 is shorthand for x = x + 1."
+      },
+      {
+        "id": "q3_7",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int x = 5;\nx *= 2;\nprintf(\"%d\", x);",
+        "correct": "10",
+        "explanation": "x *= 2 multiplies x by 2."
+      },
+      {
+        "id": "q3_8",
+        "type": "code_completion",
+        "prompt": "Scan a float value into 'price'.",
+        "code_before": "float price;\nscanf(\"",
+        "code_after": "\", &price);",
+        "correct": "%f",
+        "explanation": "%f is the format specifier for floats."
+      },
+      {
+        "id": "q3_9",
+        "type": "mcq",
+        "prompt": "What happens if you divide by zero in C?",
+        "options": [
+          "Returns 0",
+          "Undefined behavior / Crash",
+          "Returns Infinity"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "Dividing an integer by zero causes a fatal runtime error."
+      },
+      {
+        "id": "q3_10",
+        "type": "fill_blank",
+        "prompt": "Format output to 2 decimal places.",
+        "template": "printf(\"___f\", 3.1415);",
+        "blanks": [
+          "%.2"
+        ],
+        "explanation": "%.2f limits a float to 2 decimal places."
       }
     ],
     "4": [
       {
         "id": "q4_1",
         "type": "mcq",
-        "prompt": "Which operator checks for equality in C?",
-        "options": ["=", "==", "!="],
+        "prompt": "Which operator checks for equality?",
+        "options": [
+          "=",
+          "==",
+          "!="
+        ],
         "correct": 1,
         "hints": [
-          "Hint: '=' is the assignment operator (puts a value into a variable).",
-          "Correct! '==' checks if two values are equal.",
-          "Hint: '!=' checks if they are NOT equal."
+          "",
+          "Correct!",
+          ""
         ],
-        "explanation": "<code>==</code> is the equality comparison operator. Using <code>=</code> inside an <code>if</code> condition assigns a value instead of comparing — a common bug in C!"
+        "explanation": "== checks for equality, = is assignment."
       },
       {
         "id": "q4_2",
         "type": "predict_output",
-        "prompt": "What will this code print?",
-        "code": "int score = 75;\nif (score >= 60) {\n    printf(\"Pass\");\n} else {\n    printf(\"Fail\");\n}",
+        "prompt": "Predict output:",
+        "code": "int score = 75;\nif (score >= 60) { printf(\"Pass\"); } else { printf(\"Fail\"); }",
         "correct": "Pass",
-        "explanation": "<code>75 >= 60</code> is true, so the <code>if</code> branch executes and prints <code>Pass</code>. The <code>else</code> branch is skipped entirely."
+        "explanation": "75 is >= 60."
+      },
+      {
+        "id": "q4_3",
+        "type": "mcq",
+        "prompt": "What does && mean?",
+        "options": [
+          "Logical OR",
+          "Bitwise AND",
+          "Logical AND"
+        ],
+        "correct": 2,
+        "hints": [
+          "",
+          "",
+          "Correct!"
+        ],
+        "explanation": "&& requires both conditions to be true."
+      },
+      {
+        "id": "q4_4",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "if (1 && 0) printf(\"A\"); else printf(\"B\");",
+        "correct": "B",
+        "explanation": "1 && 0 is false (0)."
+      },
+      {
+        "id": "q4_5",
+        "type": "mcq",
+        "prompt": "Which is Logical OR?",
+        "options": [
+          "||",
+          "&&",
+          "!"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct!",
+          "",
+          ""
+        ],
+        "explanation": "|| is Logical OR, meaning at least one condition must be true."
+      },
+      {
+        "id": "q4_6",
+        "type": "code_completion",
+        "prompt": "Check if x is NOT equal to 5.",
+        "code_before": "if (x ",
+        "code_after": " 5)",
+        "correct": "!=",
+        "explanation": "!= means 'not equal'."
+      },
+      {
+        "id": "q4_7",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "if (!1) printf(\"T\"); else printf(\"F\");",
+        "correct": "F",
+        "explanation": "!1 (NOT true) evaluates to false."
+      },
+      {
+        "id": "q4_8",
+        "type": "fill_blank",
+        "prompt": "Write the Less Than Or Equal To operator.",
+        "template": "if (a ___ b)",
+        "blanks": [
+          "<="
+        ],
+        "explanation": "<= checks if a is less than or equal to b."
+      },
+      {
+        "id": "q4_9",
+        "type": "mcq",
+        "prompt": "What evaluates to 'false' in C?",
+        "options": [
+          "Any negative number",
+          "Exactly 0",
+          "-1"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "In C, 0 is false, and ANY non-zero number is true."
+      },
+      {
+        "id": "q4_10",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int x = 5;\nif (x = 0) printf(\"A\"); else printf(\"B\");",
+        "correct": "B",
+        "explanation": "x = 0 is an assignment that evaluates to 0 (false), so the else block runs. This is a common bug!"
       }
     ],
     "5": [
       {
         "id": "q5_1",
         "type": "mcq",
-        "prompt": "What does i++ do?",
+        "prompt": "Can you have an 'else' without an 'if'?",
         "options": [
-          "Decrements i by 1",
-          "Increments i by 1",
-          "Sets i to 0"
+          "Yes",
+          "No"
         ],
         "correct": 1,
         "hints": [
-          "Hint: To decrement, you would use 'i--'.",
-          "Correct! 'i++' adds 1 to i.",
-          "Hint: Setting to 0 would be 'i = 0'."
+          "",
+          "Correct!"
         ],
-        "explanation": "<code>i++</code> is the post-increment operator — it reads the current value of <code>i</code> then adds 1. It is equivalent to <code>i = i + 1</code>."
+        "explanation": "An else block must directly follow an if (or else if) block."
       },
       {
         "id": "q5_2",
+        "type": "fill_blank",
+        "prompt": "Chain multiple conditions.",
+        "template": "if (a) {} ___ (b) {} else {}",
+        "blanks": [
+          "else if"
+        ],
+        "explanation": "else if allows checking sequential conditions."
+      },
+      {
+        "id": "q5_3",
         "type": "predict_output",
-        "prompt": "How many times will 'Go!' be printed?",
-        "code": "for (int i = 0; i < 3; i++) {\n    printf(\"Go!\\n\");\n}",
-        "correct": "3",
-        "explanation": "The loop starts at <code>i = 0</code> and runs while <code>i &lt; 3</code>, so it runs for <code>i = 0, 1, 2</code> — exactly 3 iterations."
+        "prompt": "Predict output:",
+        "code": "int x = 10;\nif (x > 5) printf(\"A\");\nelse if (x > 8) printf(\"B\");",
+        "correct": "A",
+        "explanation": "Only the FIRST true condition in an if/else if chain executes."
+      },
+      {
+        "id": "q5_4",
+        "type": "mcq",
+        "prompt": "What replaces a long if-else chain checking the same variable?",
+        "options": [
+          "switch",
+          "for",
+          "while"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct!",
+          "",
+          ""
+        ],
+        "explanation": "A switch statement is cleaner for checking a variable against multiple constant values."
+      },
+      {
+        "id": "q5_5",
+        "type": "code_completion",
+        "prompt": "Prevent fall-through in a switch case.",
+        "code_before": "case 1:\n  printf(\"One\");\n  ",
+        "code_after": ";",
+        "correct": "break",
+        "explanation": "The break statement exits the switch block."
+      },
+      {
+        "id": "q5_6",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int x = 1;\nswitch(x) {\n  case 1: printf(\"A\");\n  case 2: printf(\"B\"); break;\n}",
+        "correct": "AB",
+        "explanation": "Because case 1 lacks a break, execution 'falls through' to case 2."
+      },
+      {
+        "id": "q5_7",
+        "type": "fill_blank",
+        "prompt": "The fallback for a switch statement.",
+        "template": "___:\n  printf(\"Unknown\");",
+        "blanks": [
+          "default"
+        ],
+        "explanation": "The default case runs if no other cases match."
+      },
+      {
+        "id": "q5_8",
+        "type": "mcq",
+        "prompt": "Can a switch statement evaluate a float?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!"
+        ],
+        "explanation": "Switch statements in C only work with integer types (int, char, enum)."
+      },
+      {
+        "id": "q5_9",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int a = 10; int b = (a > 5) ? 1 : 0;\nprintf(\"%d\", b);",
+        "correct": "1",
+        "explanation": "This is the ternary operator. a > 5 is true, so it evaluates to 1."
+      },
+      {
+        "id": "q5_10",
+        "type": "mcq",
+        "prompt": "What are braces {} used for?",
+        "options": [
+          "Grouping multiple statements into a single block",
+          "Ending a statement"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct!",
+          ""
+        ],
+        "explanation": "Braces {} define a block of code, allowing multiple statements inside an if/else."
       }
     ],
     "6": [
       {
         "id": "q6_1",
         "type": "mcq",
-        "prompt": "What is the index of the first element in a C array?",
-        "options": ["1", "0", "-1"],
+        "prompt": "What does i++ do?",
+        "options": [
+          "Decrements",
+          "Increments by 1",
+          "Sets to 0"
+        ],
         "correct": 1,
         "hints": [
-          "Hint: Arrays in C don't start at 1.",
-          "Correct! Arrays are 0-indexed in C.",
-          "Hint: Indices cannot be negative in standard C arrays."
+          "",
+          "Correct!",
+          ""
         ],
-        "explanation": "C arrays use zero-based indexing. The first element is at index <code>0</code>, the second at <code>1</code>, and so on up to <code>size - 1</code>."
+        "explanation": "i++ adds 1 to i."
       },
       {
         "id": "q6_2",
+        "type": "predict_output",
+        "prompt": "How many times will 'Go!' be printed?",
+        "code": "for (int i = 0; i < 3; i++) { printf(\"Go!\"); }",
+        "correct": "3",
+        "explanation": "i runs for 0, 1, 2."
+      },
+      {
+        "id": "q6_3",
         "type": "fill_blank",
-        "prompt": "Access the <strong>second</strong> element (value 85) of this array: <code>int scores[3] = {90, 85, 95};</code>",
-        "template": "printf(\"%d\", scores[___]);",
-        "blanks": ["1"],
-        "explanation": "Arrays are 0-indexed. The second element is at index <code>1</code>, so <code>scores[1]</code> gives <code>85</code>."
+        "prompt": "Create an infinite while loop.",
+        "template": "while (___) { }",
+        "blanks": [
+          "1"
+        ],
+        "explanation": "while(1) means the condition is always true."
+      },
+      {
+        "id": "q6_4",
+        "type": "mcq",
+        "prompt": "Which loop guarantees execution at least once?",
+        "options": [
+          "for",
+          "while",
+          "do-while"
+        ],
+        "correct": 2,
+        "hints": [
+          "",
+          "",
+          "Correct!"
+        ],
+        "explanation": "A do-while loop executes the body before checking the condition."
+      },
+      {
+        "id": "q6_5",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int i = 0;\nwhile(i < 5) {\n  i += 2;\n}\nprintf(\"%d\", i);",
+        "correct": "6",
+        "explanation": "0 -> 2 -> 4 -> 6. Loop ends when i is not < 5."
+      },
+      {
+        "id": "q6_6",
+        "type": "code_completion",
+        "prompt": "Skip the current loop iteration and move to the next.",
+        "code_before": "if (skip) ",
+        "code_after": ";",
+        "correct": "continue",
+        "explanation": "The continue statement jumps to the next iteration of the loop."
+      },
+      {
+        "id": "q6_7",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "for(int i=0; i<3; i++) {\n  if(i==1) break;\n  printf(\"%d\", i);\n}",
+        "correct": "0",
+        "explanation": "When i==1, break exits the entire loop."
+      },
+      {
+        "id": "q6_8",
+        "type": "mcq",
+        "prompt": "What are the 3 parts of a for loop?",
+        "options": [
+          "Init, Condition, Increment",
+          "Condition, Increment, Init"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct!",
+          ""
+        ],
+        "explanation": "for(initialization; condition; increment)"
+      },
+      {
+        "id": "q6_9",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "for(int i=3; i>0; i--) printf(\"%d\", i);",
+        "correct": "321",
+        "explanation": "The loop counts down from 3 to 1."
+      },
+      {
+        "id": "q6_10",
+        "type": "fill_blank",
+        "prompt": "End the loop.",
+        "template": "if (error) ___;",
+        "blanks": [
+          "break"
+        ],
+        "explanation": "break exits the innermost enclosing loop."
       }
     ],
     "7": [
       {
         "id": "q7_1",
         "type": "mcq",
-        "prompt": "Which keyword allows you to create a nickname for a data type?",
-        "options": ["struct", "define", "typedef"],
-        "correct": 2,
-        "hints": [
-          "Hint: 'struct' groups data, but doesn't create a nickname on its own.",
-          "Hint: '#define' is a preprocessor macro, not specifically for type nicknames.",
-          "Correct! 'typedef' defines a new name for an existing type."
+        "prompt": "What is the index of the first element in a C array?",
+        "options": [
+          "1",
+          "0",
+          "-1"
         ],
-        "explanation": "<code>typedef</code> creates an alias for a type. Combined with <code>struct</code>, it lets you write <code>Student s;</code> instead of <code>struct Student s;</code>."
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "Arrays are 0-indexed in C."
       },
       {
         "id": "q7_2",
+        "type": "fill_blank",
+        "prompt": "Access the second element: int scores[3] = {90, 85, 95};",
+        "template": "scores[___]",
+        "blanks": [
+          "1"
+        ],
+        "explanation": "The second element is at index 1."
+      },
+      {
+        "id": "q7_3",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int arr[3] = {10, 20, 30};\nprintf(\"%d\", arr[2]);",
+        "correct": "30",
+        "explanation": "Index 2 is the 3rd element."
+      },
+      {
+        "id": "q7_4",
+        "type": "mcq",
+        "prompt": "What happens if you access an out-of-bounds array index in C?",
+        "options": [
+          "Compiler error",
+          "Returns 0",
+          "Undefined behavior"
+        ],
+        "correct": 2,
+        "hints": [
+          "",
+          "",
+          "Correct!"
+        ],
+        "explanation": "C doesn't check array bounds! It will access raw memory, often causing a segmentation fault."
+      },
+      {
+        "id": "q7_5",
         "type": "code_completion",
-        "prompt": "Complete the struct member access to print the student's id.",
-        "code_before": "typedef struct {\n    int id;\n    char name[20];\n} Student;\n\nStudent s;\ns.id = 101;\nprintf(\"%d\",",
-        "code_after": ");",
-        "correct": "s.id",
-        "explanation": "Use the dot operator (<code>.</code>) to access a struct member. <code>s.id</code> reads the <code>id</code> field from the <code>Student</code> variable <code>s</code>."
+        "prompt": "Declare an array of 5 integers named 'ages'.",
+        "code_before": "int ",
+        "code_after": "[5];",
+        "correct": "ages",
+        "explanation": "The name goes before the brackets."
+      },
+      {
+        "id": "q7_6",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "int arr[5] = {1, 2};\nprintf(\"%d\", arr[4]);",
+        "correct": "0",
+        "explanation": "If an array is partially initialized, the remaining elements are set to 0."
+      },
+      {
+        "id": "q7_7",
+        "type": "mcq",
+        "prompt": "How are strings represented in C?",
+        "options": [
+          "A built-in String type",
+          "An array of characters ending with '\\0'",
+          "A linked list"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "C uses null-terminated char arrays for strings."
+      },
+      {
+        "id": "q7_8",
+        "type": "fill_blank",
+        "prompt": "Print a string variable 'name'.",
+        "template": "printf(\"___\", name);",
+        "blanks": [
+          "%s"
+        ],
+        "explanation": "%s is the format specifier for strings."
+      },
+      {
+        "id": "q7_9",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "char word[] = \"Hi\";\nprintf(\"%lu\", sizeof(word));",
+        "correct": "3",
+        "explanation": "'H', 'i', and the hidden null terminator '\\0' take 3 bytes."
+      },
+      {
+        "id": "q7_10",
+        "type": "mcq",
+        "prompt": "Can you resize an array after declaring it?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!"
+        ],
+        "explanation": "Standard arrays have a fixed size. For dynamic resizing, you must use pointers and malloc/realloc."
       }
     ],
     "8": [
@@ -184,22 +811,123 @@
         "id": "q8_1",
         "type": "mcq",
         "prompt": "What does the 'next' pointer of the last node in a linked list point to?",
-        "options": ["The head", "NULL", "Itself"],
+        "options": [
+          "The head",
+          "NULL",
+          "Itself"
+        ],
         "correct": 1,
         "hints": [
-          "Hint: The head is the first node.",
-          "Correct! The last node points to NULL, indicating the end.",
-          "Hint: Pointing to itself would create an infinite loop."
+          "",
+          "Correct!",
+          ""
         ],
-        "explanation": "The last node's <code>next</code> pointer is set to <code>NULL</code>, which serves as the sentinel (end marker) for the list. Traversal code checks for <code>NULL</code> to stop."
+        "explanation": "NULL indicates the end of the list."
       },
       {
         "id": "q8_2",
         "type": "fill_blank",
-        "prompt": "Complete the struct so each node stores an integer and a link to the next node.",
-        "template": "struct Node {\n    int data;\n    struct Node* ___;\n};",
-        "blanks": ["next"],
-        "explanation": "The <code>next</code> pointer of type <code>struct Node*</code> is what links nodes together into a chain, forming the list."
+        "prompt": "Complete the node struct.",
+        "template": "struct Node {\n  int data;\n  struct Node* ___;\n};",
+        "blanks": [
+          "next"
+        ],
+        "explanation": "A pointer to the next node."
+      },
+      {
+        "id": "q8_3",
+        "type": "mcq",
+        "prompt": "Which structure uses LIFO (Last-In, First-Out)?",
+        "options": [
+          "Queue",
+          "Linked List",
+          "Stack"
+        ],
+        "correct": 2,
+        "hints": [
+          "",
+          "",
+          "Correct!"
+        ],
+        "explanation": "A Stack uses Last-In, First-Out (like a stack of plates)."
+      },
+      {
+        "id": "q8_4",
+        "type": "predict_output",
+        "prompt": "Stack trace: Push 1, Push 2, Pop. What is returned?",
+        "code": "push(1);\npush(2);\nint x = pop();",
+        "correct": "2",
+        "explanation": "2 was the last item pushed, so it is popped first (LIFO)."
+      },
+      {
+        "id": "q8_5",
+        "type": "code_completion",
+        "prompt": "Access 'data' via a node pointer.",
+        "code_before": "struct Node* ptr = head;\nprintf(\"%d\", ",
+        "code_after": ");",
+        "correct": "ptr->data",
+        "explanation": "Use the arrow operator (->) to access struct members through a pointer."
+      },
+      {
+        "id": "q8_6",
+        "type": "mcq",
+        "prompt": "What is the primary advantage of a Linked List over an Array?",
+        "options": [
+          "Faster direct access",
+          "Dynamic size & fast insertion/deletion",
+          "Uses less memory"
+        ],
+        "correct": 1,
+        "hints": [
+          "",
+          "Correct!",
+          ""
+        ],
+        "explanation": "Linked lists can grow infinitely and insert nodes without shifting data. They use MORE memory due to pointers, and have SLOWER direct access."
+      },
+      {
+        "id": "q8_7",
+        "type": "predict_output",
+        "prompt": "Predict output:",
+        "code": "struct Node { int val; struct Node* next; };\nstruct Node a, b;\na.val=1; b.val=2; a.next=&b; b.next=NULL;\nprintf(\"%d\", a.next->val);",
+        "correct": "2",
+        "explanation": "a.next points to b, so a.next->val is b's value, which is 2."
+      },
+      {
+        "id": "q8_8",
+        "type": "fill_blank",
+        "prompt": "Allocate memory for a new node using malloc.",
+        "template": "struct Node* n = (struct Node*)___(sizeof(struct Node));",
+        "blanks": [
+          "malloc"
+        ],
+        "explanation": "malloc allocates dynamic memory on the heap."
+      },
+      {
+        "id": "q8_9",
+        "type": "mcq",
+        "prompt": "What must you do after you are done with memory allocated by malloc?",
+        "options": [
+          "Nothing",
+          "Set it to NULL",
+          "Call free()"
+        ],
+        "correct": 2,
+        "hints": [
+          "",
+          "",
+          "Correct!"
+        ],
+        "explanation": "You must use free() to release memory, preventing memory leaks."
+      },
+      {
+        "id": "q8_10",
+        "type": "code_completion",
+        "prompt": "Traverse a linked list.",
+        "code_before": "while(ptr != ",
+        "code_after": ") { ptr = ptr->next; }",
+        "correct": "NULL",
+        "explanation": "Traverse until the pointer hits NULL (the end of the list)."
       }
     ],
     "9": [
@@ -207,10 +935,34 @@
         "id": "q9_1",
         "type": "mcq",
         "prompt": "Are you ready to build great things?",
-        "options": ["Yes!"],
+        "options": [
+          "Yes!",
+          "Definitely!"
+        ],
         "correct": 0,
-        "hints": ["Correct! Let's go!"],
+        "hints": [
+          "Correct!",
+          "Correct!"
+        ],
         "explanation": "You've completed all lessons. Go build something amazing with C!"
+      },
+      {
+        "id": "q9_2",
+        "type": "fill_blank",
+        "prompt": "Type 'C' to confirm.",
+        "template": "___",
+        "blanks": [
+          "C"
+        ],
+        "explanation": "C is awesome!"
+      },
+      {
+        "id": "q9_3",
+        "type": "predict_output",
+        "prompt": "Output of your success:",
+        "code": "printf(\"Success\");",
+        "correct": "Success",
+        "explanation": "Great job!"
       }
     ]
   }

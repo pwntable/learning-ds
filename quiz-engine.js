@@ -7,7 +7,8 @@
 const QuizEngine = (() => {
   // ── State ──────────────────────────────────────────────────────────
   let questionBank = {};          // { lessonId: [ question, ... ] }
-  let lessonState  = {};          // { lessonId: { answered: bool, correct: bool } }
+  let lessonState  = {};          // { lessonId: Set(answered_qIdxs) }
+  let activePools  = {};          // { lessonId: [ selected_qIdxs ] }
 
   // Callbacks injected by the host page
   let onLessonPass  = () => {};   // called when a lesson's first question passes
@@ -19,8 +20,9 @@ const QuizEngine = (() => {
    * Load questions from a JSON file then initialise the engine.
    * @param {string}   jsonPath  - path to questions.json
    * @param {object}   callbacks - { onLessonPass, onAllComplete }
+   * @param {object}   initialState - Optional state to restore pools and answers
    */
-  async function init(jsonPath, callbacks = {}) {
+  async function init(jsonPath, callbacks = {}, initialState = null) {
     if (callbacks.onLessonPass)  onLessonPass  = callbacks.onLessonPass;
     if (callbacks.onAllComplete) onAllComplete = callbacks.onAllComplete;
 
@@ -33,9 +35,20 @@ const QuizEngine = (() => {
       return;
     }
 
-    // Build per-lesson state
+    // Build per-lesson state and select subsets
     Object.keys(questionBank).forEach(id => {
       lessonState[id] = new Set();
+
+      if (initialState && initialState.pools && initialState.pools[id]) {
+        activePools[id] = initialState.pools[id];
+      } else {
+        const totalQ = questionBank[id].length;
+        // Limit to 3 questions per lesson (or fewer if bank is smaller)
+        const count = Math.min(3, totalQ);
+        const indices = Array.from({length: totalQ}, (_, i) => i);
+        shuffleArray(indices);
+        activePools[id] = indices.slice(0, count);
+      }
     });
 
     // Render every quiz container found in the DOM
@@ -45,27 +58,40 @@ const QuizEngine = (() => {
         renderLesson(container, lessonId);
       }
     });
+
+    if (initialState) {
+      loadState(initialState);
+    }
   }
 
-  /** Returns true if all questions in the lesson have been answered correctly. */
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  /** Returns true if all required questions in the lesson have been answered correctly. */
   function isLessonPassed(lessonId) {
     const id = String(lessonId);
-    return lessonState[id] && questionBank[id] && lessonState[id].size === questionBank[id].length;
+    return lessonState[id] && activePools[id] && lessonState[id].size >= activePools[id].length;
   }
 
   // ── Rendering ──────────────────────────────────────────────────────
 
   function renderLesson(container, lessonId) {
-    const questions = questionBank[lessonId];
+    const allQuestions = questionBank[lessonId];
+    const pool = activePools[lessonId] || [];
     container.innerHTML = '';
 
-    questions.forEach((q, idx) => {
+    pool.forEach((qIdx, loopIdx) => {
+      const q = allQuestions[qIdx];
       const block = document.createElement('div');
       block.className = 'qe-question-block';
       block.id = `qblock-${q.id}`;
       block.dataset.lessonId = lessonId;
-      block.dataset.qIdx = idx;
-      block.dataset.isGate = idx === 0 ? 'true' : 'false'; // first q is the gate
+      block.dataset.qIdx = qIdx; // Use the absolute index
+      block.dataset.isGate = loopIdx === 0 ? 'true' : 'false';
 
       // Header badge
       const badge = makeBadge(q.type);
@@ -93,8 +119,8 @@ const QuizEngine = (() => {
       feedback.id = `feedback-${q.id}`;
       block.appendChild(feedback);
 
-      // Add bottom separator except for the last question
-      if (idx < questions.length - 1) {
+      // Add bottom separator except for the last question in the subset
+      if (loopIdx < pool.length - 1) {
         block.appendChild(Object.assign(document.createElement('hr'), { className: 'qe-divider' }));
       }
 
@@ -305,7 +331,7 @@ const QuizEngine = (() => {
     } else {
       input.classList.add('qe-input-wrong');
       showFeedback(feedbackEl, false,
-        `✘ Not quite. Expected: <code>${escHtml(String(q.correct))}</code>`, null);
+        `✘ Not quite. Expected: <code>${escHtml(String(q.correct))}</code><br><small>Note: C is case-sensitive!</small>`, null);
       setTimeout(() => input.classList.remove('qe-input-wrong'), 900);
     }
   }
@@ -344,16 +370,17 @@ const QuizEngine = (() => {
   // ── State management ───────────────────────────────────────────────
 
   function markPassed(lessonId, qIdx) {
-    const wasPassed = lessonState[lessonId].size === questionBank[lessonId].length;
-    lessonState[lessonId].add(qIdx);
-    const isNowPassed = lessonState[lessonId].size === questionBank[lessonId].length;
+    const reqSize = activePools[lessonId] ? activePools[lessonId].length : 0;
+    const wasPassed = lessonState[lessonId].size >= reqSize;
+    lessonState[lessonId].add(parseInt(qIdx, 10));
+    const isNowPassed = lessonState[lessonId].size >= reqSize;
 
     if (!wasPassed && isNowPassed) {
       onLessonPass(parseInt(lessonId, 10));
     }
 
     // Check if ALL lessons are done
-    const allDone = Object.keys(questionBank).every(id => lessonState[id].size === questionBank[id].length);
+    const allDone = Object.keys(activePools).every(id => lessonState[id].size >= activePools[id].length);
     if (allDone) onAllComplete();
   }
 
@@ -397,9 +424,8 @@ const QuizEngine = (() => {
   }
 
   function normalise(str) {
-    // Case-insensitive, collapse whitespace, strip surrounding quotes
+    // Keep case (C is case-sensitive!), collapse whitespace, strip surrounding quotes
     return String(str)
-      .toLowerCase()
       .replace(/\s+/g, ' ')
       .trim()
       .replace(/^["']|["']$/g, '');
@@ -413,16 +439,16 @@ const QuizEngine = (() => {
   }
 
   function getState() {
-    const state = {};
+    const state = { completed: {}, pools: activePools };
     for (const [id, set] of Object.entries(lessonState)) {
-      state[id] = Array.from(set);
+      state.completed[id] = Array.from(set);
     }
     return state;
   }
 
   function loadState(stateObj) {
-    if (!stateObj) return;
-    for (const [id, arr] of Object.entries(stateObj)) {
+    if (!stateObj || !stateObj.completed) return;
+    for (const [id, arr] of Object.entries(stateObj.completed)) {
       if (lessonState[id]) {
         arr.forEach(idx => {
           lessonState[id].add(idx);
@@ -433,10 +459,11 @@ const QuizEngine = (() => {
             const wrap = block.querySelector('.qe-options, .qe-input-row, .qe-fill-template');
             if (wrap) wrap.dataset.done = '1';
             
-            // Show simple completion feedback
+            // Show simple completion feedback with original explanation
             const feedbackEl = block.querySelector('.qe-feedback');
-            if (feedbackEl) {
-              showFeedback(feedbackEl, true, '✔ Completed', null);
+            if (feedbackEl && questionBank[id] && questionBank[id][idx]) {
+              const q = questionBank[id][idx];
+              showFeedback(feedbackEl, true, '✔ Completed', q.explanation);
               // Disable inputs/buttons
               block.querySelectorAll('input, button.quiz-option, button.qe-submit-btn').forEach(el => {
                 el.disabled = true;

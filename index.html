@@ -461,40 +461,7 @@
     }
 
     function loadProgress() {
-      const stored = localStorage.getItem('c_mastery_progress');
-      if (stored) {
-        try {
-          const data = JSON.parse(stored);
-          completedLessons = new Set(data.completedLessons || []);
-          unlockedLessons = new Set(data.unlockedLessons || [1]);
-          if (data.quizState) QuizEngine.loadState(data.quizState);
-          
-          // Restore sidebar UI
-          for (let i = 1; i <= totalLessons; i++) {
-            const btn = document.getElementById(`btn${i}`);
-            const nextBtn = document.getElementById(`nextBtn${i}`);
-            
-            if (unlockedLessons.has(i)) {
-                if(btn) btn.classList.remove('locked');
-            }
-            if (completedLessons.has(i)) {
-                if(btn) btn.classList.add('done');
-                if(nextBtn) nextBtn.classList.remove('locked');
-            }
-          }
-          
-          // Restore progress bar
-          updateProgress();
-          
-          // Navigate to last active
-          if (data.currentLesson && data.currentLesson !== 1) {
-             unlockedLessons.add(data.currentLesson); 
-             go(data.currentLesson);
-          }
-        } catch (e) {
-          console.error("Failed to load progress", e);
-        }
-      }
+       // Function kept for signature, but logic moved to bootstrap
     }
 
     function resetProgress() {
@@ -589,12 +556,44 @@
     }
 
     // ── Bootstrap ─────────────────────────────────────────────────────
+    const storedStr = localStorage.getItem('c_mastery_progress');
+    let savedState = null;
+    
+    if (storedStr) {
+      try {
+        const data = JSON.parse(storedStr);
+        savedState = data.quizState;
+        
+        completedLessons = new Set(data.completedLessons || []);
+        unlockedLessons = new Set(data.unlockedLessons || [1]);
+        currentLesson = data.currentLesson || 1;
+        
+        for (let i = 1; i <= totalLessons; i++) {
+          const btn = document.getElementById(`btn${i}`);
+          const nextBtn = document.getElementById(`nextBtn${i}`);
+          if (unlockedLessons.has(i)) if(btn) btn.classList.remove('locked');
+          if (completedLessons.has(i)) {
+              if(btn) btn.classList.add('done');
+              if(nextBtn) nextBtn.classList.remove('locked');
+          }
+        }
+        
+        updateProgress();
+        if (currentLesson !== 1) {
+             document.getElementById(`lesson1`).classList.remove('active');
+             document.getElementById(`btn1`).classList.remove('active');
+             document.getElementById(`lesson${currentLesson}`).classList.add('active');
+             document.getElementById(`btn${currentLesson}`).classList.add('active');
+        }
+      } catch (e) {
+        console.error("Failed to parse progress", e);
+      }
+    }
+
     QuizEngine.init('questions.json', {
       onLessonPass: handleLessonPass,
       onAllComplete: showCompletion
-    }).then(() => {
-      loadProgress();
-    });
+    }, savedState);
 
     // ── Mount DS Visualizers ───────────────────────────────────────────
     DSViz.mountArray('viz-array');
