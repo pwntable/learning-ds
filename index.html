@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C Programming Tutorial for Beginners</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #222; }
+
+  .header {
+    background: #1a1a2e;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header h1 { font-size: 20px; }
+  .header span { font-size: 13px; color: #aaa; }
+
+  .progress-bar { background: #333; height: 4px; }
+  .progress-fill { background: #4CAF50; height: 4px; transition: width 0.3s; }
+
+  .layout { display: flex; min-height: calc(100vh - 60px); }
+
+  .sidebar {
+    width: 220px;
+    background: #1e1e2e;
+    color: #ccc;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section { font-size: 11px; color: #888; padding: 1rem 1rem 0.3rem; text-transform: uppercase; letter-spacing: 1px; }
+
+  .sidebar-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 1rem 0.6rem 1.5rem;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+  }
+  .sidebar-btn:hover { color: white; background: #2a2a3e; }
+  .sidebar-btn.active { color: #4CAF50; border-left-color: #4CAF50; background: #2a2a3e; }
+  .sidebar-btn.done::after { content: " ✓"; color: #4CAF50; }
+
+  .content { flex: 1; padding: 2rem; max-width: 860px; }
+
+  .lesson { display: none; }
+  .lesson.active { display: block; }
+
+  h2 { font-size: 24px; color: #1a1a2e; margin-bottom: 0.3rem; }
+  .lesson-meta { color: #888; font-size: 13px; margin-bottom: 1.5rem; }
+
+  h3 { font-size: 16px; color: #333; margin: 1.5rem 0 0.5rem; }
+
+  p { margin-bottom: 0.9rem; line-height: 1.6; }
+
+  .code-block {
+    background: #1e1e2e;
+    color: #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 0.8rem 0;
+    position: relative;
+  }
+
+  .code-kw { color: #569cd6; }
+  .code-fn { color: #dcdcaa; }
+  .code-str { color: #ce9178; }
+  .code-cmt { color: #6a9955; font-style: italic; }
+  .code-num { color: #b5cea8; }
+  .code-type { color: #4ec9b0; }
+
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #3a3a4e;
+    color: #ccc;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: #4CAF50; color: white; }
+
+  .output {
+    background: #0d1117;
+    color: #58a6ff;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    margin: 0.5rem 0 1rem;
+    border-left: 3px solid #58a6ff;
+  }
+  .output-label { color: #888; font-size: 11px; margin-bottom: 0.3rem; }
+
+  .note {
+    background: #e8f4fd;
+    border-left: 3px solid #2196F3;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin: 0.8rem 0;
+    font-size: 14px;
+  }
+
+  .tip {
+    background: #e8f8e8;
+    border-left: 3px solid #4CAF50;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin: 0.8rem 0;
+    font-size: 14px;
+  }
+
+  .warning {
+    background: #fff8e1;
+    border-left: 3px solid #FF9800;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin: 0.8rem 0;
+    font-size: 14px;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 14px; }
+  th { background: #1a1a2e; color: white; padding: 8px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid #ddd; }
+  tr:nth-child(even) { background: #f9f9f9; }
+
+  .tag {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #1565C0;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: monospace;
+    font-size: 13px;
+  }
+
+  .nav-btns { display: flex; gap: 1rem; margin-top: 2.5rem; }
+  .btn-next {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .btn-next:hover { background: #388E3C; }
+  .btn-prev {
+    background: #eee;
+    color: #333;
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .btn-prev:hover { background: #ddd; }
+
+  .step-badge {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #4CAF50;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 6px;
+  }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: 5px 0; }
+  .checklist li::before { content: "✅ "; }
+
+  .challenge { list-style: none; padding: 0; }
+  .challenge li { padding: 5px 0; }
+  .challenge li::before { content: "🔥 "; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 C Programming for Beginners</h1>
+  <span id="progressLabel">Lesson 1 of 9</span>
+</div>
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:11%"></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-section">Basics</div>
+    <button class="sidebar-btn active" onclick="go(1)" id="btn1">1. Variables &amp; Types</button>
+    <button class="sidebar-btn" onclick="go(2)" id="btn2">2. First Program</button>
+    <button class="sidebar-btn" onclick="go(3)" id="btn3">3. Input &amp; Output</button>
+    <div class="sidebar-section">Control Flow</div>
+    <button class="sidebar-btn" onclick="go(4)" id="btn4">4. If Statements</button>
+    <button class="sidebar-btn" onclick="go(5)" id="btn5">5. Loops</button>
+    <div class="sidebar-section">Data Structures</div>
+    <button class="sidebar-btn" onclick="go(6)" id="btn6">6. Arrays</button>
+    <button class="sidebar-btn" onclick="go(7)" id="btn7">7. Struct &amp; Typedef</button>
+    <div class="sidebar-section">Advanced</div>
+    <button class="sidebar-btn" onclick="go(8)" id="btn8">8. Linked Lists</button>
+    <button class="sidebar-btn" onclick="go(9)" id="btn9">9. Final Project</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== LESSON 1 ===== -->
+    <div class="lesson active" id="lesson1">
+      <h2>📦 Lesson 1: Variables &amp; Data Types</h2>
+      <div class="lesson-meta">⏱ ~20 minutes &nbsp;|&nbsp; Level: Complete Beginner</div>
+
+      <p>A <strong>variable</strong> is a named box in memory where your program stores information.</p>
+
+      <h3><span class="step-badge">1</span> Data Types in C</h3>
+      <table>
+        <tr><th>Type</th><th>Stores</th><th>Example</th><th>Size</th></tr>
+        <tr><td><span class="tag">int</span></td><td>Whole numbers</td><td>42, -5, 0</td><td>4 bytes</td></tr>
+        <tr><td><span class="tag">float</span></td><td>Decimal numbers</td><td>3.14, 2.5</td><td>4 bytes</td></tr>
+        <tr><td><span class="tag">double</span></td><td>More precise decimals</td><td>3.14159265</td><td>8 bytes</td></tr>
+        <tr><td><span class="tag">char</span></td><td>One character</td><td>'A', 'z'</td><td>1 byte</td></tr>
+        <tr><td><span class="tag">char[]</span></td><td>Text (string)</td><td>"Hello"</td><td>varies</td></tr>
+      </table>
+
+      <h3><span class="step-badge">2</span> How to Declare a Variable</h3>
+      <p>Declaring = telling C "I need a box of this type, and call it this name".</p>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-cmt">// Pattern: dataType variableName;</span>
+
+<span class="code-type">int</span> age;
+<span class="code-type">float</span> price;
+<span class="code-type">char</span> letter;
+<span class="code-type">char</span> name[<span class="code-num">50</span>];    <span class="code-cmt">// String that holds up to 50 characters</span>
+</div>
+
+      <h3><span class="step-badge">3</span> Initialize (Put a Value In)</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-type">int</span> age = <span class="code-num">20</span>;
+<span class="code-type">float</span> gpa = <span class="code-num">3.85</span>;
+<span class="code-type">char</span> grade = <span class="code-str">'A'</span>;
+<span class="code-type">char</span> name[<span class="code-num">50</span>] = <span class="code-str">"Khai"</span>;
+</div>
+
+      <h3><span class="step-badge">4</span> Two Ways to Assign</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-cmt">// Method 1: Declare first, assign later</span>
+<span class="code-type">int</span> score;
+score = <span class="code-num">95</span>;
+
+<span class="code-cmt">// Method 2: Declare and assign at same time</span>
+<span class="code-type">int</span> score = <span class="code-num">95</span>;
+</div>
+
+      <div class="note">⚠️ <strong>Important:</strong> Every statement in C must end with a semicolon <span class="tag">;</span> — think of it like a full stop at end of a sentence.</div>
+
+      <div class="tip">💡 <strong>Tip:</strong> Variable names cannot have spaces. Use underscore: <span class="tag">student_id</span> or camelCase: <span class="tag">studentId</span></div>
+
+      <div class="nav-btns">
+        <button class="btn-next" onclick="go(2)">Next: First Program →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 2 ===== -->
+    <div class="lesson" id="lesson2">
+      <h2>🎯 Lesson 2: Your First C Program</h2>
+      <div class="lesson-meta">⏱ ~20 minutes</div>
+
+      <h3>The Basic Structure</h3>
+      <p>Every C program must have this skeleton:</p>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;      <span class="code-cmt">// Include the printing library</span>
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {          <span class="code-cmt">// Program starts here</span>
+
+    <span class="code-cmt">// Your code goes in here</span>
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;           <span class="code-cmt">// Program finished OK</span>
+}
+</div>
+
+      <h3><span class="step-badge">1</span> Hello World!</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-fn">printf</span>(<span class="code-str">"Hello, World!\n"</span>);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Hello, World!</div>
+
+      <div class="note">📌 <span class="tag">\n</span> means "new line" — it moves the cursor to the next line after printing.</div>
+
+      <h3><span class="step-badge">2</span> Format Specifiers (Print Variables)</h3>
+      <p>Use placeholders inside <span class="tag">printf()</span> to print variable values:</p>
+      <table>
+        <tr><th>Placeholder</th><th>Type</th><th>Example</th></tr>
+        <tr><td><span class="tag">%d</span></td><td>int</td><td>printf("%d", 42); → 42</td></tr>
+        <tr><td><span class="tag">%f</span></td><td>float</td><td>printf("%f", 3.14); → 3.140000</td></tr>
+        <tr><td><span class="tag">%.2f</span></td><td>float (2 decimal)</td><td>printf("%.2f", 3.14); → 3.14</td></tr>
+        <tr><td><span class="tag">%c</span></td><td>char</td><td>printf("%c", 'A'); → A</td></tr>
+        <tr><td><span class="tag">%s</span></td><td>string</td><td>printf("%s", "Hi"); → Hi</td></tr>
+      </table>
+
+      <h3><span class="step-badge">3</span> Print Multiple Variables</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">char</span> name[<span class="code-num">50</span>] = <span class="code-str">"Khai"</span>;
+    <span class="code-type">int</span> age = <span class="code-num">20</span>;
+    <span class="code-type">float</span> gpa = <span class="code-num">3.85</span>;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Name  : %s\n"</span>, name);
+    <span class="code-fn">printf</span>(<span class="code-str">"Age   : %d\n"</span>, age);
+    <span class="code-fn">printf</span>(<span class="code-str">"GPA   : %.2f\n"</span>, gpa);
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Name  : Khai
+Age   : 20
+GPA   : 3.85</div>
+
+      <div class="tip">💡 Try this in <a href="https://www.onlinegdb.com/online_c_compiler" target="_blank">OnlineGDB</a> — free C compiler, no install needed!</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(1)">← Previous</button>
+        <button class="btn-next" onclick="go(3)">Next: Input & Output →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 3 ===== -->
+    <div class="lesson" id="lesson3">
+      <h2>📥 Lesson 3: Input &amp; Output</h2>
+      <div class="lesson-meta">⏱ ~15 minutes</div>
+
+      <p>Use <span class="tag">scanf()</span> to read input from the user's keyboard.</p>
+
+      <h3><span class="step-badge">1</span> Read an Integer</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> age;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your age: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;age);      <span class="code-cmt">// &amp; means "address of" — where to store value</span>
+
+    <span class="code-fn">printf</span>(<span class="code-str">"You are %d years old!\n"</span>, age);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Sample Run:</div>Enter your age: 20
+You are 20 years old!</div>
+
+      <div class="warning">⚠️ <strong>Always put &amp; before the variable in scanf!</strong> Except for strings (char arrays) — they don't need &amp;.</div>
+
+      <h3><span class="step-badge">2</span> Read a String</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">char</span> name[<span class="code-num">50</span>];
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your name: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%s"</span>, name);      <span class="code-cmt">// No &amp; for strings!</span>
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Hello, %s!\n"</span>, name);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3><span class="step-badge">3</span> Full Profile Program</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">char</span> name[<span class="code-num">50</span>];
+    <span class="code-type">int</span> age;
+    <span class="code-type">float</span> cgpa;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your name: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%s"</span>, name);
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your age: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;age);
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your CGPA: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%f"</span>, &amp;cgpa);
+
+    <span class="code-fn">printf</span>(<span class="code-str">"\n--- My Profile ---\n"</span>);
+    <span class="code-fn">printf</span>(<span class="code-str">"Name : %s\n"</span>, name);
+    <span class="code-fn">printf</span>(<span class="code-str">"Age  : %d\n"</span>, age);
+    <span class="code-fn">printf</span>(<span class="code-str">"CGPA : %.2f\n"</span>, cgpa);
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Sample Run:</div>Enter your name: Khai
+Enter your age: 20
+Enter your CGPA: 3.85
+
+--- My Profile ---
+Name : Khai
+Age  : 20
+CGPA : 3.85</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(2)">← Previous</button>
+        <button class="btn-next" onclick="go(4)">Next: If Statements →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 4 ===== -->
+    <div class="lesson" id="lesson4">
+      <h2>❓ Lesson 4: If Statements (Making Decisions)</h2>
+      <div class="lesson-meta">⏱ ~20 minutes</div>
+
+      <h3>Comparison Operators</h3>
+      <table>
+        <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><span class="tag">==</span></td><td>Equal to</td><td>age == 18</td></tr>
+        <tr><td><span class="tag">!=</span></td><td>Not equal</td><td>age != 18</td></tr>
+        <tr><td><span class="tag">&gt;</span></td><td>Greater than</td><td>score &gt; 50</td></tr>
+        <tr><td><span class="tag">&lt;</span></td><td>Less than</td><td>score &lt; 50</td></tr>
+        <tr><td><span class="tag">&gt;=</span></td><td>Greater or equal</td><td>age &gt;= 18</td></tr>
+        <tr><td><span class="tag">&lt;=</span></td><td>Less or equal</td><td>score &lt;= 100</td></tr>
+      </table>
+
+      <h3><span class="step-badge">1</span> Simple If</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> age = <span class="code-num">20</span>;
+
+    <span class="code-kw">if</span> (age &gt;= <span class="code-num">18</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"You are an adult.\n"</span>);
+    }
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3><span class="step-badge">2</span> If ... Else</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> score;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter your score: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;score);
+
+    <span class="code-kw">if</span> (score &gt;= <span class="code-num">50</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"PASS!\n"</span>);
+    } <span class="code-kw">else</span> {
+        <span class="code-fn">printf</span>(<span class="code-str">"FAIL. Try again.\n"</span>);
+    }
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3><span class="step-badge">3</span> If ... Else If ... Else (Grade System)</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> marks;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Enter marks: "</span>);
+    <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;marks);
+
+    <span class="code-kw">if</span> (marks &gt;= <span class="code-num">90</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Grade: A\n"</span>);
+    } <span class="code-kw">else if</span> (marks &gt;= <span class="code-num">80</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Grade: B\n"</span>);
+    } <span class="code-kw">else if</span> (marks &gt;= <span class="code-num">70</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Grade: C\n"</span>);
+    } <span class="code-kw">else if</span> (marks &gt;= <span class="code-num">60</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Grade: D\n"</span>);
+    } <span class="code-kw">else</span> {
+        <span class="code-fn">printf</span>(<span class="code-str">"Grade: F\n"</span>);
+    }
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Sample Run:</div>Enter marks: 85
+Grade: B</div>
+
+      <h3><span class="step-badge">4</span> Logical Operators</h3>
+      <table>
+        <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><span class="tag">&amp;&amp;</span></td><td>AND (both must be true)</td><td>age &gt;= 18 &amp;&amp; hasLicense == 'y'</td></tr>
+        <tr><td><span class="tag">||</span></td><td>OR (at least one true)</td><td>day == 6 || day == 7</td></tr>
+        <tr><td><span class="tag">!</span></td><td>NOT (flip true/false)</td><td>!(score == 0)</td></tr>
+      </table>
+
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> age = <span class="code-num">20</span>;
+    <span class="code-type">char</span> hasLicense = <span class="code-str">'y'</span>;
+
+    <span class="code-kw">if</span> (age &gt;= <span class="code-num">18</span> &amp;&amp; hasLicense == <span class="code-str">'y'</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"You can drive!\n"</span>);
+    } <span class="code-kw">else</span> {
+        <span class="code-fn">printf</span>(<span class="code-str">"You cannot drive.\n"</span>);
+    }
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(3)">← Previous</button>
+        <button class="btn-next" onclick="go(5)">Next: Loops →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 5 ===== -->
+    <div class="lesson" id="lesson5">
+      <h2>🔄 Lesson 5: Loops</h2>
+      <div class="lesson-meta">⏱ ~25 minutes</div>
+
+      <p>Loops repeat code without you writing it multiple times.</p>
+
+      <h3><span class="step-badge">1</span> For Loop (when you know how many times)</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">1</span>; i &lt;= <span class="code-num">5</span>; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Count: %d\n"</span>, i);
+    }
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5</div>
+
+      <div class="note">📌 <strong>For loop breakdown:</strong>
+        <br>• <span class="tag">int i = 1</span> → start at 1
+        <br>• <span class="tag">i &lt;= 5</span> → keep going while i is 5 or less
+        <br>• <span class="tag">i++</span> → add 1 to i each time (same as i = i + 1)
+      </div>
+
+      <h3><span class="step-badge">2</span> Times Table with For Loop</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> num = <span class="code-num">7</span>;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Times table of %d:\n"</span>, num);
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">1</span>; i &lt;= <span class="code-num">10</span>; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%d x %d = %d\n"</span>, num, i, num * i);
+    }
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3><span class="step-badge">3</span> While Loop (repeat while condition is true)</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> count = <span class="code-num">5</span>;
+
+    <span class="code-kw">while</span> (count &gt; <span class="code-num">0</span>) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%d...\n"</span>, count);
+        count--;     <span class="code-cmt">// count = count - 1</span>
+    }
+    <span class="code-fn">printf</span>(<span class="code-str">"Blastoff!\n"</span>);
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>5...
+4...
+3...
+2...
+1...
+Blastoff!</div>
+
+      <h3><span class="step-badge">4</span> Do-While Loop (runs at least once)</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> choice;
+
+    <span class="code-kw">do</span> {
+        <span class="code-fn">printf</span>(<span class="code-str">"\n1. Say Hello\n2. Exit\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"Choice: "</span>);
+        <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;choice);
+
+        <span class="code-kw">if</span> (choice == <span class="code-num">1</span>) {
+            <span class="code-fn">printf</span>(<span class="code-str">"Hello!\n"</span>);
+        }
+    } <span class="code-kw">while</span> (choice != <span class="code-num">2</span>);  <span class="code-cmt">// Keep looping unless user picks 2</span>
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Goodbye!\n"</span>);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3><span class="step-badge">5</span> Nested Loops — Star Pattern</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-kw">for</span> (<span class="code-type">int</span> row = <span class="code-num">1</span>; row &lt;= <span class="code-num">4</span>; row++) {
+        <span class="code-kw">for</span> (<span class="code-type">int</span> col = <span class="code-num">1</span>; col &lt;= <span class="code-num">4</span>; col++) {
+            <span class="code-fn">printf</span>(<span class="code-str">"* "</span>);
+        }
+        <span class="code-fn">printf</span>(<span class="code-str">"\n"</span>);
+    }
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>* * * *
+* * * *
+* * * *
+* * * *</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(4)">← Previous</button>
+        <button class="btn-next" onclick="go(6)">Next: Arrays →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 6 ===== -->
+    <div class="lesson" id="lesson6">
+      <h2>📋 Lesson 6: Arrays</h2>
+      <div class="lesson-meta">⏱ ~20 minutes</div>
+
+      <p>An array stores <strong>many values of the same type</strong> in one variable — like a numbered list of boxes.</p>
+
+      <h3><span class="step-badge">1</span> Declare and Initialize</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-cmt">// int arrayName[size] = {values};</span>
+<span class="code-type">int</span> scores[<span class="code-num">5</span>] = {<span class="code-num">90</span>, <span class="code-num">85</span>, <span class="code-num">92</span>, <span class="code-num">78</span>, <span class="code-num">88</span>};
+
+<span class="code-cmt">// Access using index (starts at 0, not 1!)</span>
+<span class="code-fn">printf</span>(<span class="code-str">"%d\n"</span>, scores[<span class="code-num">0</span>]);   <span class="code-cmt">// 90 (first)</span>
+<span class="code-fn">printf</span>(<span class="code-str">"%d\n"</span>, scores[<span class="code-num">2</span>]);   <span class="code-cmt">// 92 (third)</span>
+<span class="code-fn">printf</span>(<span class="code-str">"%d\n"</span>, scores[<span class="code-num">4</span>]);   <span class="code-cmt">// 88 (last)</span>
+</div>
+
+      <div class="warning">⚠️ Arrays start at index <strong>0</strong>! A 5-element array has indices 0, 1, 2, 3, 4.</div>
+
+      <h3><span class="step-badge">2</span> Loop Through Array</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> scores[<span class="code-num">5</span>] = {<span class="code-num">90</span>, <span class="code-num">85</span>, <span class="code-num">92</span>, <span class="code-num">78</span>, <span class="code-num">88</span>};
+
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">5</span>; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"Test %d: %d\n"</span>, i + <span class="code-num">1</span>, scores[i]);
+    }
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Test 1: 90
+Test 2: 85
+Test 3: 92
+Test 4: 78
+Test 5: 88</div>
+
+      <h3><span class="step-badge">3</span> Find Sum and Average</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> numbers[<span class="code-num">5</span>] = {<span class="code-num">10</span>, <span class="code-num">20</span>, <span class="code-num">30</span>, <span class="code-num">40</span>, <span class="code-num">50</span>};
+    <span class="code-type">int</span> sum = <span class="code-num">0</span>;
+
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">5</span>; i++) {
+        sum = sum + numbers[i];
+    }
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Sum     : %d\n"</span>, sum);
+    <span class="code-fn">printf</span>(<span class="code-str">"Average : %.2f\n"</span>, (<span class="code-type">float</span>)sum / <span class="code-num">5</span>);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Sum     : 150
+Average : 30.00</div>
+
+      <h3><span class="step-badge">4</span> Find Maximum Value</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">int</span> nums[<span class="code-num">6</span>] = {<span class="code-num">15</span>, <span class="code-num">48</span>, <span class="code-num">32</span>, <span class="code-num">92</span>, <span class="code-num">61</span>, <span class="code-num">25</span>};
+    <span class="code-type">int</span> max = nums[<span class="code-num">0</span>];    <span class="code-cmt">// Assume first is the biggest</span>
+
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">1</span>; i &lt; <span class="code-num">6</span>; i++) {
+        <span class="code-kw">if</span> (nums[i] &gt; max) {
+            max = nums[i];  <span class="code-cmt">// Found bigger, update max</span>
+        }
+    }
+
+    <span class="code-fn">printf</span>(<span class="code-str">"Maximum: %d\n"</span>, max);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>Maximum: 92</div>
+
+      <h3><span class="step-badge">5</span> String Arrays</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-type">char</span> fruits[<span class="code-num">3</span>][<span class="code-num">20</span>] = {<span class="code-str">"Apple"</span>, <span class="code-str">"Banana"</span>, <span class="code-str">"Cherry"</span>};
+
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">3</span>; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%d. %s\n"</span>, i + <span class="code-num">1</span>, fruits[i]);
+    }
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>1. Apple
+2. Banana
+3. Cherry</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(5)">← Previous</button>
+        <button class="btn-next" onclick="go(7)">Next: Struct & Typedef →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 7 ===== -->
+    <div class="lesson" id="lesson7">
+      <h2>🏗️ Lesson 7: Struct &amp; Typedef</h2>
+      <div class="lesson-meta">⏱ ~20 minutes</div>
+
+      <p>A <strong>struct</strong> groups different types of data under one name. Like a form with multiple fields.</p>
+
+      <h3><span class="step-badge">1</span> Define a Struct</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-kw">struct</span> Student {
+    <span class="code-type">int</span>   id;
+    <span class="code-type">char</span>  name[<span class="code-num">50</span>];
+    <span class="code-type">float</span> cgpa;
+    <span class="code-type">int</span>   semester;
+};
+</div>
+
+      <h3><span class="step-badge">2</span> Create and Use a Struct</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;   <span class="code-cmt">// Needed for strcpy()</span>
+
+<span class="code-kw">struct</span> Student {
+    <span class="code-type">int</span>   id;
+    <span class="code-type">char</span>  name[<span class="code-num">50</span>];
+    <span class="code-type">float</span> cgpa;
+};
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-kw">struct</span> Student s1;       <span class="code-cmt">// Declare a student</span>
+
+    s1.id   = <span class="code-num">12345</span>;
+    <span class="code-fn">strcpy</span>(s1.name, <span class="code-str">"Khai"</span>); <span class="code-cmt">// Assign text to char array</span>
+    s1.cgpa = <span class="code-num">3.85</span>;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"ID   : %d\n"</span>, s1.id);
+    <span class="code-fn">printf</span>(<span class="code-str">"Name : %s\n"</span>, s1.name);
+    <span class="code-fn">printf</span>(<span class="code-str">"CGPA : %.2f\n"</span>, s1.cgpa);
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>ID   : 12345
+Name : Khai
+CGPA : 3.85</div>
+
+      <div class="note">📌 Use <strong>dot notation</strong> <span class="tag">s1.name</span> to access fields inside a struct.</div>
+
+      <h3><span class="step-badge">3</span> Typedef — Shorter Name</h3>
+      <p><span class="tag">typedef</span> lets you skip writing <span class="tag">struct</span> every time:</p>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-cmt">// Before typedef → must write "struct Student" every time</span>
+<span class="code-kw">struct</span> Student s1;
+
+<span class="code-cmt">// With typedef → just write "Student"</span>
+<span class="code-kw">typedef</span> <span class="code-kw">struct</span> {
+    <span class="code-type">int</span>   id;
+    <span class="code-type">char</span>  name[<span class="code-num">50</span>];
+    <span class="code-type">float</span> cgpa;
+} Student;                <span class="code-cmt">// "Student" is now a type</span>
+
+Student s1;               <span class="code-cmt">// Clean! No "struct" needed</span>
+</div>
+
+      <h3><span class="step-badge">4</span> Array of Structs</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+<span class="code-kw">typedef</span> <span class="code-kw">struct</span> {
+    <span class="code-type">int</span>   id;
+    <span class="code-type">char</span>  name[<span class="code-num">50</span>];
+    <span class="code-type">float</span> cgpa;
+} Student;
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    Student students[<span class="code-num">3</span>];
+
+    students[<span class="code-num">0</span>].id = <span class="code-num">101</span>;  <span class="code-fn">strcpy</span>(students[<span class="code-num">0</span>].name, <span class="code-str">"Khai"</span>);  students[<span class="code-num">0</span>].cgpa = <span class="code-num">3.85</span>;
+    students[<span class="code-num">1</span>].id = <span class="code-num">102</span>;  <span class="code-fn">strcpy</span>(students[<span class="code-num">1</span>].name, <span class="code-str">"Ali"</span>);   students[<span class="code-num">1</span>].cgpa = <span class="code-num">3.65</span>;
+    students[<span class="code-num">2</span>].id = <span class="code-num">103</span>;  <span class="code-fn">strcpy</span>(students[<span class="code-num">2</span>].name, <span class="code-str">"Zara"</span>);  students[<span class="code-num">2</span>].cgpa = <span class="code-num">3.92</span>;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"%-5s %-15s %-5s\n"</span>, <span class="code-str">"ID"</span>, <span class="code-str">"Name"</span>, <span class="code-str">"CGPA"</span>);
+    <span class="code-fn">printf</span>(<span class="code-str">"-------------------------------\n"</span>);
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">3</span>; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%-5d %-15s %.2f\n"</span>, students[i].id, students[i].name, students[i].cgpa);
+    }
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>ID    Name            CGPA
+-------------------------------
+101   Khai            3.85
+102   Ali             3.65
+103   Zara            3.92</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(6)">← Previous</button>
+        <button class="btn-next" onclick="go(8)">Next: Linked Lists →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 8 ===== -->
+    <div class="lesson" id="lesson8">
+      <h2>🔗 Lesson 8: Linked Lists</h2>
+      <div class="lesson-meta">⏱ ~30 minutes &nbsp;|&nbsp; ⚡ Slightly Advanced</div>
+
+      <p>A linked list is a chain of <strong>nodes</strong>. Each node holds data AND a pointer to the next node.</p>
+      <p>Unlike arrays (fixed size), linked lists can grow and shrink dynamically.</p>
+
+      <div class="note">📌 <strong>What is a pointer?</strong> A pointer stores a <em>memory address</em> instead of a value. The <span class="tag">*</span> symbol means "pointer to". The <span class="tag">&amp;</span> symbol means "address of".</div>
+
+      <h3><span class="step-badge">1</span> Node Structure</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button><span class="code-kw">typedef</span> <span class="code-kw">struct</span> Node {
+    <span class="code-type">int</span>         data;   <span class="code-cmt">// the value stored</span>
+    <span class="code-kw">struct</span> Node* next;  <span class="code-cmt">// address of the next node (NULL if last)</span>
+} Node;
+</div>
+
+      <h3><span class="step-badge">2</span> Create a Node with malloc()</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button"><span class="code-cmt">// malloc() = allocate memory dynamically</span>
+Node* newNode = (Node*)<span class="code-fn">malloc</span>(<span class="code-kw">sizeof</span>(Node));
+newNode-&gt;data = <span class="code-num">10</span>;    <span class="code-cmt">// Use -> to access members through pointer</span>
+newNode-&gt;next = NULL;  <span class="code-cmt">// NULL means "no next node"</span>
+</div>
+
+      <div class="note">📌 Use <span class="tag">-&gt;</span> (arrow) instead of dot <span class="tag">.</span> when the variable is a pointer to a struct.</div>
+
+      <h3><span class="step-badge">3</span> Build and Print a Linked List</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;    <span class="code-cmt">// Needed for malloc() and free()</span>
+
+<span class="code-kw">typedef</span> <span class="code-kw">struct</span> Node {
+    <span class="code-type">int</span>         data;
+    <span class="code-kw">struct</span> Node* next;
+} Node;
+
+<span class="code-cmt">// Function: create a new node</span>
+Node* <span class="code-fn">createNode</span>(<span class="code-type">int</span> value) {
+    Node* n  = (Node*)<span class="code-fn">malloc</span>(<span class="code-kw">sizeof</span>(Node));
+    n-&gt;data  = value;
+    n-&gt;next  = NULL;
+    <span class="code-kw">return</span> n;
+}
+
+<span class="code-cmt">// Function: print the entire list</span>
+<span class="code-type">void</span> <span class="code-fn">printList</span>(Node* head) {
+    Node* cur = head;
+    <span class="code-kw">while</span> (cur != NULL) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%d -> "</span>, cur-&gt;data);
+        cur = cur-&gt;next;
+    }
+    <span class="code-fn">printf</span>(<span class="code-str">"NULL\n"</span>);
+}
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    <span class="code-cmt">// Create 3 nodes</span>
+    Node* head   = <span class="code-fn">createNode</span>(<span class="code-num">10</span>);
+    Node* second = <span class="code-fn">createNode</span>(<span class="code-num">20</span>);
+    Node* third  = <span class="code-fn">createNode</span>(<span class="code-num">30</span>);
+
+    <span class="code-cmt">// Link them: head → second → third → NULL</span>
+    head-&gt;next   = second;
+    second-&gt;next = third;
+
+    <span class="code-fn">printf</span>(<span class="code-str">"List: "</span>);
+    <span class="code-fn">printList</span>(head);
+
+    <span class="code-cmt">// Free memory when done</span>
+    <span class="code-fn">free</span>(third); <span class="code-fn">free</span>(second); <span class="code-fn">free</span>(head);
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+      <div class="output"><div class="output-label">Output:</div>List: 10 -> 20 -> 30 -> NULL</div>
+
+      <h3><span class="step-badge">4</span> Insert Node at Beginning</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button">Node* <span class="code-fn">insertFront</span>(Node* head, <span class="code-type">int</span> value) {
+    Node* newNode = <span class="code-fn">createNode</span>(value);
+    newNode-&gt;next = head;   <span class="code-cmt">// New node points to old head</span>
+    <span class="code-kw">return</span> newNode;          <span class="code-cmt">// New node becomes the new head</span>
+}
+</div>
+
+      <h3><span class="step-badge">5</span> Delete a Node</h3>
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button">Node* <span class="code-fn">deleteNode</span>(Node* head, <span class="code-type">int</span> value) {
+    <span class="code-kw">if</span> (head == NULL) <span class="code-kw">return</span> NULL;
+
+    <span class="code-cmt">// If the node to delete is the head</span>
+    <span class="code-kw">if</span> (head-&gt;data == value) {
+        Node* temp = head;
+        head = head-&gt;next;
+        <span class="code-fn">free</span>(temp);
+        <span class="code-kw">return</span> head;
+    }
+
+    <span class="code-cmt">// Otherwise, search for it</span>
+    Node* cur = head;
+    <span class="code-kw">while</span> (cur-&gt;next != NULL &amp;&amp; cur-&gt;next-&gt;data != value) {
+        cur = cur-&gt;next;
+    }
+    <span class="code-kw">if</span> (cur-&gt;next != NULL) {
+        Node* temp = cur-&gt;next;
+        cur-&gt;next  = temp-&gt;next;
+        <span class="code-fn">free</span>(temp);
+    }
+    <span class="code-kw">return</span> head;
+}
+</div>
+
+      <div class="tip">💡 Always call <span class="tag">free()</span> for every node you <span class="tag">malloc()</span>. Forgetting causes "memory leaks".</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(7)">← Previous</button>
+        <button class="btn-next" onclick="go(9)">Next: Final Project →</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 9 ===== -->
+    <div class="lesson" id="lesson9">
+      <h2>🎓 Lesson 9: Final Project — Student Management System</h2>
+      <div class="lesson-meta">⏱ ~60 minutes &nbsp;|&nbsp; Apply EVERYTHING you learned!</div>
+
+      <p>This program uses: variables, scanf/printf, if-else, do-while loop, array, struct, and typedef.</p>
+
+      <div class="code-block">
+<button class="copy-btn" onclick="cp(this)">Copy</button">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define MAX <span class="code-num">100</span>
+
+<span class="code-kw">typedef</span> <span class="code-kw">struct</span> {
+    <span class="code-type">int</span>   id;
+    <span class="code-type">char</span>  name[<span class="code-num">50</span>];
+    <span class="code-type">float</span> cgpa;
+    <span class="code-type">int</span>   semester;
+} Student;
+
+<span class="code-type">void</span> <span class="code-fn">displayAll</span>(Student students[], <span class="code-type">int</span> n) {
+    <span class="code-kw">if</span> (n == <span class="code-num">0</span>) { <span class="code-fn">printf</span>(<span class="code-str">"No students yet.\n"</span>); <span class="code-kw">return</span>; }
+    <span class="code-fn">printf</span>(<span class="code-str">"\n%-5s %-15s %-6s %-4s\n"</span>, <span class="code-str">"ID"</span>, <span class="code-str">"Name"</span>, <span class="code-str">"CGPA"</span>, <span class="code-str">"Sem"</span>);
+    <span class="code-fn">printf</span>(<span class="code-str">"----------------------------------\n"</span>);
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; n; i++) {
+        <span class="code-fn">printf</span>(<span class="code-str">"%-5d %-15s %-6.2f %-4d\n"</span>,
+               students[i].id, students[i].name,
+               students[i].cgpa, students[i].semester);
+    }
+}
+
+<span class="code-type">void</span> <span class="code-fn">findHighest</span>(Student students[], <span class="code-type">int</span> n) {
+    <span class="code-kw">if</span> (n == <span class="code-num">0</span>) { <span class="code-fn">printf</span>(<span class="code-str">"No students.\n"</span>); <span class="code-kw">return</span>; }
+    <span class="code-type">int</span> best = <span class="code-num">0</span>;
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">1</span>; i &lt; n; i++) {
+        <span class="code-kw">if</span> (students[i].cgpa &gt; students[best].cgpa) best = i;
+    }
+    <span class="code-fn">printf</span>(<span class="code-str">"Top student: %s (CGPA %.2f)\n"</span>, students[best].name, students[best].cgpa);
+}
+
+<span class="code-type">void</span> <span class="code-fn">calcAverage</span>(Student students[], <span class="code-type">int</span> n) {
+    <span class="code-kw">if</span> (n == <span class="code-num">0</span>) { <span class="code-fn">printf</span>(<span class="code-str">"No students.\n"</span>); <span class="code-kw">return</span>; }
+    <span class="code-type">float</span> total = <span class="code-num">0</span>;
+    <span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; n; i++) total += students[i].cgpa;
+    <span class="code-fn">printf</span>(<span class="code-str">"Average CGPA: %.2f\n"</span>, total / n);
+}
+
+<span class="code-type">int</span> <span class="code-fn">main</span>() {
+    Student students[MAX];
+    <span class="code-type">int</span> count = <span class="code-num">0</span>, choice;
+
+    <span class="code-kw">do</span> {
+        <span class="code-fn">printf</span>(<span class="code-str">"\n============================\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"  STUDENT MANAGEMENT SYSTEM\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"============================\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"1. Add Student\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"2. Show All Students\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"3. Find Top Student\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"4. Average CGPA\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"5. Exit\n"</span>);
+        <span class="code-fn">printf</span>(<span class="code-str">"Choice: "</span>);
+        <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &amp;choice);
+
+        <span class="code-kw">if</span> (choice == <span class="code-num">1</span>) {
+            <span class="code-kw">if</span> (count &gt;= MAX) { <span class="code-fn">printf</span>(<span class="code-str">"Full!\n"</span>); }
+            <span class="code-kw">else</span> {
+                <span class="code-fn">printf</span>(<span class="code-str">"ID: "</span>);        <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>,  &amp;students[count].id);
+                <span class="code-fn">printf</span>(<span class="code-str">"Name: "</span>);      <span class="code-fn">scanf</span>(<span class="code-str">"%s"</span>,   students[count].name);
+                <span class="code-fn">printf</span>(<span class="code-str">"CGPA: "</span>);      <span class="code-fn">scanf</span>(<span class="code-str">"%f"</span>,  &amp;students[count].cgpa);
+                <span class="code-fn">printf</span>(<span class="code-str">"Semester: "</span>); <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>,  &amp;students[count].semester);
+                count++;
+                <span class="code-fn">printf</span>(<span class="code-str">"Student added! Total: %d\n"</span>, count);
+            }
+        }
+        <span class="code-kw">else if</span> (choice == <span class="code-num">2</span>) { <span class="code-fn">displayAll</span>(students, count); }
+        <span class="code-kw">else if</span> (choice == <span class="code-num">3</span>) { <span class="code-fn">findHighest</span>(students, count); }
+        <span class="code-kw">else if</span> (choice == <span class="code-num">4</span>) { <span class="code-fn">calcAverage</span>(students, count); }
+        <span class="code-kw">else if</span> (choice == <span class="code-num">5</span>) { <span class="code-fn">printf</span>(<span class="code-str">"Goodbye!\n"</span>); }
+        <span class="code-kw">else</span>               { <span class="code-fn">printf</span>(<span class="code-str">"Invalid choice.\n"</span>); }
+
+    } <span class="code-kw">while</span> (choice != <span class="code-num">5</span>);
+
+    <span class="code-kw">return</span> <span class="code-num">0</span>;
+}
+</div>
+
+      <h3 style="margin-top: 2rem;">✅ What You Learned</h3>
+      <ul class="checklist">
+        <li>Variables and data types (int, float, char, char[])</li>
+        <li>Printf and scanf for output and input</li>
+        <li>If, else if, else for decision making</li>
+        <li>For loop, while loop, do-while loop</li>
+        <li>Arrays to store multiple values</li>
+        <li>Struct to group related data</li>
+        <li>Typedef for cleaner code</li>
+        <li>Linked lists with pointers, malloc, free</li>
+        <li>Functions to organize code</li>
+      </ul>
+
+      <h3 style="margin-top: 1.5rem;">🔥 Challenge: Extend the Project</h3>
+      <ul class="challenge">
+        <li>Add a search function (find by ID)</li>
+        <li>Add a delete function (remove a student)</li>
+        <li>Convert storage from array to linked list</li>
+        <li>Save and load data from a .txt file</li>
+        <li>Sort students by CGPA (bubble sort)</li>
+      </ul>
+
+      <div class="tip" style="margin-top: 1.5rem;">🎉 <strong>Congratulations!</strong> You finished all 9 lessons in 5 hours. You now have a solid foundation in C programming. The next topics to learn: pointers in depth, recursion, file I/O, and more complex data structures (stacks, queues, trees).</div>
+
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="go(8)">← Previous</button>
+        <button class="btn-next" onclick="go(1)" style="background:#1a1a2e;">↩ Back to Start</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var current = 1;
+  var visited = new Set([1]);
+
+  function go(n) {
+    document.getElementById('lesson' + current).classList.remove('active');
+    document.getElementById('btn' + current).classList.remove('active');
+    visited.add(n);
+    document.querySelectorAll('.sidebar-btn').forEach(function(b) {
+      var id = parseInt(b.getAttribute('onclick').match(/\d+/)[0]);
+      if (visited.has(id) && id !== n) b.classList.add('done');
+    });
+    current = n;
+    document.getElementById('lesson' + n).classList.add('active');
+    document.getElementById('btn' + n).classList.add('active');
+    document.getElementById('btn' + n).classList.remove('done');
+    document.getElementById('progressLabel').textContent = 'Lesson ' + n + ' of 9';
+    document.getElementById('progressFill').style.width = Math.round((n / 9) * 100) + '%';
+    window.scrollTo(0, 0);
+  }
+
+  function cp(btn) {
+    var block = btn.parentElement;
+    var text = block.innerText.replace('Copy\n', '').trim();
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
