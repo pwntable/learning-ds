@@ -5,6 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C Programming: Variable to Program Mastery</title>
+
+  <!-- PWA Metadata -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10b981">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="C Mastery: Data Structure Foundation">
+  <meta property="og:description" content="An interactive, gamified journey to mastering C programming and data structures.">
+  <meta property="og:image" content="og-image.png">
+  <meta property="og:url" content="https://cmastery.app">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="C Mastery: Data Structure Foundation">
+  <meta name="twitter:description" content="An interactive, gamified journey to mastering C programming and data structures.">
+  <meta name="twitter:image" content="og-image.png">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="quiz-engine.css">
   <link rel="stylesheet" href="ds-visualizer.css">
@@ -582,6 +600,17 @@
     DSViz.mountArray('viz-array');
     DSViz.mountLinkedList('viz-ll');
     DSViz.mountStack('viz-stack');
+
+    // ── Register Service Worker (PWA) ──────────────────────────────────
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
+          console.log('[Service Worker] Registered with scope:', registration.scope);
+        }).catch((error) => {
+          console.error('[Service Worker] Registration failed:', error);
+        });
+      });
+    }
   </script>
 </body>
 
