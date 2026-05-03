@@ -331,7 +331,8 @@ const QuizEngine = (() => {
     const lessonId = block.dataset.lessonId;
     const qIdx = parseInt(block.dataset.qIdx, 10);
 
-    const isCorrect = normalise(userVal) === normalise(q.correct);
+    const isCorrect = checkAnswer(userVal, q.correct);
+    const displayCorrect = Array.isArray(q.correct) ? q.correct[0] : q.correct;
 
     if (isCorrect) {
       input.classList.add('qe-input-correct');
@@ -343,7 +344,7 @@ const QuizEngine = (() => {
     } else {
       input.classList.add('qe-input-wrong');
       showFeedback(feedbackEl, false,
-        `✘ Not quite. Expected: <code>${escHtml(String(q.correct))}</code><br><small>Note: C is case-sensitive!</small>`, null);
+        `✘ Not quite. Expected: <code>${escHtml(String(displayCorrect))}</code><br><small>Note: C is case-sensitive!</small>`, null);
       setTimeout(() => input.classList.remove('qe-input-wrong'), 900);
     }
   }
@@ -358,8 +359,8 @@ const QuizEngine = (() => {
 
     let allCorrect = true;
     inputs.forEach((inp, i) => {
-      const expected = Array.isArray(q.blanks) ? q.blanks[i] : q.blanks;
-      const ok = normalise(inp.value.trim()) === normalise(expected);
+      const expected = Array.isArray(q.blanks) && Array.isArray(q.blanks[0]) ? q.blanks[i] : (Array.isArray(q.blanks) ? q.blanks[i] : q.blanks);
+      const ok = checkAnswer(inp.value.trim(), expected);
       inp.classList.toggle('qe-input-correct', ok);
       inp.classList.toggle('qe-input-wrong', !ok);
       if (!ok) allCorrect = false;
@@ -372,7 +373,7 @@ const QuizEngine = (() => {
       showFeedback(feedbackEl, true, '✔ All blanks correct!', q.explanation);
       markPassed(lessonId, qIdx);
     } else {
-      const expectedAnswers = Array.isArray(q.blanks) ? q.blanks.map(b => escHtml(String(b))).join(', ') : escHtml(String(q.blanks));
+      const expectedAnswers = Array.isArray(q.blanks) ? q.blanks.map(b => Array.isArray(b) ? escHtml(String(b[0])) : escHtml(String(b))).join(', ') : escHtml(String(q.blanks));
       showFeedback(feedbackEl, false, `✘ Incorrect. The expected answer is: <code>${expectedAnswers}</code><br><small>Note: C is strictly case-sensitive!</small>`, null);
       setTimeout(() => {
         inputs.forEach(inp => inp.classList.remove('qe-input-wrong', 'qe-input-correct'));
@@ -437,12 +438,21 @@ const QuizEngine = (() => {
   }
 
   function normalise(str) {
-    const res = String(str)
+    let res = String(str)
       .replace(/\s+/g, ' ')
       .trim()
       .replace(/^["']|["']$/g, '');
-    console.log(`[QuizEngine] Normalising: "${str}" -> "${res}"`);
+    // Remove spaces around common C operators and punctuation for robust comparison
+    res = res.replace(/\s*([=+\-*/%<>&|!();{},\[\]])\s*/g, '$1');
     return res;
+  }
+
+  function checkAnswer(userVal, expected) {
+    const u = normalise(userVal);
+    if (Array.isArray(expected)) {
+      return expected.some(exp => u === normalise(exp));
+    }
+    return u === normalise(expected);
   }
 
   function escHtml(str) {

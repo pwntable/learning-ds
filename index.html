@@ -51,6 +51,8 @@
       <div class="sidebar-section">Advanced</div>
       <button class="sidebar-btn locked" onclick="go(8)" id="btn8">8. Linked Lists</button>
       <button class="sidebar-btn locked" onclick="go(9)" id="btn9">9. Final Project</button>
+      <div class="sidebar-section">Bonus</div>
+      <button class="sidebar-btn" onclick="go(10)" id="btn10">🎓 10. Past Year</button>
       
       <div style="margin-top: 3rem; padding: 0 2rem; padding-bottom: 2rem;">
         <button class="btn btn-secondary" style="width: 100%; justify-content: center; border-color: rgba(239, 68, 68, 0.3); color: #f87171;" onclick="resetProgress()">Reset Progress</button>
@@ -432,7 +434,24 @@
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(8)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn9" onclick="location.reload()">Finish Course 🏆</button>
+            <button class="btn btn-primary locked" id="nextBtn9" onclick="go(10)">Next: Past Year →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 10: Past Year -->
+        <section class="lesson-card" id="lesson10">
+          <h2>🎓 Past Year Questions</h2>
+          <p>Test your knowledge with real past year exam questions provided by your lecturer. These are advanced questions combining structures, linked lists, and pointers.</p>
+          <div class="alert alert-tip">
+            <span class="alert-icon">💡</span>
+            <div>Take your time on these! They are designed to be challenging.</div>
+          </div>
+          <div class="quiz-section" id="quiz10" data-quiz-lesson="10">
+            <div class="quiz-title">🏁 Exam Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(9)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn10" onclick="location.reload()">Finish Course 🏆</button>
           </div>
         </section>
 
@@ -445,9 +464,9 @@
   <script>
     // ── Lesson navigation state ────────────────────────────────────────
     let currentLesson = 1;
-    const totalLessons = 9;
+    const totalLessons = 10;
     let completedLessons = new Set();
-    let unlockedLessons = new Set([1]);
+    let unlockedLessons = new Set([1, 10]);
 
     // ── Persistence ───────────────────────────────────────────────────
     function saveProgress() {
@@ -565,7 +584,8 @@
         savedState = data.quizState;
         
         completedLessons = new Set(data.completedLessons || []);
-        unlockedLessons = new Set(data.unlockedLessons || [1]);
+        unlockedLessons = new Set(data.unlockedLessons || [1, 10]);
+        unlockedLessons.add(10); // Always ensure 10 is unlocked
         currentLesson = data.currentLesson || 1;
         
         for (let i = 1; i <= totalLessons; i++) {

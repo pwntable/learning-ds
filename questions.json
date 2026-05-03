@@ -964,6 +964,81 @@
         "correct": "Success",
         "explanation": "Great job!"
       }
+    ],
+    "10": [
+      {
+        "id": "q10_1",
+        "type": "mcq",
+        "prompt": "[Past Year] Which is the correct way to define an Employee structure and an array for 12 employees based on the lecturer's requirements?",
+        "options": [
+          "struct Employee { char name[50]; float salary; } emp[12];",
+          "Employee { char name[50]; float salary; } emp[12];",
+          "struct Employee { char name[50]; float salary; }; Employee emp = new Employee[12];"
+        ],
+        "correct": 0,
+        "hints": [
+          "Correct! 'struct' defines the type, and 'emp[12]' declares an array of 12.",
+          "You must use the 'struct' keyword in C.",
+          "C does not use the 'new' keyword for arrays like Java or C++."
+        ],
+        "explanation": "In standard C, you define a structure using the <code>struct</code> keyword. You can declare an array of that struct immediately after the closing brace."
+      },
+      {
+        "id": "q10_2",
+        "type": "predict_output",
+        "prompt": "[Past Year] Predict the final Linked List output (head to tail):<br><code>int n=1; while(n<=4) {<br>&nbsp;&nbsp;p1=malloc(sizeof(Node));<br>&nbsp;&nbsp;p1->data = (n%2!=0) ? n*5 : n*2;<br>&nbsp;&nbsp;p1->next=front; front=p1; n++;<br>}</code>",
+        "code": "// Note: Elements are prepended (LIFO) for n=1 to 4.\n// Format: val1 val2 val3 val4",
+        "correct": "8 15 4 5",
+        "explanation": "n=1(odd)->5, n=2(even)->4, n=3(odd)->15, n=4(even)->8. Because nodes are prepended (<code>p1->next=front; front=p1</code>), the list is built backwards. Final list: 8 -> 15 -> 4 -> 5."
+      },
+      {
+        "id": "q10_3",
+        "type": "mcq",
+        "prompt": "[Past Year] Given <code>struct Node* ptr = head;</code>, which of these is INVALID in C?",
+        "options": [
+          "ptr = ptr->next;",
+          "if (ptr == NULL)",
+          "ptr.data = 10;"
+        ],
+        "correct": 2,
+        "hints": [
+          "This is valid pointer traversal.",
+          "This is a valid null check.",
+          "Correct! You cannot use a dot '.' on a pointer."
+        ],
+        "explanation": "Because <code>ptr</code> is a pointer (<code>*</code>), you must use the arrow operator (<code>-&gt;</code>) to access its members, not the dot operator (<code>.</code>)."
+      },
+      {
+        "id": "q10_4",
+        "type": "fill_blank",
+        "prompt": "[Past Year] Complete the loop to calculate the average fee of 50 students.",
+        "template": "for(int i=0; i<50; i++) {\n  total += students[i].___;\n}\navg = total / 50;",
+        "blanks": [
+          "fee"
+        ],
+        "explanation": "You access the 'fee' member of each student struct inside the array using <code>students[i].fee</code>."
+      },
+      {
+        "id": "q10_5",
+        "type": "predict_output",
+        "prompt": "[Past Year] What is the value of 'x' after this executes?<br><code>int x = 5; int *p = &x; *p = 20;</code>",
+        "code": "printf(\"%d\", x);",
+        "correct": "20",
+        "explanation": "The pointer <code>p</code> holds the memory address of <code>x</code>. Dereferencing it (<code>*p = 20</code>) changes the actual value of <code>x</code> to 20."
+      },
+      {
+        "id": "q10_6",
+        "type": "fill_blank",
+        "prompt": "[Past Year] Access the integer `data` member of the Node using the pointer `ptr`.",
+        "template": "printf(\"%d\", ___);",
+        "blanks": [
+          [
+            "ptr->data",
+            "(*ptr).data"
+          ]
+        ],
+        "explanation": "In C, you can dereference a struct pointer and access its member using `(*ptr).data`, but the arrow operator `ptr->data` is much more common and readable."
+      }
     ]
   }
 }
