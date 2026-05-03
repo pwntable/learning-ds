@@ -1,0 +1,248 @@
+/* ── Quiz Engine Styles ──────────────────────────────────────────────
+   Scoped under .qe-* to avoid collisions with index.css
+   ────────────────────────────────────────────────────────────────── */
+
+/* Question block wrapper */
+.qe-question-block {
+  margin-top: 1.5rem;
+}
+
+/* Divider between multiple questions */
+.qe-divider {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 2rem 0;
+}
+
+/* ── Type Badge ──────────────────────────────────────────────────── */
+.qe-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+/* ── Prompt ──────────────────────────────────────────────────────── */
+.qe-prompt {
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+}
+
+/* ── Predict-Output code preview ─────────────────────────────────── */
+.qe-code-preview {
+  margin-bottom: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  white-space: pre;
+}
+
+/* Blank marker inside code completion preview */
+.qe-blank-marker {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border-radius: 4px;
+  padding: 0 4px;
+  font-style: italic;
+}
+
+/* ── Input row (label + input + button) ──────────────────────────── */
+.qe-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.qe-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  flex-basis: 100%;
+}
+
+.qe-text-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.qe-text-input:focus {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.qe-text-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* State classes for text inputs */
+.qe-text-input.qe-input-correct,
+.qe-inline-input.qe-input-correct {
+  border-color: var(--accent-primary);
+  background: rgba(16, 185, 129, 0.08);
+  color: #6ee7b7;
+}
+
+.qe-text-input.qe-input-wrong,
+.qe-inline-input.qe-input-wrong {
+  border-color: var(--accent-danger);
+  background: rgba(239, 68, 68, 0.08);
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+/* Submit button (reuses .btn .btn-primary, just adds sizing) */
+.qe-submit-btn {
+  padding: 0.7rem 1.4rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* ── Fill-in-the-Blank template ──────────────────────────────────── */
+.qe-fill-template {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  background: #0d1117;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  line-height: 2.2;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.qe-inline-input {
+  display: inline-block;
+  width: 120px;
+  padding: 0.15rem 0.5rem;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px dashed rgba(59, 130, 246, 0.4);
+  border-radius: 6px;
+  color: #93c5fd;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  vertical-align: middle;
+}
+
+.qe-inline-input:focus {
+  border-color: var(--accent-secondary);
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.qe-inline-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ── Feedback bar ────────────────────────────────────────────────── */
+.qe-feedback {
+  display: none;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  animation: fadeSlideIn 0.3s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.qe-feedback-correct {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid var(--accent-primary);
+  color: #6ee7b7;
+}
+
+.qe-feedback-wrong {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid var(--accent-danger);
+  color: #fca5a5;
+}
+
+.qe-feedback-msg {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ── Output / Explanation box ────────────────────────────────────── */
+.qe-output-box {
+  margin-top: 0.9rem;
+  padding: 0.9rem 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+}
+
+.qe-output-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.qe-explanation {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.qe-explanation code {
+  background: rgba(59, 130, 246, 0.12);
+  color: #93c5fd;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85em;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .qe-input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .qe-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .qe-inline-input {
+    width: 90px;
+  }
+}

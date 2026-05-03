@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C Programming: Variable to Program Mastery</title>
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="quiz-engine.css">
+  <link rel="stylesheet" href="ds-visualizer.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
@@ -142,12 +144,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
 
         <!-- Quiz Section -->
-        <div class="quiz-section" id="quiz1">
+        <div class="quiz-section" id="quiz1" data-quiz-lesson="1">
           <div class="quiz-title">🏁 Knowledge Check</div>
-          <p>Which line correctly declares a variable to store the price of a coffee (e.g., 5.50)?</p>
-          <button class="quiz-option" onclick="checkAnswer(1, 0, this)">int price = 5.50;</button>
-          <button class="quiz-option" onclick="checkAnswer(1, 1, this)">float price = 5.50;</button>
-          <button class="quiz-option" onclick="checkAnswer(1, 2, this)">char price = 5.50;</button>
         </div>
 
         <div class="nav-btns">
@@ -181,10 +179,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         <h3>Interactive Challenge: Complete the Skeleton</h3>
         <p>What is the correct line to include the standard input/output library?</p>
-        <div class="quiz-section" id="quiz2">
-          <button class="quiz-option" onclick="checkAnswer(2, 0, this)">#import &lt;stdio&gt;</button>
-          <button class="quiz-option" onclick="checkAnswer(2, 1, this)">#include &lt;stdio.h&gt;</button>
-          <button class="quiz-option" onclick="checkAnswer(2, 2, this)">using stdio;</button>
+        <div class="quiz-section" id="quiz2" data-quiz-lesson="2">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
 
         <div class="nav-btns">
@@ -221,12 +217,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
             (Except for strings).</div>
         </div>
 
-        <div class="quiz-section" id="quiz3">
+        <div class="quiz-section" id="quiz3" data-quiz-lesson="3">
           <div class="quiz-title">🏁 Knowledge Check</div>
-          <p>Which symbol is used in scanf to tell C where to store the input?</p>
-          <button class="quiz-option" onclick="checkAnswer(3, 0, this)">* (Asterisk)</button>
-          <button class="quiz-option" onclick="checkAnswer(3, 1, this)">$ (Dollar)</button>
-          <button class="quiz-option" onclick="checkAnswer(3, 2, this)">& (Ampersand)</button>
         </div>
 
         <div class="nav-btns">
@@ -246,11 +238,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     <span class="code-fn">printf</span>(<span class="code-str">"Access Denied."</span>);
 }</pre>
         </div>
-        <div class="quiz-section" id="quiz4">
-          <p>Which operator checks for equality?</p>
-          <button class="quiz-option" onclick="checkAnswer(4, 0, this)">=</button>
-          <button class="quiz-option" onclick="checkAnswer(4, 1, this)">==</button>
-          <button class="quiz-option" onclick="checkAnswer(4, 2, this)">!=</button>
+        <div class="quiz-section" id="quiz4" data-quiz-lesson="4">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(3)">← Back</button>
@@ -267,11 +256,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     <span class="code-fn">printf</span>(<span class="code-str">"%d\n"</span>, i);
 }</pre>
         </div>
-        <div class="quiz-section" id="quiz5">
-          <p>What does i++ do?</p>
-          <button class="quiz-option" onclick="checkAnswer(5, 0, this)">Decrements i by 1</button>
-          <button class="quiz-option" onclick="checkAnswer(5, 1, this)">Increments i by 1</button>
-          <button class="quiz-option" onclick="checkAnswer(5, 2, this)">Sets i to 0</button>
+        <div class="quiz-section" id="quiz5" data-quiz-lesson="5">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(4)">← Back</button>
@@ -288,11 +274,14 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
             class="code-block"><span class="code-type">int</span> scores[<span class="code-num">3</span>] = {<span class="code-num">90</span>, <span class="code-num">85</span>, <span class="code-num">95</span>};
 <span class="code-fn">printf</span>(<span class="code-str">"%d"</span>, scores[<span class="code-num">0</span>]); <span class="code-cmt">// Prints 90</span></pre>
         </div>
-        <div class="quiz-section" id="quiz6">
-          <p>What is the index of the first element in an array?</p>
-          <button class="quiz-option" onclick="checkAnswer(6, 0, this)">1</button>
-          <button class="quiz-option" onclick="checkAnswer(6, 1, this)">0</button>
-          <button class="quiz-option" onclick="checkAnswer(6, 2, this)">-1</button>
+
+        <!-- ── Array Visualizer ── -->
+        <p class="dsv-section-title">🔬 Interactive: Array Visualizer</p>
+        <p class="dsv-section-sub">Set a value at any index, read it back, or clear a slot — watch the array update live.</p>
+        <div id="viz-array"></div>
+
+        <div class="quiz-section" id="quiz6" data-quiz-lesson="6">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(5)">← Back</button>
@@ -310,11 +299,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     <span class="code-type">char</span> name[<span class="code-num">20</span>];
 } Student;</pre>
         </div>
-        <div class="quiz-section" id="quiz7">
-          <p>Which keyword allows you to create a nickname for a data type?</p>
-          <button class="quiz-option" onclick="checkAnswer(7, 0, this)">struct</button>
-          <button class="quiz-option" onclick="checkAnswer(7, 1, this)">define</button>
-          <button class="quiz-option" onclick="checkAnswer(7, 2, this)">typedef</button>
+        <div class="quiz-section" id="quiz7" data-quiz-lesson="7">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(6)">← Back</button>
@@ -325,18 +311,29 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
       <!-- Lesson 8: Linked Lists -->
       <section class="lesson-card" id="lesson8">
         <h2>🔗 Linked Lists</h2>
-        <p>A chain of nodes where each node points to the next one in memory.</p>
+        <p>A chain of nodes where each node points to the next one in memory.
+           Each <code class="tag">Node</code> stores <code class="tag">data</code> and a
+           <code class="tag">next</code> pointer — forming a dynamic chain.
+        </p>
         <div class="code-container">
           <pre class="code-block"><span class="code-kw">struct</span> Node {
     <span class="code-type">int</span> data;
     <span class="code-kw">struct</span> Node* next;
 };</pre>
         </div>
-        <div class="quiz-section" id="quiz8">
-          <p>What does the 'next' pointer of the last node in a linked list point to?</p>
-          <button class="quiz-option" onclick="checkAnswer(8, 0, this)">The head</button>
-          <button class="quiz-option" onclick="checkAnswer(8, 1, this)">NULL</button>
-          <button class="quiz-option" onclick="checkAnswer(8, 2, this)">Itself</button>
+
+        <!-- ── Linked List Visualizer ── -->
+        <p class="dsv-section-title">🔬 Interactive: Linked List Visualizer</p>
+        <p class="dsv-section-sub">Insert nodes at the head or tail, delete the head, and watch the pointer chain update in real time.</p>
+        <div id="viz-ll"></div>
+
+        <!-- ── Stack Visualizer ── -->
+        <p class="dsv-section-title">📚 Interactive: Stack Visualizer</p>
+        <p class="dsv-section-sub">A Stack follows LIFO (Last In, First Out). Push values on top, pop them off, or peek at the current top.</p>
+        <div id="viz-stack"></div>
+
+        <div class="quiz-section" id="quiz8" data-quiz-lesson="8">
+          <div class="quiz-title">🏁 Knowledge Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(7)">← Back</button>
@@ -353,9 +350,8 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
           <span class="alert-icon">🎉</span>
           <div>You are now a C Mastery Wizard!</div>
         </div>
-        <div class="quiz-section" id="quiz9">
-          <p>Are you ready to build great things?</p>
-          <button class="quiz-option" onclick="checkAnswer(9, 0, this)">Yes!</button>
+        <div class="quiz-section" id="quiz9" data-quiz-lesson="9">
+          <div class="quiz-title">🏁 Final Check</div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(8)">← Back</button>
@@ -366,44 +362,31 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
     </div>
   </main>
 
+  <script src="quiz-engine.js"></script>
+  <script src="ds-visualizer.js"></script>
   <script>
+    // ── Lesson navigation state ────────────────────────────────────────
     let currentLesson = 1;
-    let mastery = 0;
     const totalLessons = 9;
     const completedLessons = new Set();
-    const unlockedLessons = new Set([1]);
-    const correctAnswers = {
-      1: 1,
-      2: 1,
-      3: 2,
-      4: 1,
-      5: 1,
-      6: 1,
-      7: 2,
-      8: 1,
-      9: 0
-    };
+    const unlockedLessons  = new Set([1]);
 
+    // ── Navigation ────────────────────────────────────────────────────
     function go(n) {
       if (!unlockedLessons.has(n)) {
-        alert("Please answer the current quiz correctly to proceed to the next section!");
+        alert('Please answer the quiz correctly to unlock this lesson!');
         return;
       }
-
       document.getElementById(`lesson${currentLesson}`).classList.remove('active');
       document.getElementById(`btn${currentLesson}`).classList.remove('active');
-
       currentLesson = n;
-
       document.getElementById(`lesson${n}`).classList.add('active');
       document.getElementById(`btn${n}`).classList.add('active');
-
       if (window.innerWidth <= 1024) {
         document.querySelector('.sidebar').classList.remove('open');
         const overlay = document.getElementById('sidebarOverlay');
         if (overlay) overlay.classList.remove('open');
       }
-
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -414,115 +397,72 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
       if (overlay) overlay.classList.toggle('open');
     }
 
-    function checkAnswer(lessonId, choiceIndex, btn) {
-      const isCorrect = choiceIndex === correctAnswers[lessonId];
-      const container = btn.parentElement;
-
-      let feedbackEl = document.getElementById(`feedback${lessonId}`);
-      if (!feedbackEl) {
-        feedbackEl = document.createElement('div');
-        feedbackEl.id = `feedback${lessonId}`;
-        feedbackEl.style.marginTop = '15px';
-        feedbackEl.style.fontSize = '0.95rem';
-        feedbackEl.style.fontWeight = '600';
-        container.appendChild(feedbackEl);
-      }
-
-      const hints = {
-        1: ["Hint: 'int' is for whole numbers only. 5.50 has a decimal.", "Correct! 'float' or 'double' is for decimals.", "Hint: 'char' is for single characters like 'A'."],
-        2: ["Hint: '#import' is used in Objective-C, not standard C.", "Correct! stdio.h is the standard input/output header.", "Hint: 'using' is used in C++ namespaces, not C."],
-        3: ["Hint: '*' is for pointers, but not basic scanf address passing.", "Hint: '$' is not used for variables in C.", "Correct! '&' gives the memory address where the value should go."],
-        4: ["Hint: '=' is the assignment operator (puts a value into a variable).", "Correct! '==' checks if two values are equal.", "Hint: '!=' checks if they are NOT equal."],
-        5: ["Hint: To decrement, you would use 'i--'.", "Correct! 'i++' adds 1 to i.", "Hint: Setting to 0 would be 'i = 0'."],
-        6: ["Hint: Arrays in C don't start at 1.", "Correct! Arrays are 0-indexed in C.", "Hint: Indices cannot be negative in standard C arrays."],
-        7: ["Hint: 'struct' groups data, but doesn't create a nickname on its own.", "Hint: '#define' is a preprocessor macro, not specifically for type nicknames.", "Correct! 'typedef' defines a new name for an existing type."],
-        8: ["Hint: The head is the first node.", "Correct! The last node points to NULL, indicating the end.", "Hint: Pointing to itself would create an infinite loop."],
-        9: ["Correct! Let's go!"]
-      };
-
-      if (isCorrect) {
-        btn.classList.add('correct');
-        feedbackEl.style.color = '#10b981';
-        feedbackEl.textContent = hints[lessonId][choiceIndex];
-
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#10b981', '#3b82f6', '#ffffff']
-        });
-
-        completedLessons.add(lessonId);
-        document.getElementById(`btn${lessonId}`).classList.add('done');
-
-        if (lessonId < totalLessons) {
-          unlockedLessons.add(lessonId + 1);
-          document.getElementById(`btn${lessonId + 1}`).classList.remove('locked');
-        }
-
-        const nextBtn = document.getElementById(`nextBtn${lessonId}`);
-        if (nextBtn) nextBtn.classList.remove('locked');
-
-        if (lessonId === 9) {
-          setTimeout(showCompletion, 1000);
-        }
-
-        container.querySelectorAll('.quiz-option').forEach(b => {
-          b.style.pointerEvents = 'none';
-        });
-
-        updateProgress();
-      } else {
-        btn.classList.add('wrong');
-        feedbackEl.style.color = '#ef4444';
-        feedbackEl.textContent = hints[lessonId][choiceIndex];
-        setTimeout(() => {
-          btn.classList.remove('wrong');
-        }, 1000);
-      }
-    }
-
     function updateProgress() {
-      mastery = Math.round((completedLessons.size / totalLessons) * 100);
-      document.getElementById('progressLabel').textContent = `Mastery: ${mastery}%`;
-      document.getElementById('progressFill').style.width = `${mastery}%`;
+      const pct = Math.round((completedLessons.size / totalLessons) * 100);
+      document.getElementById('progressLabel').textContent = `Mastery: ${pct}%`;
+      document.getElementById('progressFill').style.width = `${pct}%`;
     }
 
     function cp(btn) {
       const block = btn.parentElement.nextElementSibling;
-      const text = block.innerText.trim();
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = btn.textContent;
+      navigator.clipboard.writeText(block.innerText.trim()).then(() => {
+        const orig = btn.textContent;
         btn.textContent = 'Copied!';
-        setTimeout(() => {
-          btn.textContent = originalText;
-        }, 2000);
+        setTimeout(() => btn.textContent = orig, 2000);
       });
     }
+
     function showCompletion() {
       const overlay = document.getElementById('completionOverlay');
       overlay.classList.add('active');
-
-      const duration = 5 * 1000;
-      const animationEnd = Date.now() + duration;
+      const duration = 5000;
+      const end = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
-
-      function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
-      const interval = setInterval(function () {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      const rnd = (a, b) => Math.random() * (b - a) + a;
+      const iv = setInterval(() => {
+        const left = end - Date.now();
+        if (left <= 0) return clearInterval(iv);
+        const n = 50 * (left / duration);
+        confetti({ ...defaults, particleCount: n, origin: { x: rnd(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount: n, origin: { x: rnd(0.7, 0.9), y: Math.random() - 0.2 } });
       }, 250);
     }
+
+    // ── Quiz Engine callbacks ──────────────────────────────────────────
+    function handleLessonPass(lessonId) {
+      completedLessons.add(lessonId);
+      document.getElementById(`btn${lessonId}`)?.classList.add('done');
+
+      if (lessonId < totalLessons) {
+        unlockedLessons.add(lessonId + 1);
+        document.getElementById(`btn${lessonId + 1}`)?.classList.remove('locked');
+      }
+
+      const nextBtn = document.getElementById(`nextBtn${lessonId}`);
+      if (nextBtn) nextBtn.classList.remove('locked');
+
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#10b981', '#3b82f6', '#ffffff']
+      });
+
+      updateProgress();
+
+      if (lessonId === totalLessons) setTimeout(showCompletion, 1000);
+    }
+
+    // ── Bootstrap ─────────────────────────────────────────────────────
+    QuizEngine.init('questions.json', {
+      onLessonPass:  handleLessonPass,
+      onAllComplete: showCompletion
+    });
+
+    // ── Mount DS Visualizers ───────────────────────────────────────────
+    DSViz.mountArray('viz-array');
+    DSViz.mountLinkedList('viz-ll');
+    DSViz.mountStack('viz-stack');
   </script>
 </body>
 

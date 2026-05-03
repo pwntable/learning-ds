@@ -1,0 +1,444 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ds-visualizer.css
+   Scoped under .dsv-* to avoid collisions with index.css / quiz-engine.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Flash animation (shared) ─────────────────────────────────────────────── */
+@keyframes dsv-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(16, 185, 129, 0.7); transform: scale(1); }
+  50%  { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);  transform: scale(1.06); }
+  100% { box-shadow: 0 0 0 0   rgba(16, 185, 129, 0);   transform: scale(1); }
+}
+.dsv-flash {
+  animation: dsv-pulse 0.45s ease-out forwards;
+}
+
+/* ── Panel wrapper ─────────────────────────────────────────────────────────── */
+.dsv-panel {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  margin-top: 2rem;
+}
+
+/* ── Panel header ─────────────────────────────────────────────────────────── */
+.dsv-panel-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dsv-panel-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dsv-panel-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dsv-panel-sub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+.dsv-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  vertical-align: middle;
+}
+
+/* ── Controls row ──────────────────────────────────────────────────────────── */
+.dsv-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Inputs ────────────────────────────────────────────────────────────────── */
+.dsv-input {
+  padding: 0.6rem 0.9rem;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  color: #f1f5f9;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  width: 180px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dsv-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.dsv-input-sm {
+  width: 130px;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.dsv-btn {
+  padding: 0.6rem 1.1rem;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.dsv-btn-accent {
+  background: #10b981;
+  color: white;
+}
+.dsv-btn-accent:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.dsv-btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.dsv-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.28);
+  transform: translateY(-1px);
+}
+
+.dsv-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dsv-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+}
+
+/* ── Status bar ─────────────────────────────────────────────────────────────── */
+.dsv-status {
+  min-height: 1.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  padding: 0 0.2rem;
+  transition: color 0.2s;
+}
+
+.dsv-status-ok   { color: #34d399; }
+.dsv-status-warn { color: #fbbf24; }
+.dsv-status-info { color: #93c5fd; }
+
+/* ── Empty hint ─────────────────────────────────────────────────────────────── */
+.dsv-empty-hint {
+  color: #475569;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LINKED LIST
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.dsv-ll-stage {
+  overflow-x: auto;
+  padding: 1.5rem 0 1rem;
+}
+
+.dsv-ll-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: max-content;
+}
+
+.dsv-ll-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dsv-ll-node {
+  display: flex;
+  align-items: stretch;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #1e293b;
+  transition: border-color 0.2s;
+}
+
+.dsv-ll-node.dsv-node-highlight,
+.dsv-ll-node:hover {
+  border-color: #10b981;
+}
+
+.dsv-ll-data {
+  padding: 0.6rem 1.1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  background: #1e293b;
+  min-width: 52px;
+  text-align: center;
+}
+
+.dsv-ll-ptr {
+  padding: 0.6rem 0.75rem;
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dsv-ll-null {
+  padding: 0.6rem 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 2px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  color: #f87171;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.dsv-ll-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #10b981;
+  margin-top: 0.4rem;
+}
+
+/* Legend */
+.dsv-legend { margin-top: 1rem; }
+.dsv-legend-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; color: #64748b; flex-wrap: wrap; }
+.dsv-legend-box { display: inline-block; width: 18px; height: 18px; border-radius: 4px; }
+.dsv-ll-node-box { background: #1e293b; border: 2px solid rgba(255,255,255,0.12); }
+.dsv-ll-ptr-box  { background: rgba(59,130,246,0.15); border: 2px solid rgba(59,130,246,0.3); }
+.dsv-ll-null-box { background: rgba(239,68,68,0.1);  border: 2px solid rgba(239,68,68,0.3);  }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   STACK
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.dsv-sk-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0.5rem auto;
+  max-width: 320px;
+}
+
+.dsv-sk-meta {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.25rem;
+}
+
+.dsv-sk-pointer {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #10b981;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dsv-sk-shaft {
+  width: 100%;
+  border-left:  3px solid rgba(255, 255, 255, 0.15);
+  border-right: 3px solid rgba(255, 255, 255, 0.15);
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.dsv-sk-cell {
+  display: flex;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  gap: 0.75rem;
+  transition: background 0.2s;
+}
+
+.dsv-sk-cell:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dsv-sk-cell.dsv-sk-top {
+  background: rgba(16, 185, 129, 0.08);
+  border-left: 3px solid #10b981;
+}
+
+.dsv-sk-idx {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: #475569;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.dsv-sk-val {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  flex: 1;
+  text-align: center;
+}
+
+.dsv-sk-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+.dsv-sk-base {
+  width: 100%;
+  text-align: center;
+  padding: 0.45rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: #334155;
+  font-family: 'Fira Code', monospace;
+}
+
+.dsv-sk-info {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.75rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ARRAY
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.dsv-arr-stage {
+  display: flex;
+  gap: 0;
+  margin-top: 1.25rem;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
+}
+
+.dsv-arr-cell {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  background: #1e293b;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-right-width: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dsv-arr-cell:first-child { border-radius: 10px 0 0 10px; }
+.dsv-arr-cell:last-child  { border-radius: 0 10px 10px 0; border-right-width: 2px; }
+
+.dsv-arr-cell.dsv-arr-empty {
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+.dsv-arr-cell.dsv-arr-set {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+}
+
+.dsv-arr-cell.dsv-arr-get {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+}
+
+.dsv-arr-labels {
+  display: flex;
+  gap: 0;
+  margin-top: 0.4rem;
+  width: max-content;
+  max-width: 100%;
+}
+
+.dsv-arr-lbl {
+  width: 72px;
+  text-align: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+/* ── Visualizer section title (injected before panel) ──────────────────────── */
+.dsv-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 3rem 0 0;
+}
+
+.dsv-section-sub {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0.35rem 0 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .dsv-panel { padding: 1.25rem 1rem; }
+  .dsv-controls { flex-direction: column; align-items: stretch; }
+  .dsv-input, .dsv-input-sm { width: 100%; }
+  .dsv-btn { width: 100%; text-align: center; }
+  .dsv-arr-cell { width: 54px; height: 54px; font-size: 0.9rem; }
+  .dsv-arr-lbl  { width: 54px; }
+}
