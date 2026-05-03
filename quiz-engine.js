@@ -158,11 +158,23 @@ const QuizEngine = (() => {
       btn.classList.add('correct');
       wrap.dataset.done = '1';
       disableOptions(wrap);
-      showFeedback(feedbackEl, true, q.hints[choiceIndex], q.explanation);
+      
+      let successMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex] : "✔ Correct!";
+      if (!successMsg.includes("✔") && !successMsg.includes("Correct")) successMsg = "✔ " + successMsg;
+      
+      showFeedback(feedbackEl, true, successMsg, q.explanation);
       markPassed(lessonId, qIdx);
     } else {
       btn.classList.add('wrong');
-      showFeedback(feedbackEl, false, q.hints[choiceIndex], null);
+      
+      let hintMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex].trim() : "";
+      if (!hintMsg) {
+        hintMsg = `✘ Incorrect. The correct answer is: <strong>${escHtml(String(q.options[q.correct]))}</strong>.`;
+      } else if (!hintMsg.startsWith("✘") && !hintMsg.toLowerCase().includes("incorrect")) {
+        hintMsg = `✘ Incorrect. ${hintMsg}`;
+      }
+      
+      showFeedback(feedbackEl, false, hintMsg, null);
       setTimeout(() => btn.classList.remove('wrong'), 900);
     }
   }
@@ -360,7 +372,8 @@ const QuizEngine = (() => {
       showFeedback(feedbackEl, true, '✔ All blanks correct!', q.explanation);
       markPassed(lessonId, qIdx);
     } else {
-      showFeedback(feedbackEl, false, '✘ Some blanks are wrong. Try again.', null);
+      const expectedAnswers = Array.isArray(q.blanks) ? q.blanks.map(b => escHtml(String(b))).join(', ') : escHtml(String(q.blanks));
+      showFeedback(feedbackEl, false, `✘ Incorrect. The expected answer is: <code>${expectedAnswers}</code><br><small>Note: C is strictly case-sensitive!</small>`, null);
       setTimeout(() => {
         inputs.forEach(inp => inp.classList.remove('qe-input-wrong', 'qe-input-correct'));
       }, 1200);
