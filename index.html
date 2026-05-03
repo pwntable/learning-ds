@@ -125,16 +125,70 @@
         </table>
 
         <h3>Declaring a Variable</h3>
+
         <div class="code-container">
           <div class="code-header">
-            <span class="code-lang">C Pattern</span>
+            <span class="code-lang">1 · Declare only (no value yet)</span>
             <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre
-            class="code-block"><span class="code-type">int</span> age;          <span class="code-cmt">// Declare (Empty box)</span>
-age = <span class="code-num">20</span>;         <span class="code-cmt">// Initialize (Put value in)</span>
+          <pre class="code-block"><span class="code-type">int</span>    age;          <span class="code-cmt">// whole number  — value is garbage until set!</span>
+<span class="code-type">float</span>  price;        <span class="code-cmt">// decimal (6-7 significant digits)</span>
+<span class="code-type">double</span> pi;           <span class="code-cmt">// decimal (15-16 significant digits)</span>
+<span class="code-type">char</span>   grade;        <span class="code-cmt">// single character  e.g. 'A'</span>
+<span class="code-type">long</span>   population;   <span class="code-cmt">// large whole number</span></pre>
+        </div>
 
-<span class="code-type">float</span> gpa = <span class="code-num">3.85</span>; <span class="code-cmt">// Do both at once!</span></pre>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang">2 · Declare + Initialize (recommended)</span>
+            <button class="copy-btn" onclick="cp(this)">Copy</button>
+          </div>
+          <pre class="code-block"><span class="code-type">int</span>    age        = <span class="code-num">20</span>;           <span class="code-cmt">// integer</span>
+<span class="code-type">float</span>  price      = <span class="code-num">5.50f</span>;        <span class="code-cmt">// float  (note the 'f' suffix)</span>
+<span class="code-type">double</span> pi         = <span class="code-num">3.14159265</span>;  <span class="code-cmt">// double — higher precision</span>
+<span class="code-type">char</span>   grade      = <span class="code-str">'A'</span>;          <span class="code-cmt">// single char — use single quotes</span>
+<span class="code-type">long</span>   population = <span class="code-num">8000000000L</span>; <span class="code-cmt">// long   (note the 'L' suffix)</span></pre>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang">3 · String (array of chars)</span>
+            <button class="copy-btn" onclick="cp(this)">Copy</button>
+          </div>
+          <pre class="code-block"><span class="code-type">char</span> name[<span class="code-num">20</span>];                 <span class="code-cmt">// empty string buffer (20 chars max)</span>
+<span class="code-type">char</span> city[<span class="code-num">10</span>] = <span class="code-str">"Johor"</span>;       <span class="code-cmt">// initialized string — double quotes</span>
+<span class="code-type">char</span> msg[]  = <span class="code-str">"Hello, World!"</span>;  <span class="code-cmt">// compiler counts the size for you</span></pre>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang">4 · Unsigned &amp; Short (size variants)</span>
+            <button class="copy-btn" onclick="cp(this)">Copy</button>
+          </div>
+          <pre class="code-block"><span class="code-type">unsigned int</span>   score = <span class="code-num">95</span>;    <span class="code-cmt">// only positive (0 to ~4 billion)</span>
+<span class="code-type">short</span>          small = <span class="code-num">32767</span>; <span class="code-cmt">// smaller int (-32768 to 32767)</span>
+<span class="code-type">unsigned char</span>  byte  = <span class="code-num">255</span>;   <span class="code-cmt">// 0–255, often used for raw bytes</span></pre>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang">5 · Constants (value cannot change)</span>
+            <button class="copy-btn" onclick="cp(this)">Copy</button>
+          </div>
+          <pre class="code-block"><span class="code-kw">const</span> <span class="code-type">float</span>  TAX_RATE = <span class="code-num">0.06f</span>;  <span class="code-cmt">// const — locked after declaration</span>
+<span class="code-kw">const</span> <span class="code-type">int</span>    MAX_SIZE = <span class="code-num">100</span>;     <span class="code-cmt">// changing this will cause a compile error</span>
+
+<span class="code-cmt">// Preprocessor constant (no type, no semicolon inside #define)</span>
+#define PI <span class="code-num">3.14159</span></pre>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang">6 · Multiple variables on one line</span>
+            <button class="copy-btn" onclick="cp(this)">Copy</button>
+          </div>
+          <pre class="code-block"><span class="code-type">int</span> x = <span class="code-num">1</span>, y = <span class="code-num">2</span>, z = <span class="code-num">3</span>;  <span class="code-cmt">// declare &amp; init 3 ints at once</span>
+<span class="code-type">float</span> a, b, c;              <span class="code-cmt">// declare 3 floats (all uninitialized)</span></pre>
         </div>
 
         <div class="alert alert-tip">

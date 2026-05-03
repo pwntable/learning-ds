@@ -35,7 +35,7 @@ const QuizEngine = (() => {
 
     // Build per-lesson state
     Object.keys(questionBank).forEach(id => {
-      lessonState[id] = { answered: false, correct: false };
+      lessonState[id] = new Set();
     });
 
     // Render every quiz container found in the DOM
@@ -47,9 +47,10 @@ const QuizEngine = (() => {
     });
   }
 
-  /** Returns true if the lesson's gate question has been answered correctly. */
+  /** Returns true if all questions in the lesson have been answered correctly. */
   function isLessonPassed(lessonId) {
-    return lessonState[String(lessonId)]?.correct === true;
+    const id = String(lessonId);
+    return lessonState[id] && questionBank[id] && lessonState[id].size === questionBank[id].length;
   }
 
   // ── Rendering ──────────────────────────────────────────────────────
@@ -125,14 +126,14 @@ const QuizEngine = (() => {
     const feedbackEl = document.getElementById(`feedback-${q.id}`);
     const block = document.getElementById(`qblock-${q.id}`);
     const lessonId = block.dataset.lessonId;
-    const isGate = block.dataset.isGate === 'true';
+    const qIdx = parseInt(block.dataset.qIdx, 10);
 
     if (isCorrect) {
       btn.classList.add('correct');
       wrap.dataset.done = '1';
       disableOptions(wrap);
       showFeedback(feedbackEl, true, q.hints[choiceIndex], q.explanation);
-      markPassed(lessonId, isGate);
+      markPassed(lessonId, qIdx);
     } else {
       btn.classList.add('wrong');
       showFeedback(feedbackEl, false, q.hints[choiceIndex], null);
@@ -290,7 +291,7 @@ const QuizEngine = (() => {
     const feedbackEl = document.getElementById(`feedback-${q.id}`);
     const block = document.getElementById(`qblock-${q.id}`);
     const lessonId = block.dataset.lessonId;
-    const isGate = block.dataset.isGate === 'true';
+    const qIdx = parseInt(block.dataset.qIdx, 10);
 
     const isCorrect = normalise(userVal) === normalise(q.correct);
 
@@ -300,7 +301,7 @@ const QuizEngine = (() => {
       input.disabled = true;
       wrap.dataset.done = '1';
       showFeedback(feedbackEl, true, '✔ Correct!', q.explanation);
-      markPassed(lessonId, isGate);
+      markPassed(lessonId, qIdx);
     } else {
       input.classList.add('qe-input-wrong');
       showFeedback(feedbackEl, false,
@@ -315,7 +316,7 @@ const QuizEngine = (() => {
     const feedbackEl = document.getElementById(`feedback-${q.id}`);
     const block = document.getElementById(`qblock-${q.id}`);
     const lessonId = block.dataset.lessonId;
-    const isGate = block.dataset.isGate === 'true';
+    const qIdx = parseInt(block.dataset.qIdx, 10);
 
     let allCorrect = true;
     inputs.forEach((inp, i) => {
@@ -331,7 +332,7 @@ const QuizEngine = (() => {
       submitBtn.disabled = true;
       wrap.dataset.done = '1';
       showFeedback(feedbackEl, true, '✔ All blanks correct!', q.explanation);
-      markPassed(lessonId, isGate);
+      markPassed(lessonId, qIdx);
     } else {
       showFeedback(feedbackEl, false, '✘ Some blanks are wrong. Try again.', null);
       setTimeout(() => {
@@ -342,14 +343,17 @@ const QuizEngine = (() => {
 
   // ── State management ───────────────────────────────────────────────
 
-  function markPassed(lessonId, isGate) {
-    if (isGate && !lessonState[lessonId]?.correct) {
-      lessonState[lessonId].correct = true;
+  function markPassed(lessonId, qIdx) {
+    const wasPassed = lessonState[lessonId].size === questionBank[lessonId].length;
+    lessonState[lessonId].add(qIdx);
+    const isNowPassed = lessonState[lessonId].size === questionBank[lessonId].length;
+
+    if (!wasPassed && isNowPassed) {
       onLessonPass(parseInt(lessonId, 10));
     }
 
-    // Check if ALL gate questions are done
-    const allDone = Object.keys(questionBank).every(id => lessonState[id]?.correct);
+    // Check if ALL lessons are done
+    const allDone = Object.keys(questionBank).every(id => lessonState[id].size === questionBank[id].length);
     if (allDone) onAllComplete();
   }
 
