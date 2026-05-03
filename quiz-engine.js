@@ -412,6 +412,43 @@ const QuizEngine = (() => {
       .replace(/>/g, '&gt;');
   }
 
+  function getState() {
+    const state = {};
+    for (const [id, set] of Object.entries(lessonState)) {
+      state[id] = Array.from(set);
+    }
+    return state;
+  }
+
+  function loadState(stateObj) {
+    if (!stateObj) return;
+    for (const [id, arr] of Object.entries(stateObj)) {
+      if (lessonState[id]) {
+        arr.forEach(idx => {
+          lessonState[id].add(idx);
+          // Visually mark as done
+          const block = document.querySelector(`[data-lesson-id="${id}"][data-q-idx="${idx}"]`);
+          if (block) {
+            // Find wrappers
+            const wrap = block.querySelector('.qe-options, .qe-input-row, .qe-fill-template');
+            if (wrap) wrap.dataset.done = '1';
+            
+            // Show simple completion feedback
+            const feedbackEl = block.querySelector('.qe-feedback');
+            if (feedbackEl) {
+              showFeedback(feedbackEl, true, '✔ Completed', null);
+              // Disable inputs/buttons
+              block.querySelectorAll('input, button.quiz-option, button.qe-submit-btn').forEach(el => {
+                el.disabled = true;
+                if (el.classList.contains('quiz-option')) el.style.pointerEvents = 'none';
+              });
+            }
+          }
+        });
+      }
+    }
+  }
+
   // ── Export ─────────────────────────────────────────────────────────
-  return { init, isLessonPassed };
+  return { init, isLessonPassed, getState, loadState };
 })();

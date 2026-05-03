@@ -33,388 +33,394 @@
       <div class="sidebar-section">Advanced</div>
       <button class="sidebar-btn locked" onclick="go(8)" id="btn8">8. Linked Lists</button>
       <button class="sidebar-btn locked" onclick="go(9)" id="btn9">9. Final Project</button>
+      
+      <div style="margin-top: 3rem; padding: 0 2rem; padding-bottom: 2rem;">
+        <button class="btn btn-secondary" style="width: 100%; justify-content: center; border-color: rgba(239, 68, 68, 0.3); color: #f87171;" onclick="resetProgress()">Reset Progress</button>
+      </div>
     </nav>
   </aside>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-title">
-      <button id="menuToggle" class="menu-toggle" onclick="toggleSidebar()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </button>
-      <h1>🚀 Data Structure Foundation</h1>
-    </div>
-    <div class="header-progress">
-      <span id="progressLabel">Mastery: 0%</span>
-    </div>
-    <div class="progress-bar-container">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-  </header>
+  <!-- Content Area -->
+  <div class="content-area">
 
-  <!-- Completion Overlay -->
-  <div id="completionOverlay" class="completion-overlay">
-    <div class="completion-card">
-      <div class="completion-icon">🏆</div>
-      <h2>Course Completed!</h2>
-      <p>You've mastered the foundations of C programming and data structures. You're ready to build the future!</p>
-      <div class="completion-stats">
-        <div class="stat"><span>Mastery</span><strong>100%</strong></div>
-        <div class="stat"><span>Level</span><strong>Wizard</strong></div>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <button id="menuToggle" class="menu-toggle" onclick="toggleSidebar()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1>Data Structure Foundation</h1>
       </div>
-      <button class="btn btn-primary" onclick="location.reload()">Restart Journey ↩</button>
-    </div>
-  </div>
+      <div class="header-progress">
+        <span id="progressLabel">Mastery: 0%</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </header>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <div class="content-wrapper">
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-wrapper">
 
-      <!-- Lesson 1: Variables -->
-      <section class="lesson-card active" id="lesson1">
-        <div class="lesson-meta">
-          <span>⏱ 15 min read</span>
-          <span>⚡ Level: Beginner</span>
-        </div>
-        <h2>📦 Variables & Data Types</h2>
-        <p>Think of a variable as a <strong>magic box</strong>. You give it a name, tell C what kind of stuff fits
-          inside, and then store data in it for later.</p>
-
-        <h3>Data Types: The Shape of the Box</h3>
-        <p>In C, you must be specific. You can't put a word in a number box!</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Usage</th>
-              <th>Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="tag">int</span></td>
-              <td>Whole Numbers</td>
-              <td>42, -7</td>
-            </tr>
-            <tr>
-              <td><span class="tag">float</span></td>
-              <td>Decimals</td>
-              <td>3.14</td>
-            </tr>
-            <tr>
-              <td><span class="tag">double</span> / <span class="tag">long float</span></td>
-              <td>Large Decimals</td>
-              <td>3.14159265</td>
-            </tr>
-            <tr>
-              <td><span class="tag">long</span></td>
-              <td>Large Whole Numbers</td>
-              <td>100000L</td>
-            </tr>
-            <tr>
-              <td><span class="tag">char</span></td>
-              <td>Single Character</td>
-              <td>'A'</td>
-            </tr>
-            <tr>
-              <td><span class="tag">char[]</span></td>
-              <td>Text / Strings</td>
-              <td>"Hello"</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h3>Declaring a Variable</h3>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">1 · Declare only (no value yet)</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
+        <!-- Lesson 1: Variables -->
+        <section class="lesson-card active" id="lesson1">
+          <div class="lesson-meta">
+            <span>⏱ 15 min read</span>
+            <span>⚡ Level: Beginner</span>
           </div>
-          <pre class="code-block"><span class="code-type">int</span>    age;          <span class="code-cmt">// whole number  — value is garbage until set!</span>
+          <h2>📦 Variables & Data Types</h2>
+          <p>Think of a variable as a <strong>magic box</strong>. You give it a name, tell C what kind of stuff fits
+            inside, and then store data in it for later.</p>
+
+          <h3>Data Types: The Shape of the Box</h3>
+          <p>In C, you must be specific. You can't put a word in a number box!</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Usage</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag">int</span></td>
+                <td>Whole Numbers</td>
+                <td>42, -7</td>
+              </tr>
+              <tr>
+                <td><span class="tag">float</span></td>
+                <td>Decimals</td>
+                <td>3.14</td>
+              </tr>
+              <tr>
+                <td><span class="tag">double</span> / <span class="tag">long float</span></td>
+                <td>Large Decimals</td>
+                <td>3.14159265</td>
+              </tr>
+              <tr>
+                <td><span class="tag">long</span></td>
+                <td>Large Whole Numbers</td>
+                <td>100000L</td>
+              </tr>
+              <tr>
+                <td><span class="tag">char</span></td>
+                <td>Single Character</td>
+                <td>'A'</td>
+              </tr>
+              <tr>
+                <td><span class="tag">char[]</span></td>
+                <td>Text / Strings</td>
+                <td>"Hello"</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Declaring a Variable</h3>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">1 · Declare only (no value yet)</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre class="code-block"><span class="code-type">int</span>    age;          <span class="code-cmt">// whole number  — value is garbage until set!</span>
 <span class="code-type">float</span>  price;        <span class="code-cmt">// decimal (6-7 significant digits)</span>
 <span class="code-type">double</span> pi;           <span class="code-cmt">// decimal (15-16 significant digits)</span>
 <span class="code-type">char</span>   grade;        <span class="code-cmt">// single character  e.g. 'A'</span>
 <span class="code-type">long</span>   population;   <span class="code-cmt">// large whole number</span></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">2 · Declare + Initialize (recommended)</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block"><span class="code-type">int</span>    age        = <span class="code-num">20</span>;           <span class="code-cmt">// integer</span>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">2 · Declare + Initialize (recommended)</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre
+              class="code-block"><span class="code-type">int</span>    age        = <span class="code-num">20</span>;           <span class="code-cmt">// integer</span>
 <span class="code-type">float</span>  price      = <span class="code-num">5.50f</span>;        <span class="code-cmt">// float  (note the 'f' suffix)</span>
 <span class="code-type">double</span> pi         = <span class="code-num">3.14159265</span>;  <span class="code-cmt">// double — higher precision</span>
 <span class="code-type">char</span>   grade      = <span class="code-str">'A'</span>;          <span class="code-cmt">// single char — use single quotes</span>
 <span class="code-type">long</span>   population = <span class="code-num">8000000000L</span>; <span class="code-cmt">// long   (note the 'L' suffix)</span></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">3 · String (array of chars)</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block"><span class="code-type">char</span> name[<span class="code-num">20</span>];                 <span class="code-cmt">// empty string buffer (20 chars max)</span>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">3 · String (array of chars)</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre
+              class="code-block"><span class="code-type">char</span> name[<span class="code-num">20</span>];                 <span class="code-cmt">// empty string buffer (20 chars max)</span>
 <span class="code-type">char</span> city[<span class="code-num">10</span>] = <span class="code-str">"Johor"</span>;       <span class="code-cmt">// initialized string — double quotes</span>
 <span class="code-type">char</span> msg[]  = <span class="code-str">"Hello, World!"</span>;  <span class="code-cmt">// compiler counts the size for you</span></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">4 · Unsigned &amp; Short (size variants)</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block"><span class="code-type">unsigned int</span>   score = <span class="code-num">95</span>;    <span class="code-cmt">// only positive (0 to ~4 billion)</span>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">4 · Unsigned &amp; Short (size variants)</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre
+              class="code-block"><span class="code-type">unsigned int</span>   score = <span class="code-num">95</span>;    <span class="code-cmt">// only positive (0 to ~4 billion)</span>
 <span class="code-type">short</span>          small = <span class="code-num">32767</span>; <span class="code-cmt">// smaller int (-32768 to 32767)</span>
 <span class="code-type">unsigned char</span>  byte  = <span class="code-num">255</span>;   <span class="code-cmt">// 0–255, often used for raw bytes</span></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">5 · Constants (value cannot change)</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block"><span class="code-kw">const</span> <span class="code-type">float</span>  TAX_RATE = <span class="code-num">0.06f</span>;  <span class="code-cmt">// const — locked after declaration</span>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">5 · Constants (value cannot change)</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre class="code-block"><span class="code-kw">const</span> <span class="code-type">float</span>  TAX_RATE = <span class="code-num">0.06f</span>;  <span class="code-cmt">// const — locked after declaration</span>
 <span class="code-kw">const</span> <span class="code-type">int</span>    MAX_SIZE = <span class="code-num">100</span>;     <span class="code-cmt">// changing this will cause a compile error</span>
 
 <span class="code-cmt">// Preprocessor constant (no type, no semicolon inside #define)</span>
 #define PI <span class="code-num">3.14159</span></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">6 · Multiple variables on one line</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block"><span class="code-type">int</span> x = <span class="code-num">1</span>, y = <span class="code-num">2</span>, z = <span class="code-num">3</span>;  <span class="code-cmt">// declare &amp; init 3 ints at once</span>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">6 · Multiple variables on one line</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre
+              class="code-block"><span class="code-type">int</span> x = <span class="code-num">1</span>, y = <span class="code-num">2</span>, z = <span class="code-num">3</span>;  <span class="code-cmt">// declare &amp; init 3 ints at once</span>
 <span class="code-type">float</span> a, b, c;              <span class="code-cmt">// declare 3 floats (all uninitialized)</span></pre>
-        </div>
-
-        <div class="alert alert-tip">
-          <span class="alert-icon">💡</span>
-          <div><strong>Pro Tip:</strong> Every statement in C must end with a <span class="tag">;</span>. It's like a
-            full stop at the end of a sentence.</div>
-        </div>
-
-        <!-- Quiz Section -->
-        <div class="quiz-section" id="quiz1" data-quiz-lesson="1">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-
-        <div class="nav-btns">
-          <span></span>
-          <button class="btn btn-primary locked" id="nextBtn1" onclick="go(2)">Next: Your First Program →</button>
-        </div>
-      </section>
-
-      <!-- Lesson 2: First Program -->
-      <section class="lesson-card" id="lesson2">
-        <div class="lesson-meta">
-          <span>⏱ 20 min read</span>
-          <span>🔥 Level: Essential</span>
-        </div>
-        <h2>🎯 Your First C Program</h2>
-        <p>Now that we know about variables, let's see where they live. Every C program needs a skeleton to run.</p>
-
-        <h3>The Anatomy of C</h3>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">hello_world.c</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre class="code-block">#include &lt;stdio.h&gt;      <span class="code-cmt">// The library for input/output</span>
+
+          <div class="alert alert-tip">
+            <span class="alert-icon">💡</span>
+            <div><strong>Pro Tip:</strong> Every statement in C must end with a <span class="tag">;</span>. It's like a
+              full stop at the end of a sentence.</div>
+          </div>
+
+          <!-- Quiz Section -->
+          <div class="quiz-section" id="quiz1" data-quiz-lesson="1">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+
+          <div class="nav-btns">
+            <span></span>
+            <button class="btn btn-primary locked" id="nextBtn1" onclick="go(2)">Next: Your First Program →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 2: First Program -->
+        <section class="lesson-card" id="lesson2">
+          <div class="lesson-meta">
+            <span>⏱ 20 min read</span>
+            <span>🔥 Level: Essential</span>
+          </div>
+          <h2>🎯 Your First C Program</h2>
+          <p>Now that we know about variables, let's see where they live. Every C program needs a skeleton to run.</p>
+
+          <h3>The Anatomy of C</h3>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">hello_world.c</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre class="code-block">#include &lt;stdio.h&gt;      <span class="code-cmt">// The library for input/output</span>
 
 <span class="code-type">int</span> <span class="code-fn">main</span>() {          <span class="code-cmt">// The start line</span>
     <span class="code-fn">printf</span>(<span class="code-str">"Hello!"</span>);  <span class="code-cmt">// The action</span>
     <span class="code-kw">return</span> <span class="code-num">0</span>;           <span class="code-cmt">// The exit line</span>
 }</pre>
-        </div>
-
-        <h3>Interactive Challenge: Complete the Skeleton</h3>
-        <p>What is the correct line to include the standard input/output library?</p>
-        <div class="quiz-section" id="quiz2" data-quiz-lesson="2">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(1)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn2" onclick="go(3)">Next: Input & Output →</button>
-        </div>
-      </section>
-
-      <!-- Lesson 3: Input & Output -->
-      <section class="lesson-card" id="lesson3">
-        <div class="lesson-meta">
-          <span>⏱ 15 min read</span>
-          <span>⚡ Level: Beginner</span>
-        </div>
-        <h2>📥 Input & Output</h2>
-        <p>To talk to your user, you use <span class="tag">scanf()</span> to listen and <span
-            class="tag">printf()</span> to speak.</p>
-
-        <h3>Reading Input</h3>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-lang">input.c</span>
-            <button class="copy-btn" onclick="cp(this)">Copy</button>
           </div>
-          <pre
-            class="code-block"><span class="code-type">int</span> age;
+
+          <h3>Interactive Challenge: Complete the Skeleton</h3>
+          <p>What is the correct line to include the standard input/output library?</p>
+          <div class="quiz-section" id="quiz2" data-quiz-lesson="2">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(1)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn2" onclick="go(3)">Next: Input & Output →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 3: Input & Output -->
+        <section class="lesson-card" id="lesson3">
+          <div class="lesson-meta">
+            <span>⏱ 15 min read</span>
+            <span>⚡ Level: Beginner</span>
+          </div>
+          <h2>📥 Input & Output</h2>
+          <p>To talk to your user, you use <span class="tag">scanf()</span> to listen and <span
+              class="tag">printf()</span> to speak.</p>
+
+          <h3>Reading Input</h3>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">input.c</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre
+              class="code-block"><span class="code-type">int</span> age;
 <span class="code-fn">printf</span>(<span class="code-str">"Enter age: "</span>);
 <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &age); <span class="code-cmt">// & means "address of"</span></pre>
-        </div>
+          </div>
 
-        <div class="alert alert-warning">
-          <span class="alert-icon">⚠️</span>
-          <div>Don't forget the <span class="tag">&</span> before the variable name in <span class="tag">scanf</span>!
-            (Except for strings).</div>
-        </div>
+          <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>Don't forget the <span class="tag">&</span> before the variable name in <span class="tag">scanf</span>!
+              (Except for strings).</div>
+          </div>
 
-        <div class="quiz-section" id="quiz3" data-quiz-lesson="3">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
+          <div class="quiz-section" id="quiz3" data-quiz-lesson="3">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
 
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(2)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn3" onclick="go(4)">Next: If Statements →</button>
-        </div>
-      </section>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(2)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn3" onclick="go(4)">Next: If Statements →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 4: If Statements -->
-      <section class="lesson-card" id="lesson4">
-        <h2>❓ If Statements</h2>
-        <p>Make decisions in your code. "If the user is over 18, let them in!"</p>
-        <div class="code-container">
-          <pre class="code-block"><span class="code-kw">if</span> (age >= <span class="code-num">18</span>) {
+        <!-- Lesson 4: If Statements -->
+        <section class="lesson-card" id="lesson4">
+          <h2>❓ If Statements</h2>
+          <p>Make decisions in your code. "If the user is over 18, let them in!"</p>
+          <div class="code-container">
+            <pre class="code-block"><span class="code-kw">if</span> (age >= <span class="code-num">18</span>) {
     <span class="code-fn">printf</span>(<span class="code-str">"Welcome!"</span>);
 } <span class="code-kw">else</span> {
     <span class="code-fn">printf</span>(<span class="code-str">"Access Denied."</span>);
 }</pre>
-        </div>
-        <div class="quiz-section" id="quiz4" data-quiz-lesson="4">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(3)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn4" onclick="go(5)">Next: Loops →</button>
-        </div>
-      </section>
+          </div>
+          <div class="quiz-section" id="quiz4" data-quiz-lesson="4">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(3)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn4" onclick="go(5)">Next: Loops →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 5: Loops -->
-      <section class="lesson-card" id="lesson5">
-        <h2>🔄 Loops</h2>
-        <p>Repeat actions without writing the same code over and over.</p>
-        <div class="code-container">
-          <pre class="code-block"><span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i < <span class="code-num">5</span>; i++) {
+        <!-- Lesson 5: Loops -->
+        <section class="lesson-card" id="lesson5">
+          <h2>🔄 Loops</h2>
+          <p>Repeat actions without writing the same code over and over.</p>
+          <div class="code-container">
+            <pre class="code-block"><span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i < <span class="code-num">5</span>; i++) {
     <span class="code-fn">printf</span>(<span class="code-str">"%d\n"</span>, i);
 }</pre>
-        </div>
-        <div class="quiz-section" id="quiz5" data-quiz-lesson="5">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(4)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn5" onclick="go(6)">Next: Arrays →</button>
-        </div>
-      </section>
+          </div>
+          <div class="quiz-section" id="quiz5" data-quiz-lesson="5">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(4)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn5" onclick="go(6)">Next: Arrays →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 6: Arrays -->
-      <section class="lesson-card" id="lesson6">
-        <h2>📋 Arrays</h2>
-        <p>An array stores multiple values of the same type in a single variable.</p>
-        <div class="code-container">
-          <pre
-            class="code-block"><span class="code-type">int</span> scores[<span class="code-num">3</span>] = {<span class="code-num">90</span>, <span class="code-num">85</span>, <span class="code-num">95</span>};
+        <!-- Lesson 6: Arrays -->
+        <section class="lesson-card" id="lesson6">
+          <h2>📋 Arrays</h2>
+          <p>An array stores multiple values of the same type in a single variable.</p>
+          <div class="code-container">
+            <pre
+              class="code-block"><span class="code-type">int</span> scores[<span class="code-num">3</span>] = {<span class="code-num">90</span>, <span class="code-num">85</span>, <span class="code-num">95</span>};
 <span class="code-fn">printf</span>(<span class="code-str">"%d"</span>, scores[<span class="code-num">0</span>]); <span class="code-cmt">// Prints 90</span></pre>
-        </div>
+          </div>
 
-        <!-- ── Array Visualizer ── -->
-        <p class="dsv-section-title">🔬 Interactive: Array Visualizer</p>
-        <p class="dsv-section-sub">Set a value at any index, read it back, or clear a slot — watch the array update live.</p>
-        <div id="viz-array"></div>
+          <!-- ── Array Visualizer ── -->
+          <p class="dsv-section-title">🔬 Interactive: Array Visualizer</p>
+          <p class="dsv-section-sub">Set a value at any index, read it back, or clear a slot — watch the array update
+            live.</p>
+          <div id="viz-array"></div>
 
-        <div class="quiz-section" id="quiz6" data-quiz-lesson="6">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(5)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn6" onclick="go(7)">Next: Structs →</button>
-        </div>
-      </section>
+          <div class="quiz-section" id="quiz6" data-quiz-lesson="6">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(5)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn6" onclick="go(7)">Next: Structs →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 7: Struct & Typedef -->
-      <section class="lesson-card" id="lesson7">
-        <h2>🏗️ Struct & Typedef</h2>
-        <p>Group different data types together to create complex data structures.</p>
-        <div class="code-container">
-          <pre class="code-block"><span class="code-kw">typedef struct</span> {
+        <!-- Lesson 7: Struct & Typedef -->
+        <section class="lesson-card" id="lesson7">
+          <h2>🏗️ Struct & Typedef</h2>
+          <p>Group different data types together to create complex data structures.</p>
+          <div class="code-container">
+            <pre class="code-block"><span class="code-kw">typedef struct</span> {
     <span class="code-type">int</span> id;
     <span class="code-type">char</span> name[<span class="code-num">20</span>];
 } Student;</pre>
-        </div>
-        <div class="quiz-section" id="quiz7" data-quiz-lesson="7">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(6)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn7" onclick="go(8)">Next: Linked Lists →</button>
-        </div>
-      </section>
+          </div>
+          <div class="quiz-section" id="quiz7" data-quiz-lesson="7">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(6)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn7" onclick="go(8)">Next: Linked Lists →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 8: Linked Lists -->
-      <section class="lesson-card" id="lesson8">
-        <h2>🔗 Linked Lists</h2>
-        <p>A chain of nodes where each node points to the next one in memory.
-           Each <code class="tag">Node</code> stores <code class="tag">data</code> and a
-           <code class="tag">next</code> pointer — forming a dynamic chain.
-        </p>
-        <div class="code-container">
-          <pre class="code-block"><span class="code-kw">struct</span> Node {
+        <!-- Lesson 8: Linked Lists -->
+        <section class="lesson-card" id="lesson8">
+          <h2>🔗 Linked Lists</h2>
+          <p>A chain of nodes where each node points to the next one in memory.
+            Each <code class="tag">Node</code> stores <code class="tag">data</code> and a
+            <code class="tag">next</code> pointer — forming a dynamic chain.
+          </p>
+          <div class="code-container">
+            <pre class="code-block"><span class="code-kw">struct</span> Node {
     <span class="code-type">int</span> data;
     <span class="code-kw">struct</span> Node* next;
 };</pre>
-        </div>
+          </div>
 
-        <!-- ── Linked List Visualizer ── -->
-        <p class="dsv-section-title">🔬 Interactive: Linked List Visualizer</p>
-        <p class="dsv-section-sub">Insert nodes at the head or tail, delete the head, and watch the pointer chain update in real time.</p>
-        <div id="viz-ll"></div>
+          <!-- ── Linked List Visualizer ── -->
+          <p class="dsv-section-title">🔬 Interactive: Linked List Visualizer</p>
+          <p class="dsv-section-sub">Insert nodes at the head or tail, delete the head, and watch the pointer chain update
+            in real time.</p>
+          <div id="viz-ll"></div>
 
-        <!-- ── Stack Visualizer ── -->
-        <p class="dsv-section-title">📚 Interactive: Stack Visualizer</p>
-        <p class="dsv-section-sub">A Stack follows LIFO (Last In, First Out). Push values on top, pop them off, or peek at the current top.</p>
-        <div id="viz-stack"></div>
+          <!-- ── Stack Visualizer ── -->
+          <p class="dsv-section-title">📚 Interactive: Stack Visualizer</p>
+          <p class="dsv-section-sub">A Stack follows LIFO (Last In, First Out). Push values on top, pop them off, or peek
+            at the current top.</p>
+          <div id="viz-stack"></div>
 
-        <div class="quiz-section" id="quiz8" data-quiz-lesson="8">
-          <div class="quiz-title">🏁 Knowledge Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(7)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn8" onclick="go(9)">Next: Final Project →</button>
-        </div>
-      </section>
+          <div class="quiz-section" id="quiz8" data-quiz-lesson="8">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(7)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn8" onclick="go(9)">Next: Final Project →</button>
+          </div>
+        </section>
 
-      <!-- Lesson 9: Final Project -->
-      <section class="lesson-card" id="lesson9">
-        <h2>🎓 Final Project</h2>
-        <p>Congratulations! You've reached the final level. Use everything you've learned to build a Student Management
-          System.</p>
-        <div class="alert alert-tip">
-          <span class="alert-icon">🎉</span>
-          <div>You are now a C Mastery Wizard!</div>
-        </div>
-        <div class="quiz-section" id="quiz9" data-quiz-lesson="9">
-          <div class="quiz-title">🏁 Final Check</div>
-        </div>
-        <div class="nav-btns">
-          <button class="btn btn-secondary" onclick="go(8)">← Back</button>
-          <button class="btn btn-primary locked" id="nextBtn9" onclick="location.reload()">Finish Course 🏆</button>
-        </div>
-      </section>
+        <!-- Lesson 9: Final Project -->
+        <section class="lesson-card" id="lesson9">
+          <h2>🎓 Final Project</h2>
+          <p>Congratulations! You've reached the final level. Use everything you've learned to build a Student Management
+            System.</p>
+          <div class="alert alert-tip">
+            <span class="alert-icon">🎉</span>
+            <div>You are now a C Mastery Wizard!</div>
+          </div>
+          <div class="quiz-section" id="quiz9" data-quiz-lesson="9">
+            <div class="quiz-title">🏁 Final Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(8)">← Back</button>
+            <button class="btn btn-primary locked" id="nextBtn9" onclick="location.reload()">Finish Course 🏆</button>
+          </div>
+        </section>
 
-    </div>
-  </main>
+      </div>
+    </main>
+  </div>
 
   <script src="quiz-engine.js"></script>
   <script src="ds-visualizer.js"></script>
@@ -422,8 +428,63 @@
     // ── Lesson navigation state ────────────────────────────────────────
     let currentLesson = 1;
     const totalLessons = 9;
-    const completedLessons = new Set();
-    const unlockedLessons  = new Set([1]);
+    let completedLessons = new Set();
+    let unlockedLessons = new Set([1]);
+
+    // ── Persistence ───────────────────────────────────────────────────
+    function saveProgress() {
+      const data = {
+        currentLesson,
+        completedLessons: Array.from(completedLessons),
+        unlockedLessons: Array.from(unlockedLessons),
+        quizState: QuizEngine.getState()
+      };
+      localStorage.setItem('c_mastery_progress', JSON.stringify(data));
+    }
+
+    function loadProgress() {
+      const stored = localStorage.getItem('c_mastery_progress');
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          completedLessons = new Set(data.completedLessons || []);
+          unlockedLessons = new Set(data.unlockedLessons || [1]);
+          if (data.quizState) QuizEngine.loadState(data.quizState);
+          
+          // Restore sidebar UI
+          for (let i = 1; i <= totalLessons; i++) {
+            const btn = document.getElementById(`btn${i}`);
+            const nextBtn = document.getElementById(`nextBtn${i}`);
+            
+            if (unlockedLessons.has(i)) {
+                if(btn) btn.classList.remove('locked');
+            }
+            if (completedLessons.has(i)) {
+                if(btn) btn.classList.add('done');
+                if(nextBtn) nextBtn.classList.remove('locked');
+            }
+          }
+          
+          // Restore progress bar
+          updateProgress();
+          
+          // Navigate to last active
+          if (data.currentLesson && data.currentLesson !== 1) {
+             unlockedLessons.add(data.currentLesson); 
+             go(data.currentLesson);
+          }
+        } catch (e) {
+          console.error("Failed to load progress", e);
+        }
+      }
+    }
+
+    function resetProgress() {
+       if(confirm("Are you sure you want to reset all your progress? This cannot be undone.")) {
+           localStorage.removeItem('c_mastery_progress');
+           location.reload();
+       }
+    }
 
     // ── Navigation ────────────────────────────────────────────────────
     function go(n) {
@@ -442,6 +503,7 @@
         if (overlay) overlay.classList.remove('open');
       }
       updateProgress();
+      saveProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -503,14 +565,17 @@
       });
 
       updateProgress();
+      saveProgress();
 
       if (lessonId === totalLessons) setTimeout(showCompletion, 1000);
     }
 
     // ── Bootstrap ─────────────────────────────────────────────────────
     QuizEngine.init('questions.json', {
-      onLessonPass:  handleLessonPass,
+      onLessonPass: handleLessonPass,
       onAllComplete: showCompletion
+    }).then(() => {
+      loadProgress();
     });
 
     // ── Mount DS Visualizers ───────────────────────────────────────────
