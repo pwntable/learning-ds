@@ -11,29 +11,37 @@
 
 <body>
 
+  <!-- Sidebar Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-brand">C Mastery</div>
     <nav class="sidebar-nav">
       <div class="sidebar-section">Basics</div>
       <button class="sidebar-btn active" onclick="go(1)" id="btn1">1. Variables & Types</button>
-      <button class="sidebar-btn" onclick="go(2)" id="btn2" disabled>2. Your First Program</button>
-      <button class="sidebar-btn" onclick="go(3)" id="btn3" disabled>3. Input & Output</button>
+      <button class="sidebar-btn locked" onclick="go(2)" id="btn2">2. Your First Program</button>
+      <button class="sidebar-btn locked" onclick="go(3)" id="btn3">3. Input & Output</button>
       <div class="sidebar-section">Control Flow</div>
-      <button class="sidebar-btn" onclick="go(4)" id="btn4" disabled>4. If Statements</button>
-      <button class="sidebar-btn" onclick="go(5)" id="btn5" disabled>5. Loops</button>
+      <button class="sidebar-btn locked" onclick="go(4)" id="btn4">4. If Statements</button>
+      <button class="sidebar-btn locked" onclick="go(5)" id="btn5">5. Loops</button>
       <div class="sidebar-section">Data Structures</div>
-      <button class="sidebar-btn" onclick="go(6)" id="btn6" disabled>6. Arrays</button>
-      <button class="sidebar-btn" onclick="go(7)" id="btn7" disabled>7. Struct & Typedef</button>
+      <button class="sidebar-btn locked" onclick="go(6)" id="btn6">6. Arrays</button>
+      <button class="sidebar-btn locked" onclick="go(7)" id="btn7">7. Struct & Typedef</button>
       <div class="sidebar-section">Advanced</div>
-      <button class="sidebar-btn" onclick="go(8)" id="btn8" disabled>8. Linked Lists</button>
-      <button class="sidebar-btn" onclick="go(9)" id="btn9" disabled>9. Final Project</button>
+      <button class="sidebar-btn locked" onclick="go(8)" id="btn8">8. Linked Lists</button>
+      <button class="sidebar-btn locked" onclick="go(9)" id="btn9">9. Final Project</button>
     </nav>
   </aside>
 
   <!-- Header -->
   <header class="header">
-    <h1>🚀 Data Structure Foundation</h1>
+    <div class="header-title">
+      <button id="menuToggle" class="menu-toggle" onclick="toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <h1>🚀 Data Structure Foundation</h1>
+    </div>
     <div class="header-progress">
       <span id="progressLabel">Mastery: 0%</span>
     </div>
@@ -144,7 +152,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         <div class="nav-btns">
           <span></span>
-          <button class="btn btn-primary" id="nextBtn1" onclick="go(2)" disabled>Next: Your First Program →</button>
+          <button class="btn btn-primary locked" id="nextBtn1" onclick="go(2)">Next: Your First Program →</button>
         </div>
       </section>
 
@@ -181,7 +189,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(1)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn2" onclick="go(3)" disabled>Next: Input & Output →</button>
+          <button class="btn btn-primary locked" id="nextBtn2" onclick="go(3)">Next: Input & Output →</button>
         </div>
       </section>
 
@@ -223,7 +231,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(2)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn3" onclick="go(4)" disabled>Next: If Statements →</button>
+          <button class="btn btn-primary locked" id="nextBtn3" onclick="go(4)">Next: If Statements →</button>
         </div>
       </section>
 
@@ -246,7 +254,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(3)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn4" onclick="go(5)" disabled>Next: Loops →</button>
+          <button class="btn btn-primary locked" id="nextBtn4" onclick="go(5)">Next: Loops →</button>
         </div>
       </section>
 
@@ -267,7 +275,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(4)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn5" onclick="go(6)" disabled>Next: Arrays →</button>
+          <button class="btn btn-primary locked" id="nextBtn5" onclick="go(6)">Next: Arrays →</button>
         </div>
       </section>
 
@@ -288,7 +296,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(5)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn6" onclick="go(7)" disabled>Next: Structs →</button>
+          <button class="btn btn-primary locked" id="nextBtn6" onclick="go(7)">Next: Structs →</button>
         </div>
       </section>
 
@@ -310,7 +318,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(6)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn7" onclick="go(8)" disabled>Next: Linked Lists →</button>
+          <button class="btn btn-primary locked" id="nextBtn7" onclick="go(8)">Next: Linked Lists →</button>
         </div>
       </section>
 
@@ -332,7 +340,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(7)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn8" onclick="go(9)" disabled>Next: Final Project →</button>
+          <button class="btn btn-primary locked" id="nextBtn8" onclick="go(9)">Next: Final Project →</button>
         </div>
       </section>
 
@@ -351,7 +359,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
         </div>
         <div class="nav-btns">
           <button class="btn btn-secondary" onclick="go(8)">← Back</button>
-          <button class="btn btn-primary" id="nextBtn9" onclick="location.reload()" disabled>Finish Course 🏆</button>
+          <button class="btn btn-primary locked" id="nextBtn9" onclick="location.reload()">Finish Course 🏆</button>
         </div>
       </section>
 
@@ -378,6 +386,7 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
     function go(n) {
       if (!unlockedLessons.has(n)) {
+        alert("Please answer the current quiz correctly to proceed to the next section!");
         return;
       }
 
@@ -389,8 +398,20 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
       document.getElementById(`lesson${n}`).classList.add('active');
       document.getElementById(`btn${n}`).classList.add('active');
 
+      if (window.innerWidth <= 1024) {
+        document.querySelector('.sidebar').classList.remove('open');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) overlay.classList.remove('open');
+      }
+
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('open');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (overlay) overlay.classList.toggle('open');
     }
 
     function checkAnswer(lessonId, choiceIndex, btn) {
@@ -436,11 +457,11 @@ age = <span class="code-num">20</span>;         <span class="code-cmt">// Initia
 
         if (lessonId < totalLessons) {
           unlockedLessons.add(lessonId + 1);
-          document.getElementById(`btn${lessonId + 1}`).disabled = false;
+          document.getElementById(`btn${lessonId + 1}`).classList.remove('locked');
         }
 
         const nextBtn = document.getElementById(`nextBtn${lessonId}`);
-        if (nextBtn) nextBtn.disabled = false;
+        if (nextBtn) nextBtn.classList.remove('locked');
 
         if (lessonId === 9) {
           setTimeout(showCompletion, 1000);

@@ -83,6 +83,27 @@ h4 {
     box-shadow: var(--shadow-md);
 }
 
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .header h1 {
     font-size: 1.25rem;
     color: white;
@@ -202,16 +223,20 @@ h4 {
     font-size: 10px;
 }
 
-.sidebar-btn:disabled {
+.sidebar-btn.locked {
     opacity: 0.5;
     cursor: not-allowed;
     background: transparent;
     color: var(--text-secondary);
 }
 
-.sidebar-btn:disabled:hover {
+.sidebar-btn.locked:hover {
     background: transparent;
     color: var(--text-secondary);
+}
+
+.sidebar-overlay {
+    display: none;
 }
 
 /* Content */
@@ -432,10 +457,15 @@ p {
     border: none;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(.locked) {
     background: #059669;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .btn-secondary {
@@ -518,14 +548,103 @@ tr:hover td {
 
 /* Responsive */
 @media (max-width: 1024px) {
-    .sidebar {
-        width: 0;
-        transform: translateX(-100%);
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .header,
-    .main-content {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
         left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        z-index: 90;
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .header {
+        left: 0;
+        padding: 0 1.5rem;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .lesson-card {
+        padding: 2rem 1.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin: 2rem 0 1rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .lesson-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-btns {
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+
+    .nav-btns .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .completion-card {
+        padding: 2.5rem 1.5rem;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .completion-stats {
+        gap: 1.5rem;
+        flex-wrap: wrap;
     }
 }
 
