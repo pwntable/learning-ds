@@ -1,57 +1,60 @@
-/**
- * quiz-engine.js
- * Modular quiz engine for the C Learning Platform.
- * Supports: mcq | predict_output | code_completion | fill_blank
- */
-
 const QuizEngine = (() => {
   // ── State ──────────────────────────────────────────────────────────
-  let questionBank = {};          // { lessonId: [ question, ... ] }
-  let lessonState  = {};          // { lessonId: Set(answered_qIdxs) }
-  let activePools  = {};          // { lessonId: [ selected_qIdxs ] }
+  let questionBank = {};          
+  let lessonState  = {};          
+  let activePools  = {};          
+  let lessonConfig = {};
+  let examState    = {};
 
-  // Callbacks injected by the host page
-  let onLessonPass  = () => {};   // called when a lesson's first question passes
-  let onAllComplete = () => {};   // called when every lesson is done
+  let onLessonPass  = () => {};   
+  let onAllComplete = () => {};   
 
-  // ── Public API ─────────────────────────────────────────────────────
+  // ── Initialization ─────────────────────────────────────────────────
 
-  /**
-   * Load questions from a JSON file then initialise the engine.
-   * @param {string}   jsonPath  - path to questions.json
-   * @param {object}   callbacks - { onLessonPass, onAllComplete }
-   * @param {object}   initialState - Optional state to restore pools and answers
-   */
   async function init(jsonPath, callbacks = {}, initialState = null) {
     if (callbacks.onLessonPass)  onLessonPass  = callbacks.onLessonPass;
     if (callbacks.onAllComplete) onAllComplete = callbacks.onAllComplete;
 
     try {
-      const res  = await fetch(jsonPath);
-      const data = await res.json();
-      questionBank = data.lessons;
-    } catch (e) {
-      console.error('[QuizEngine] Failed to load questions:', e);
+      let data;
+      if (window.QUESTIONS_DATA) {
+        data = window.QUESTIONS_DATA;
+      } else {
+        const response = await fetch(jsonPath);
+        data = await response.json();
+      }
+      
+      Object.keys(data.lessons).forEach(id => {
+        const obj = data.lessons[id];
+        questionBank[id] = obj.questions || obj;
+        lessonConfig[id] = {
+          examMode: obj.examMode || false,
+          showAll: obj.showAll || false
+        };
+        examState[id] = { answers: {}, submitted: false, isPractice: false };
+      });
+    } catch (err) {
+      console.error('Failed to load questions:', err);
       return;
     }
 
-    // Build per-lesson state and select subsets
     Object.keys(questionBank).forEach(id => {
       lessonState[id] = new Set();
-
       if (initialState && initialState.pools && initialState.pools[id]) {
         activePools[id] = initialState.pools[id];
       } else {
         const totalQ = questionBank[id].length;
-        // Limit to 3 questions per lesson (or fewer if bank is smaller)
-        const count = Math.min(3, totalQ);
-        const indices = Array.from({length: totalQ}, (_, i) => i);
-        shuffleArray(indices);
-        activePools[id] = indices.slice(0, count);
+        if (lessonConfig[id].showAll) {
+          activePools[id] = Array.from({length: totalQ}, (_, i) => i);
+        } else {
+          const count = Math.min(3, totalQ);
+          const indices = Array.from({length: totalQ}, (_, i) => i);
+          shuffleArray(indices);
+          activePools[id] = indices.slice(0, count);
+        }
       }
     });
 
-    // Render every quiz container found in the DOM
     document.querySelectorAll('[data-quiz-lesson]').forEach(container => {
       const lessonId = container.dataset.quizLesson;
       if (questionBank[lessonId]) {
@@ -71,7 +74,6 @@ const QuizEngine = (() => {
     }
   }
 
-  /** Returns true if all required questions in the lesson have been answered correctly. */
   function isLessonPassed(lessonId) {
     const id = String(lessonId);
     return lessonState[id] && activePools[id] && lessonState[id].size >= activePools[id].length;
@@ -82,203 +84,168 @@ const QuizEngine = (() => {
   function renderLesson(container, lessonId) {
     const allQuestions = questionBank[lessonId];
     const pool = activePools[lessonId] || [];
+    const config = lessonConfig[lessonId];
+    const isExam = config.examMode && !examState[lessonId].isPractice;
+    
     container.innerHTML = '';
+    
+    if (isExam) {
+        const header = document.createElement('div');
+        header.className = 'exam-header';
+        header.innerHTML = `<h3>📝 Full Exam Mode</h3><p>Answer all questions, then submit at the bottom.</p>`;
+        container.appendChild(header);
+    } else if (config.examMode && examState[lessonId].isPractice) {
+        const header = document.createElement('div');
+        header.className = 'exam-header practice-header';
+        header.innerHTML = `<h3>🎯 Targeted Practice Mode</h3><p>Focusing on your weak areas.</p>`;
+        container.appendChild(header);
+    }
 
     pool.forEach((qIdx, loopIdx) => {
       const q = allQuestions[qIdx];
       const block = document.createElement('div');
       block.className = 'qe-question-block';
-      block.id = `qblock-${q.id}`;
+      block.id = `qblock-${lessonId}-${qIdx}`;
       block.dataset.lessonId = lessonId;
-      block.dataset.qIdx = qIdx; // Use the absolute index
+      block.dataset.qIdx = qIdx;
       block.dataset.isGate = loopIdx === 0 ? 'true' : 'false';
 
-      // Header badge
       const badge = makeBadge(q.type);
+      if (q.topic) {
+          const topicBadge = document.createElement('span');
+          topicBadge.className = 'qe-topic-badge';
+          topicBadge.textContent = q.topic;
+          badge.appendChild(topicBadge);
+      }
       block.appendChild(badge);
 
-      // Prompt
       const prompt = document.createElement('p');
       prompt.className = 'qe-prompt';
       prompt.innerHTML = q.prompt;
       block.appendChild(prompt);
 
-      // Type-specific input area
-      switch (q.type) {
-        case 'mcq':            block.appendChild(renderMCQ(q));            break;
-        case 'predict_output': block.appendChild(renderPredictOutput(q));  break;
-        case 'code_completion':block.appendChild(renderCodeCompletion(q)); break;
-        case 'fill_blank':     block.appendChild(renderFillBlank(q));      break;
-        default:
-          console.warn('[QuizEngine] Unknown question type:', q.type);
+      if (q.code) {
+        const pre = document.createElement('pre');
+        pre.className = 'code-block qe-code-preview';
+        pre.innerHTML = q.code;
+        block.appendChild(pre);
       }
 
-      // Feedback + explanation area (hidden until submit)
+      const wrap = document.createElement('div');
+      
+      if (q.type === 'mcq') {
+        wrap.appendChild(buildMCQ(q, wrap, isExam, lessonId, qIdx));
+      } else if (q.type === 'predict_output' || q.type === 'code_completion') {
+        wrap.appendChild(buildTextAnswer(q, wrap, isExam, lessonId, qIdx));
+      } else if (q.type === 'fill_blank') {
+        wrap.appendChild(buildFillBlank(q, wrap, isExam, lessonId, qIdx));
+      }
+
+      block.appendChild(wrap);
+
       const feedback = document.createElement('div');
       feedback.className = 'qe-feedback';
-      feedback.id = `feedback-${q.id}`;
+      feedback.id = `feedback-${lessonId}-${qIdx}`;
       block.appendChild(feedback);
 
-      // Add bottom separator except for the last question in the subset
       if (loopIdx < pool.length - 1) {
         block.appendChild(Object.assign(document.createElement('hr'), { className: 'qe-divider' }));
       }
-
       container.appendChild(block);
     });
-  }
 
-  // ── MCQ ────────────────────────────────────────────────────────────
-
-  function renderMCQ(q) {
-    const wrap = document.createElement('div');
-    wrap.className = 'qe-options';
-
-    q.options.forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'quiz-option';   // reuse existing style
-      btn.innerHTML = opt;
-      btn.addEventListener('click', () => submitMCQ(q, i, btn, wrap));
-      wrap.appendChild(btn);
-    });
-
-    return wrap;
-  }
-
-  function submitMCQ(q, choiceIndex, btn, wrap) {
-    if (wrap.dataset.done) return;
-
-    const isCorrect = choiceIndex === q.correct;
-    const feedbackEl = document.getElementById(`feedback-${q.id}`);
-    const block = document.getElementById(`qblock-${q.id}`);
-    const lessonId = block.dataset.lessonId;
-    const qIdx = parseInt(block.dataset.qIdx, 10);
-
-    if (isCorrect) {
-      btn.classList.add('correct');
-      wrap.dataset.done = '1';
-      disableOptions(wrap);
-      
-      let successMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex] : "✔ Correct!";
-      if (!successMsg.includes("✔") && !successMsg.includes("Correct")) successMsg = "✔ " + successMsg;
-      
-      showFeedback(feedbackEl, true, successMsg, q.explanation);
-      markPassed(lessonId, qIdx);
-    } else {
-      btn.classList.add('wrong');
-      
-      let hintMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex].trim() : "";
-      if (!hintMsg) {
-        hintMsg = `✘ Incorrect. The correct answer is: <strong>${escHtml(String(q.options[q.correct]))}</strong>.`;
-      } else if (!hintMsg.startsWith("✘") && !hintMsg.toLowerCase().includes("incorrect")) {
-        hintMsg = `✘ Incorrect. ${hintMsg}`;
-      }
-      
-      showFeedback(feedbackEl, false, hintMsg, null);
-      setTimeout(() => btn.classList.remove('wrong'), 900);
+    if (isExam) {
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-primary exam-submit-btn';
+        submitBtn.textContent = 'Submit Exam';
+        submitBtn.onclick = () => submitExam(lessonId, container);
+        container.appendChild(submitBtn);
     }
   }
 
-  // ── Predict Output ─────────────────────────────────────────────────
+  function makeBadge(type) {
+    const badges = {
+      'mcq': { icon: '🔘', label: 'Multiple Choice' },
+      'predict_output': { icon: '🔮', label: 'Predict Output' },
+      'code_completion': { icon: '⌨️', label: 'Code Completion' },
+      'fill_blank': { icon: '📝', label: 'Fill in the Blank' }
+    };
+    const info = badges[type] || { icon: '❓', label: 'Question' };
+    const badge = document.createElement('div');
+    badge.className = 'qe-type-badge';
+    badge.innerHTML = `${info.icon} <span>${info.label}</span>`;
+    return badge;
+  }
 
-  function renderPredictOutput(q) {
-    const wrap = document.createElement('div');
+  // ── Builders ───────────────────────────────────────────────────────
 
-    // Code display
-    const codeBox = document.createElement('pre');
-    codeBox.className = 'code-block qe-code-preview';
-    codeBox.innerHTML = q.code;
-    wrap.appendChild(codeBox);
+  function buildMCQ(q, wrap, isExam, lessonId, qIdx) {
+    const optsDiv = document.createElement('div');
+    optsDiv.className = 'qe-options';
 
-    // Input row
+    q.options.forEach((opt, choiceIndex) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.innerHTML = escHtml(opt);
+      
+      btn.onclick = () => {
+        if (wrap.dataset.done && !isExam) return;
+        
+        if (isExam) {
+            optsDiv.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            examState[lessonId].answers[qIdx] = choiceIndex;
+        } else {
+            submitMCQ(q, choiceIndex, btn, wrap, lessonId, qIdx);
+        }
+      };
+      optsDiv.appendChild(btn);
+    });
+    return optsDiv;
+  }
+
+  function buildTextAnswer(q, wrap, isExam, lessonId, qIdx) {
     const row = document.createElement('div');
     row.className = 'qe-input-row';
 
     const label = document.createElement('label');
     label.className = 'qe-label';
-    label.textContent = 'Your predicted output:';
-    label.htmlFor = `input-${q.id}`;
+    label.htmlFor = `input-${lessonId}-${qIdx}`;
+    label.textContent = 'Your answer:';
+    row.appendChild(label);
 
     const input = document.createElement('input');
     input.type = 'text';
-    input.id = `input-${q.id}`;
+    input.id = `input-${lessonId}-${qIdx}`;
     input.className = 'qe-text-input';
-    input.placeholder = 'Type the exact output…';
+    input.placeholder = 'Type here...';
     input.setAttribute('autocomplete', 'off');
     input.setAttribute('spellcheck', 'false');
-
-    const submitBtn = document.createElement('button');
-    submitBtn.className = 'btn btn-primary qe-submit-btn';
-    submitBtn.textContent = 'Check';
-
-    row.appendChild(label);
     row.appendChild(input);
-    row.appendChild(submitBtn);
-    wrap.appendChild(row);
 
-    const handler = () => submitTextAnswer(q, input, submitBtn, wrap);
-    submitBtn.addEventListener('click', handler);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') handler(); });
+    if (isExam) {
+        input.addEventListener('input', () => {
+            examState[lessonId].answers[qIdx] = input.value.trim();
+        });
+    } else {
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-primary qe-submit-btn';
+        submitBtn.textContent = 'Check';
+        row.appendChild(submitBtn);
 
-    return wrap;
+        submitBtn.addEventListener('click', () => submitTextAnswer(q, input, submitBtn, wrap, lessonId, qIdx));
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') submitTextAnswer(q, input, submitBtn, wrap, lessonId, qIdx);
+        });
+    }
+
+    return row;
   }
 
-  // ── Code Completion ────────────────────────────────────────────────
-
-  function renderCodeCompletion(q) {
-    const wrap = document.createElement('div');
-
-    // Show partial code context
-    const codeBox = document.createElement('pre');
-    codeBox.className = 'code-block qe-code-preview';
-    codeBox.innerHTML =
-      `<span class="code-cmt">// …fill in the blank below…</span>\n` +
-      q.code_before +
-      `<span class="qe-blank-marker"> ___ </span>` +
-      q.code_after;
-    wrap.appendChild(codeBox);
-
-    const row = document.createElement('div');
-    row.className = 'qe-input-row';
-
-    const label = document.createElement('label');
-    label.className = 'qe-label';
-    label.textContent = 'Your answer:';
-    label.htmlFor = `input-${q.id}`;
-
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.id = `input-${q.id}`;
-    input.className = 'qe-text-input';
-    input.placeholder = 'Type what goes in the blank…';
-    input.setAttribute('spellcheck', 'false');
-
-    const submitBtn = document.createElement('button');
-    submitBtn.className = 'btn btn-primary qe-submit-btn';
-    submitBtn.textContent = 'Submit';
-
-    row.appendChild(label);
-    row.appendChild(input);
-    row.appendChild(submitBtn);
-    wrap.appendChild(row);
-
-    const handler = () => submitTextAnswer(q, input, submitBtn, wrap);
-    submitBtn.addEventListener('click', handler);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') handler(); });
-
-    return wrap;
-  }
-
-  // ── Fill in the Blank ──────────────────────────────────────────────
-
-  function renderFillBlank(q) {
-    const wrap = document.createElement('div');
-
-    // Template display with inline input fields replacing ___
+  function buildFillBlank(q, wrap, isExam, lessonId, qIdx) {
     const templateWrap = document.createElement('div');
     templateWrap.className = 'qe-fill-template';
 
-    // Split template on ___ and create inputs for each blank
     const parts = q.template.split('___');
     const inputs = [];
 
@@ -293,7 +260,7 @@ const QuizEngine = (() => {
         inp.className = 'qe-inline-input';
         inp.placeholder = '???';
         inp.setAttribute('spellcheck', 'false');
-        inp.id = `blank-${q.id}-${i}`;
+        inp.id = `blank-${lessonId}-${qIdx}-${i}`;
         inputs.push(inp);
         templateWrap.appendChild(inp);
       }
@@ -301,36 +268,132 @@ const QuizEngine = (() => {
 
     wrap.appendChild(templateWrap);
 
-    const submitBtn = document.createElement('button');
-    submitBtn.className = 'btn btn-primary qe-submit-btn';
-    submitBtn.style.marginTop = '1rem';
-    submitBtn.textContent = 'Check Blanks';
-    wrap.appendChild(submitBtn);
+    if (isExam) {
+        inputs.forEach(inp => {
+            inp.addEventListener('input', () => {
+                examState[lessonId].answers[qIdx] = inputs.map(i => i.value.trim());
+            });
+        });
+    } else {
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-primary qe-submit-btn';
+        submitBtn.style.marginTop = '1rem';
+        submitBtn.textContent = 'Check Blanks';
+        wrap.appendChild(submitBtn);
 
-    submitBtn.addEventListener('click', () => submitFillBlank(q, inputs, submitBtn, wrap));
-    inputs.forEach(inp => {
-      inp.addEventListener('keydown', e => {
-        if (e.key === 'Enter') submitFillBlank(q, inputs, submitBtn, wrap);
-      });
-    });
+        submitBtn.addEventListener('click', () => submitFillBlank(q, inputs, submitBtn, wrap, lessonId, qIdx));
+        inputs.forEach(inp => {
+          inp.addEventListener('keydown', e => {
+            if (e.key === 'Enter') submitFillBlank(q, inputs, submitBtn, wrap, lessonId, qIdx);
+          });
+        });
+    }
 
     return wrap;
   }
 
+  // ── Exam Logic ─────────────────────────────────────────────────────
+  
+  function submitExam(lessonId, container) {
+      const pool = activePools[lessonId];
+      const allQuestions = questionBank[lessonId];
+      let score = 0;
+      let topicFails = {};
+      let failedIndices = [];
+      
+      pool.forEach(qIdx => {
+          const q = allQuestions[qIdx];
+          const userAns = examState[lessonId].answers[qIdx];
+          const block = document.getElementById(`qblock-${lessonId}-${qIdx}`);
+          const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+          
+          let isCorrect = false;
+          let displayCorrect = "";
+          
+          if (q.type === 'mcq') {
+              isCorrect = (userAns === q.correct);
+              displayCorrect = q.options[q.correct];
+              const opts = block.querySelectorAll('.quiz-option');
+              opts.forEach((btn, i) => {
+                  btn.disabled = true;
+                  if (i === q.correct) btn.classList.add('correct');
+                  else if (i === userAns) btn.classList.add('wrong');
+              });
+          } else if (q.type === 'fill_blank') {
+              const uArr = userAns || [];
+              let allOk = true;
+              let exps = [];
+              if(q.blanks) {
+                  q.blanks.forEach((exp, i) => {
+                      const ex = Array.isArray(q.blanks) && Array.isArray(q.blanks[0]) ? q.blanks[i] : (Array.isArray(q.blanks) ? q.blanks[i] : q.blanks);
+                      if(!checkAnswer(uArr[i]||'', ex)) allOk = false;
+                      exps.push(Array.isArray(ex) ? ex[0] : ex);
+                  });
+              }
+              isCorrect = allOk;
+              displayCorrect = exps.join(', ');
+              block.querySelectorAll('input').forEach(inp => inp.disabled = true);
+          } else {
+              isCorrect = checkAnswer(userAns || '', q.correct);
+              displayCorrect = Array.isArray(q.correct) ? q.correct[0] : q.correct;
+              const inp = block.querySelector('input');
+              if(inp) inp.disabled = true;
+          }
+          
+          if (isCorrect) {
+              score++;
+              showFeedback(feedbackEl, true, "✔ Correct", q.explanation);
+              markPassed(lessonId, qIdx);
+          } else {
+              failedIndices.push(qIdx);
+              const t = q.topic || 'General';
+              topicFails[t] = (topicFails[t] || 0) + 1;
+              showFeedback(feedbackEl, false, `✘ Incorrect. Expected: <code>${escHtml(String(displayCorrect))}</code>`, q.explanation);
+          }
+      });
+      
+      const pct = Math.round((score / pool.length) * 100);
+      let weakTopicsHTML = "";
+      if (failedIndices.length > 0) {
+          const sortedTopics = Object.entries(topicFails).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+          weakTopicsHTML = `<div class="exam-weakness">Weak Areas: <strong>${sortedTopics.join(', ')}</strong></div>`;
+      }
+      
+      const summary = document.createElement('div');
+      summary.className = 'exam-summary';
+      summary.innerHTML = `
+        <h2>Exam Complete</h2>
+        <div class="exam-score">Score: ${score} / ${pool.length} (${pct}%)</div>
+        ${weakTopicsHTML}
+      `;
+      
+      if (failedIndices.length > 0) {
+          const pracBtn = document.createElement('button');
+          pracBtn.className = 'btn btn-secondary';
+          pracBtn.textContent = 'Practice My Weak Areas';
+          pracBtn.onclick = () => {
+              activePools[lessonId] = failedIndices;
+              examState[lessonId].isPractice = true;
+              renderLesson(container, lessonId);
+          };
+          summary.appendChild(pracBtn);
+      } else {
+          summary.innerHTML += `<div class="exam-mastered">Mastered 🎯</div>`;
+          onLessonPass(parseInt(lessonId, 10));
+      }
+      
+      container.querySelector('.exam-submit-btn').style.display = 'none';
+      container.appendChild(summary);
+  }
+
   // ── Submission Helpers ─────────────────────────────────────────────
 
-  /** Generic text-answer submit (predict_output + code_completion). */
-  function submitTextAnswer(q, input, submitBtn, wrap) {
+  function submitTextAnswer(q, input, submitBtn, wrap, lessonId, qIdx) {
     if (wrap.dataset.done) return;
-
     const userVal = input.value.trim();
     if (!userVal) { input.focus(); return; }
 
-    const feedbackEl = document.getElementById(`feedback-${q.id}`);
-    const block = document.getElementById(`qblock-${q.id}`);
-    const lessonId = block.dataset.lessonId;
-    const qIdx = parseInt(block.dataset.qIdx, 10);
-
+    const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
     const isCorrect = checkAnswer(userVal, q.correct);
     const displayCorrect = Array.isArray(q.correct) ? q.correct[0] : q.correct;
 
@@ -344,18 +407,14 @@ const QuizEngine = (() => {
     } else {
       input.classList.add('qe-input-wrong');
       showFeedback(feedbackEl, false,
-        `✘ Not quite. Expected: <code>${escHtml(String(displayCorrect))}</code><br><small>Note: C is case-sensitive!</small>`, null);
+        `✘ Not quite. Expected: <code>${escHtml(String(displayCorrect))}</code><br><small>Note: C is case-sensitive!</small>`, q.explanation); // Added explanation in practice
       setTimeout(() => input.classList.remove('qe-input-wrong'), 900);
     }
   }
 
-  function submitFillBlank(q, inputs, submitBtn, wrap) {
+  function submitFillBlank(q, inputs, submitBtn, wrap, lessonId, qIdx) {
     if (wrap.dataset.done) return;
-
-    const feedbackEl = document.getElementById(`feedback-${q.id}`);
-    const block = document.getElementById(`qblock-${q.id}`);
-    const lessonId = block.dataset.lessonId;
-    const qIdx = parseInt(block.dataset.qIdx, 10);
+    const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
 
     let allCorrect = true;
     inputs.forEach((inp, i) => {
@@ -374,10 +433,36 @@ const QuizEngine = (() => {
       markPassed(lessonId, qIdx);
     } else {
       const expectedAnswers = Array.isArray(q.blanks) ? q.blanks.map(b => Array.isArray(b) ? escHtml(String(b[0])) : escHtml(String(b))).join(', ') : escHtml(String(q.blanks));
-      showFeedback(feedbackEl, false, `✘ Incorrect. The expected answer is: <code>${expectedAnswers}</code><br><small>Note: C is strictly case-sensitive!</small>`, null);
+      showFeedback(feedbackEl, false, `✘ Incorrect. The expected answer is: <code>${expectedAnswers}</code>`, q.explanation);
       setTimeout(() => {
         inputs.forEach(inp => inp.classList.remove('qe-input-wrong', 'qe-input-correct'));
       }, 1200);
+    }
+  }
+
+  function submitMCQ(q, choiceIndex, btn, wrap, lessonId, qIdx) {
+    if (wrap.dataset.done) return;
+    const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+    const isCorrect = (choiceIndex === q.correct);
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      wrap.dataset.done = '1';
+      disableOptions(wrap);
+      
+      let successMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex] : "✔ Correct!";
+      if (!successMsg.includes("✔") && !successMsg.includes("Correct")) successMsg = "✔ " + successMsg;
+      
+      showFeedback(feedbackEl, true, successMsg, q.explanation);
+      markPassed(lessonId, qIdx);
+    } else {
+      btn.classList.add('wrong');
+      let hintMsg = (q.hints && q.hints[choiceIndex]) ? q.hints[choiceIndex].trim() : "";
+      if (!hintMsg) hintMsg = `✘ Incorrect. The correct answer is: <strong>${escHtml(String(q.options[q.correct]))}</strong>.`;
+      else if (!hintMsg.startsWith("✘") && !hintMsg.toLowerCase().includes("incorrect")) hintMsg = `✘ Incorrect. ${hintMsg}`;
+      
+      showFeedback(feedbackEl, false, hintMsg, q.explanation); // Show explanation always on practice/fail
+      setTimeout(() => btn.classList.remove('wrong'), 900);
     }
   }
 
@@ -392,27 +477,18 @@ const QuizEngine = (() => {
     if (!wasPassed && isNowPassed) {
       onLessonPass(parseInt(lessonId, 10));
     }
-
-    // Check if ALL lessons are done
     const allDone = Object.keys(activePools).every(id => lessonState[id].size >= activePools[id].length);
     if (allDone) onAllComplete();
   }
 
-  // ── UI Helpers ─────────────────────────────────────────────────────
+  // ── Utilities ─────────────────────────────────────────────────────
 
   function showFeedback(el, isCorrect, message, explanation) {
     el.className = 'qe-feedback ' + (isCorrect ? 'qe-feedback-correct' : 'qe-feedback-wrong');
-
     let html = `<span class="qe-feedback-msg">${message}</span>`;
-
-    if (isCorrect && explanation) {
-      html += `
-        <div class="qe-output-box">
-          <div class="qe-output-label">📝 Explanation</div>
-          <div class="qe-explanation">${explanation}</div>
-        </div>`;
+    if (explanation) {
+      html += `<div class="qe-output-box"><div class="qe-output-label">📝 Explanation</div><div class="qe-explanation">${explanation}</div></div>`;
     }
-
     el.innerHTML = html;
     el.style.display = 'block';
   }
@@ -423,43 +499,20 @@ const QuizEngine = (() => {
     });
   }
 
-  function makeBadge(type) {
-    const map = {
-      mcq:             { label: 'Multiple Choice', icon: '🔘' },
-      predict_output:  { label: 'Predict Output',  icon: '🔮' },
-      code_completion: { label: 'Code Completion',  icon: '✏️' },
-      fill_blank:      { label: 'Fill in the Blank', icon: '📝' },
-    };
-    const info = map[type] || { label: type, icon: '❓' };
-    const badge = document.createElement('div');
-    badge.className = 'qe-type-badge';
-    badge.innerHTML = `${info.icon} <span>${info.label}</span>`;
-    return badge;
-  }
-
   function normalise(str) {
-    let res = String(str)
-      .replace(/\s+/g, ' ')
-      .trim()
-      .replace(/^["']|["']$/g, '');
-    // Remove spaces around common C operators and punctuation for robust comparison
+    let res = String(str).replace(/\s+/g, ' ').trim().replace(/^["']|["']$/g, '');
     res = res.replace(/\s*([=+\-*/%<>&|!();{},\[\]])\s*/g, '$1');
     return res;
   }
 
   function checkAnswer(userVal, expected) {
     const u = normalise(userVal);
-    if (Array.isArray(expected)) {
-      return expected.some(exp => u === normalise(exp));
-    }
+    if (Array.isArray(expected)) return expected.some(exp => u === normalise(exp));
     return u === normalise(expected);
   }
 
   function escHtml(str) {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function getState() {
@@ -476,19 +529,14 @@ const QuizEngine = (() => {
       if (lessonState[id]) {
         arr.forEach(idx => {
           lessonState[id].add(idx);
-          // Visually mark as done
-          const block = document.querySelector(`[data-lesson-id="${id}"][data-q-idx="${idx}"]`);
+          const block = document.getElementById(`qblock-${id}-${idx}`);
           if (block) {
-            // Find wrappers
             const wrap = block.querySelector('.qe-options, .qe-input-row, .qe-fill-template');
             if (wrap) wrap.dataset.done = '1';
-            
-            // Show simple completion feedback with original explanation
-            const feedbackEl = block.querySelector('.qe-feedback');
+            const feedbackEl = document.getElementById(`feedback-${id}-${idx}`);
             if (feedbackEl && questionBank[id] && questionBank[id][idx]) {
               const q = questionBank[id][idx];
               showFeedback(feedbackEl, true, '✔ Completed', q.explanation);
-              // Disable inputs/buttons
               block.querySelectorAll('input, button.quiz-option, button.qe-submit-btn').forEach(el => {
                 el.disabled = true;
                 if (el.classList.contains('quiz-option')) el.style.pointerEvents = 'none';
@@ -500,6 +548,5 @@ const QuizEngine = (() => {
     }
   }
 
-  // ── Export ─────────────────────────────────────────────────────────
-  return { init, isLessonPassed, getState, loadState };
+  return { init, isLessonPassed, loadState, getState };
 })();

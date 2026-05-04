@@ -775,3 +775,66 @@ tr:hover td {
     font-size: 1.5rem;
     color: var(--text-primary);
 }
+/* Exam Mode UI */
+.exam-header {
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+.practice-header {
+  background: rgba(139, 92, 246, 0.1);
+  border-left-color: #8b5cf6;
+}
+.exam-header h3 { margin: 0 0 0.5rem 0; color: #60a5fa; }
+.exam-header p { margin: 0; font-size: 0.9rem; color: #94a3b8; }
+
+.qe-topic-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+  color: #cbd5e1;
+}
+
+.quiz-option.selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.exam-submit-btn {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.exam-summary {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+.exam-summary h2 { margin-top: 0; color: #f8fafc; }
+.exam-score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10b981;
+  margin: 1rem 0;
+}
+.exam-weakness {
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+.exam-mastered {
+  font-size: 1.5rem;
+  color: #10b981;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}

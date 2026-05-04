@@ -1,4 +1,4 @@
-{
+window.QUESTIONS_DATA = {
   "lessons": {
     "1": {
       "questions": [
@@ -1069,4 +1069,4 @@
       ]
     }
   }
-}
+};

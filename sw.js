@@ -1,4 +1,4 @@
-const CACHE_NAME = 'c-mastery-v6';
+const CACHE_NAME = 'c-mastery-v8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS_TO_CACHE = [
   './ds-visualizer.js',
   './ds-visualizer.css',
   './questions.json',
+  './questions-data.js',
   './icon-192.png',
   './icon-512.png',
   './og-image.png',
