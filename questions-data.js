@@ -992,9 +992,9 @@ window.QUESTIONS_DATA = {
           "type": "mcq",
           "prompt": "[Past Year] Which is the correct way to define an Employee structure and an array for 12 employees based on the lecturer's requirements?",
           "options": [
-            "struct Employee { char name[50]; float salary; } emp[12];",
-            "Employee { char name[50]; float salary; } emp[12];",
-            "struct Employee { char name[50]; float salary; }; Employee emp = new Employee[12];"
+            "struct Employee {\n    char name[50];\n    float salary;\n} emp[12];",
+            "Employee {\n    char name[50];\n    float salary;\n} emp[12];",
+            "struct Employee {\n    char name[50];\n    float salary;\n};\n\nEmployee emp = new Employee[12];"
           ],
           "correct": 0,
           "hints": [

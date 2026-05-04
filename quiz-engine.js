@@ -131,17 +131,13 @@ const QuizEngine = (() => {
         block.appendChild(pre);
       }
 
-      const wrap = document.createElement('div');
-      
       if (q.type === 'mcq') {
-        wrap.appendChild(buildMCQ(q, wrap, isExam, lessonId, qIdx));
+        block.appendChild(buildMCQ(q, isExam, lessonId, qIdx));
       } else if (q.type === 'predict_output' || q.type === 'code_completion') {
-        wrap.appendChild(buildTextAnswer(q, wrap, isExam, lessonId, qIdx));
+        block.appendChild(buildTextAnswer(q, isExam, lessonId, qIdx));
       } else if (q.type === 'fill_blank') {
-        wrap.appendChild(buildFillBlank(q, wrap, isExam, lessonId, qIdx));
+        block.appendChild(buildFillBlank(q, isExam, lessonId, qIdx));
       }
-
-      block.appendChild(wrap);
 
       const feedback = document.createElement('div');
       feedback.className = 'qe-feedback';
@@ -179,32 +175,39 @@ const QuizEngine = (() => {
 
   // ── Builders ───────────────────────────────────────────────────────
 
-  function buildMCQ(q, wrap, isExam, lessonId, qIdx) {
+  function buildMCQ(q, isExam, lessonId, qIdx) {
+    const mainWrap = document.createElement('div');
     const optsDiv = document.createElement('div');
     optsDiv.className = 'qe-options';
 
     q.options.forEach((opt, choiceIndex) => {
       const btn = document.createElement('button');
       btn.className = 'quiz-option';
-      btn.innerHTML = escHtml(opt);
+      if (opt.includes('\n') || opt.includes('struct') || opt.includes(';')) {
+        btn.innerHTML = `<code style="display:block; text-align:left; white-space:pre-wrap; font-family:'Fira Code', monospace; padding:0.5rem 0;">${escHtml(opt)}</code>`;
+      } else {
+        btn.innerHTML = escHtml(opt);
+      }
       
       btn.onclick = () => {
-        if (wrap.dataset.done && !isExam) return;
+        if (mainWrap.dataset.done && !isExam) return;
         
         if (isExam) {
             optsDiv.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             examState[lessonId].answers[qIdx] = choiceIndex;
         } else {
-            submitMCQ(q, choiceIndex, btn, wrap, lessonId, qIdx);
+            submitMCQ(q, choiceIndex, btn, mainWrap, lessonId, qIdx);
         }
       };
       optsDiv.appendChild(btn);
     });
-    return optsDiv;
+    mainWrap.appendChild(optsDiv);
+    return mainWrap;
   }
 
-  function buildTextAnswer(q, wrap, isExam, lessonId, qIdx) {
+  function buildTextAnswer(q, isExam, lessonId, qIdx) {
+    const mainWrap = document.createElement('div');
     const row = document.createElement('div');
     row.className = 'qe-input-row';
 
@@ -233,16 +236,18 @@ const QuizEngine = (() => {
         submitBtn.textContent = 'Check';
         row.appendChild(submitBtn);
 
-        submitBtn.addEventListener('click', () => submitTextAnswer(q, input, submitBtn, wrap, lessonId, qIdx));
+        submitBtn.addEventListener('click', () => submitTextAnswer(q, input, submitBtn, mainWrap, lessonId, qIdx));
         input.addEventListener('keydown', e => {
-          if (e.key === 'Enter') submitTextAnswer(q, input, submitBtn, wrap, lessonId, qIdx);
+          if (e.key === 'Enter') submitTextAnswer(q, input, submitBtn, mainWrap, lessonId, qIdx);
         });
     }
 
-    return row;
+    mainWrap.appendChild(row);
+    return mainWrap;
   }
 
-  function buildFillBlank(q, wrap, isExam, lessonId, qIdx) {
+  function buildFillBlank(q, isExam, lessonId, qIdx) {
+    const mainWrap = document.createElement('div');
     const templateWrap = document.createElement('div');
     templateWrap.className = 'qe-fill-template';
 
@@ -266,7 +271,7 @@ const QuizEngine = (() => {
       }
     });
 
-    wrap.appendChild(templateWrap);
+    mainWrap.appendChild(templateWrap);
 
     if (isExam) {
         inputs.forEach(inp => {
@@ -279,17 +284,17 @@ const QuizEngine = (() => {
         submitBtn.className = 'btn btn-primary qe-submit-btn';
         submitBtn.style.marginTop = '1rem';
         submitBtn.textContent = 'Check Blanks';
-        wrap.appendChild(submitBtn);
+        mainWrap.appendChild(submitBtn);
 
-        submitBtn.addEventListener('click', () => submitFillBlank(q, inputs, submitBtn, wrap, lessonId, qIdx));
+        submitBtn.addEventListener('click', () => submitFillBlank(q, inputs, submitBtn, mainWrap, lessonId, qIdx));
         inputs.forEach(inp => {
           inp.addEventListener('keydown', e => {
-            if (e.key === 'Enter') submitFillBlank(q, inputs, submitBtn, wrap, lessonId, qIdx);
+            if (e.key === 'Enter') submitFillBlank(q, inputs, submitBtn, mainWrap, lessonId, qIdx);
           });
         });
     }
 
-    return wrap;
+    return mainWrap;
   }
 
   // ── Exam Logic ─────────────────────────────────────────────────────
