@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="ds-visualizer.css">
   <script src="questions-data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -36,29 +37,62 @@
   <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-brand">C Mastery</div>
+  <aside class="sidebar" id="sidebar">
+    <!-- Collapse/Expand toggle tab on the edge -->
+    <button class="sidebar-edge-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar" title="Toggle Sidebar">
+      <i data-lucide="chevron-left" class="edge-icon-collapse"></i>
+      <i data-lucide="chevron-right" class="edge-icon-expand"></i>
+    </button>
+
+    <!-- Brand header -->
+    <div class="sidebar-brand">
+      <span class="brand-icon">C</span>
+      <span class="brand-text">Mastery</span>
+    </div>
+
+    <!-- Navigation -->
     <nav class="sidebar-nav">
-      <div class="sidebar-section">Basics</div>
-      <button class="sidebar-btn active" onclick="go(1)" id="btn1">1. Variables & Types</button>
-      <button class="sidebar-btn locked" onclick="go(2)" id="btn2">2. Your First Program</button>
-      <button class="sidebar-btn locked" onclick="go(3)" id="btn3">3. Input & Output</button>
-      <div class="sidebar-section">Control Flow</div>
-      <button class="sidebar-btn locked" onclick="go(4)" id="btn4">4. If Statements</button>
-      <button class="sidebar-btn locked" onclick="go(5)" id="btn5">5. Loops</button>
-      <div class="sidebar-section">Data Structures</div>
-      <button class="sidebar-btn locked" onclick="go(6)" id="btn6">6. Arrays</button>
-      <button class="sidebar-btn locked" onclick="go(7)" id="btn7">7. Struct & Typedef</button>
-      <div class="sidebar-section">Advanced</div>
-      <button class="sidebar-btn locked" onclick="go(8)" id="btn8">8. Linked Lists</button>
-      <button class="sidebar-btn locked" onclick="go(9)" id="btn9">9. Final Project</button>
-      <div class="sidebar-section">Bonus</div>
-      <button class="sidebar-btn" onclick="go(10)" id="btn10">🎓 10. Past Year</button>
-      
-      <div style="margin-top: 3rem; padding: 0 2rem; padding-bottom: 2rem;">
-        <button class="btn btn-secondary" style="width: 100%; justify-content: center; border-color: rgba(239, 68, 68, 0.3); color: #f87171;" onclick="resetProgress()">Reset Progress</button>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Basics</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn active" onclick="go(1)" id="btn1" data-tooltip="Basics • Variables & Types"><span class="btn-num">1</span><span class="btn-label">Variables & Types</span></button>
+        <button class="sidebar-btn" onclick="go(2)" id="btn2" data-tooltip="Basics • Your First Program"><span class="btn-num">2</span><span class="btn-label">Your First Program</span></button>
+        <button class="sidebar-btn" onclick="go(3)" id="btn3" data-tooltip="Basics • Input & Output"><span class="btn-num">3</span><span class="btn-label">Input & Output</span></button>
+      </div>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Control Flow</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn" onclick="go(4)" id="btn4" data-tooltip="Control Flow • If Statements"><span class="btn-num">4</span><span class="btn-label">If Statements</span></button>
+        <button class="sidebar-btn" onclick="go(5)" id="btn5" data-tooltip="Control Flow • Loops"><span class="btn-num">5</span><span class="btn-label">Loops</span></button>
+      </div>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Data Structures</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn" onclick="go(6)" id="btn6" data-tooltip="Data Structures • Arrays"><span class="btn-num">6</span><span class="btn-label">Arrays</span></button>
+        <button class="sidebar-btn" onclick="go(7)" id="btn7" data-tooltip="Data Structures • Struct & Typedef"><span class="btn-num">7</span><span class="btn-label">Struct & Typedef</span></button>
+      </div>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Advanced</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn" onclick="go(8)" id="btn8" data-tooltip="Advanced • Linked Lists"><span class="btn-num">8</span><span class="btn-label">Linked Lists</span></button>
+        <button class="sidebar-btn" onclick="go(9)" id="btn9" data-tooltip="Advanced • Stack & Queue"><span class="btn-num">9</span><span class="btn-label">Stack & Queue</span></button>
+      </div>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Algorithms & Trees</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn" onclick="go(10)" id="btn10" data-tooltip="Algorithms & Trees • Sorting Algorithms"><span class="btn-num">10</span><span class="btn-label">Sorting Algorithms</span></button>
+        <button class="sidebar-btn" onclick="go(11)" id="btn11" data-tooltip="Algorithms & Trees • Trees"><span class="btn-num">11</span><span class="btn-label">Trees</span></button>
+        <button class="sidebar-btn" onclick="go(12)" id="btn12" data-tooltip="Algorithms & Trees • Binary Search Tree"><span class="btn-num">12</span><span class="btn-label">Binary Search Tree</span></button>
+      </div>
+      <div class="sidebar-section" onclick="toggleSection(this)"><span>Projects</span> <i data-lucide="chevron-down" class="section-chevron"></i></div>
+      <div class="sidebar-group">
+        <button class="sidebar-btn" onclick="go(13)" id="btn13" data-tooltip="Projects • Final Project"><span class="btn-num">13</span><span class="btn-label">Final Project</span></button>
+        <button class="sidebar-btn" onclick="go(14)" id="btn14" data-tooltip="Projects • Past Year"><span class="btn-num">14</span><span class="btn-label">Past Year</span></button>
       </div>
     </nav>
+
+    <!-- Sidebar footer -->
+    <div class="sidebar-footer">
+      <button class="sidebar-footer-btn sidebar-footer-danger" onclick="resetProgress()">
+        <i data-lucide="rotate-ccw"></i>
+        <span class="btn-label">Reset Progress</span>
+      </button>
+    </div>
   </aside>
 
   <!-- Content Area -->
@@ -67,18 +101,19 @@
     <!-- Header -->
     <header class="header">
       <div class="header-title">
-        <button id="menuToggle" class="menu-toggle" onclick="toggleSidebar()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+        <button id="menuToggle" aria-label="Toggle Sidebar" class="menu-toggle" onclick="toggleSidebar()">
+          <i data-lucide="menu"></i>
         </button>
         <h1>Data Structure Foundation</h1>
       </div>
-      <div class="header-progress">
-        <span id="progressLabel">Mastery: 0%</span>
+      <div class="header-actions">
+        <div class="header-progress">
+          <span id="progressLabel">Mastery: 0%</span>
+        </div>
+        <button class="header-theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme" id="themeToggle">
+          <i data-lucide="sun" class="theme-icon-light"></i>
+          <i data-lucide="moon" class="theme-icon-dark"></i>
+        </button>
       </div>
       <div class="progress-bar-container">
         <div class="progress-fill" id="progressFill"></div>
@@ -92,10 +127,10 @@
         <!-- Lesson 1: Variables -->
         <section class="lesson-card active" id="lesson1">
           <div class="lesson-meta">
-            <span>⏱ 15 min read</span>
-            <span>⚡ Level: Beginner</span>
+            <span><i data-lucide="timer" class="icon-inline"></i> 15 min read</span>
+            <span><i data-lucide="zap" class="icon-inline"></i> Level: Beginner</span>
           </div>
-          <h2>📦 Variables & Data Types</h2>
+          <h2><i data-lucide="package" class="icon-inline"></i> Variables & Data Types</h2>
           <p>Think of a variable as a <strong>magic box</strong>. You give it a name, tell C what kind of stuff fits
             inside, and then store data in it for later.</p>
 
@@ -215,7 +250,7 @@
           </div>
 
           <div class="alert alert-tip">
-            <span class="alert-icon">💡</span>
+            <span class="alert-icon"><i data-lucide="lightbulb" class="icon-inline"></i></span>
             <div><strong>Pro Tip:</strong> Every statement in C must end with a <span class="tag">;</span>. It's like a
               full stop at the end of a sentence.</div>
           </div>
@@ -227,17 +262,17 @@
 
           <div class="nav-btns">
             <span></span>
-            <button class="btn btn-primary locked" id="nextBtn1" onclick="go(2)">Next: Your First Program →</button>
+            <button class="btn btn-primary" id="nextBtn1" onclick="completeAndGo(2)">Next: Your First Program →</button>
           </div>
         </section>
 
         <!-- Lesson 2: First Program -->
         <section class="lesson-card" id="lesson2">
           <div class="lesson-meta">
-            <span>⏱ 20 min read</span>
-            <span>🔥 Level: Essential</span>
+            <span><i data-lucide="timer" class="icon-inline"></i> 20 min read</span>
+            <span><i data-lucide="flame" class="icon-inline"></i> Level: Essential</span>
           </div>
-          <h2>🎯 Your First C Program</h2>
+          <h2><i data-lucide="target" class="icon-inline"></i> Your First C Program</h2>
           <p>Now that we know about variables, let's see where they live. Every C program needs a skeleton to run.</p>
 
           <h3>The Anatomy of C</h3>
@@ -262,17 +297,17 @@
 
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(1)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn2" onclick="go(3)">Next: Input & Output →</button>
+            <button class="btn btn-primary" id="nextBtn2" onclick="completeAndGo(3)">Next: Input & Output →</button>
           </div>
         </section>
 
         <!-- Lesson 3: Input & Output -->
         <section class="lesson-card" id="lesson3">
           <div class="lesson-meta">
-            <span>⏱ 15 min read</span>
-            <span>⚡ Level: Beginner</span>
+            <span><i data-lucide="timer" class="icon-inline"></i> 15 min read</span>
+            <span><i data-lucide="zap" class="icon-inline"></i> Level: Beginner</span>
           </div>
-          <h2>📥 Input & Output</h2>
+          <h2><i data-lucide="download" class="icon-inline"></i> Input & Output</h2>
           <p>To talk to your user, you use <span class="tag">scanf()</span> to listen and <span
               class="tag">printf()</span> to speak.</p>
 
@@ -300,13 +335,13 @@
 
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(2)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn3" onclick="go(4)">Next: If Statements →</button>
+            <button class="btn btn-primary" id="nextBtn3" onclick="completeAndGo(4)">Next: If Statements →</button>
           </div>
         </section>
 
         <!-- Lesson 4: If Statements -->
         <section class="lesson-card" id="lesson4">
-          <h2>❓ If Statements</h2>
+          <h2><i data-lucide="help-circle" class="icon-inline"></i> If Statements</h2>
           <p>Make decisions in your code. "If the user is over 18, let them in!"</p>
           <div class="code-container">
             <pre class="code-block"><span class="code-kw">if</span> (age >= <span class="code-num">18</span>) {
@@ -320,13 +355,13 @@
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(3)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn4" onclick="go(5)">Next: Loops →</button>
+            <button class="btn btn-primary" id="nextBtn4" onclick="completeAndGo(5)">Next: Loops →</button>
           </div>
         </section>
 
         <!-- Lesson 5: Loops -->
         <section class="lesson-card" id="lesson5">
-          <h2>🔄 Loops</h2>
+          <h2><i data-lucide="refresh-cw" class="icon-inline"></i> Loops</h2>
           <p>Repeat actions without writing the same code over and over.</p>
           <div class="code-container">
             <pre class="code-block"><span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i < <span class="code-num">5</span>; i++) {
@@ -338,13 +373,13 @@
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(4)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn5" onclick="go(6)">Next: Arrays →</button>
+            <button class="btn btn-primary" id="nextBtn5" onclick="completeAndGo(6)">Next: Arrays →</button>
           </div>
         </section>
 
         <!-- Lesson 6: Arrays -->
         <section class="lesson-card" id="lesson6">
-          <h2>📋 Arrays</h2>
+          <h2><i data-lucide="clipboard-list" class="icon-inline"></i> Arrays</h2>
           <p>An array stores multiple values of the same type in a single variable.</p>
           <div class="code-container">
             <pre
@@ -363,13 +398,13 @@
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(5)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn6" onclick="go(7)">Next: Structs →</button>
+            <button class="btn btn-primary" id="nextBtn6" onclick="completeAndGo(7)">Next: Structs →</button>
           </div>
         </section>
 
         <!-- Lesson 7: Struct & Typedef -->
         <section class="lesson-card" id="lesson7">
-          <h2>🏗️ Struct & Typedef</h2>
+          <h2><i data-lucide="building" class="icon-inline"></i> Struct & Typedef</h2>
           <p>Group different data types together to create complex data structures.</p>
           <div class="code-container">
             <pre class="code-block"><span class="code-kw">typedef struct</span> {
@@ -382,13 +417,13 @@
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(6)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn7" onclick="go(8)">Next: Linked Lists →</button>
+            <button class="btn btn-primary" id="nextBtn7" onclick="completeAndGo(8)">Next: Linked Lists →</button>
           </div>
         </section>
 
         <!-- Lesson 8: Linked Lists -->
         <section class="lesson-card" id="lesson8">
-          <h2>🔗 Linked Lists</h2>
+          <h2><i data-lucide="link" class="icon-inline"></i> Linked Lists</h2>
           <p>A chain of nodes where each node points to the next one in memory.
             Each <code class="tag">Node</code> stores <code class="tag">data</code> and a
             <code class="tag">next</code> pointer — forming a dynamic chain.
@@ -406,53 +441,115 @@
             in real time.</p>
           <div id="viz-ll"></div>
 
-          <!-- ── Stack Visualizer ── -->
-          <p class="dsv-section-title">📚 Interactive: Stack Visualizer</p>
-          <p class="dsv-section-sub">A Stack follows LIFO (Last In, First Out). Push values on top, pop them off, or peek
-            at the current top.</p>
-          <div id="viz-stack"></div>
-
           <div class="quiz-section" id="quiz8" data-quiz-lesson="8">
             <div class="quiz-title">🏁 Knowledge Check</div>
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(7)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn8" onclick="go(9)">Next: Final Project →</button>
+            <button class="btn btn-primary" id="nextBtn8" onclick="completeAndGo(9)">Next: Stack & Queue →</button>
           </div>
         </section>
 
-        <!-- Lesson 9: Final Project -->
+        <!-- Lesson 9: Stack & Queue -->
         <section class="lesson-card" id="lesson9">
-          <h2>🎓 Final Project</h2>
-          <p>Congratulations! You've reached the final level. Use everything you've learned to build a Student Management
-            System.</p>
-          <div class="alert alert-tip">
-            <span class="alert-icon">🎉</span>
-            <div>You are now a C Mastery Wizard!</div>
-          </div>
+          <h2><i data-lucide="layers" class="icon-inline"></i> Stack & Queue</h2>
+          <p>Stacks and Queues are abstract data types that restrict how we add and remove elements.</p>
+          
+          <!-- ── Stack Visualizer ── -->
+          <p class="dsv-section-title"><i data-lucide="book" class="icon-inline"></i> Interactive: Stack Visualizer</p>
+          <p class="dsv-section-sub">A Stack follows LIFO (Last In, First Out). Push values on top, pop them off, or peek
+            at the current top.</p>
+          <div id="viz-stack"></div>
+
+          <!-- ── Queue Visualizer ── -->
+          <p class="dsv-section-title" style="margin-top: 2rem;"><i data-lucide="arrow-right-circle" class="icon-inline"></i> Interactive: Queue Visualizer</p>
+          <p class="dsv-section-sub">A Queue follows FIFO (First In, First Out) — like a line at a ticket counter. Enqueue at the back, Dequeue from the front.</p>
+          <div id="viz-queue"></div>
+
           <div class="quiz-section" id="quiz9" data-quiz-lesson="9">
-            <div class="quiz-title">🏁 Final Check</div>
+            <div class="quiz-title">🏁 Knowledge Check</div>
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(8)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn9" onclick="go(10)">Next: Past Year →</button>
+            <button class="btn btn-primary" id="nextBtn9" onclick="completeAndGo(10)">Next: Sorting Algorithms →</button>
           </div>
         </section>
 
-        <!-- Lesson 10: Past Year -->
+        
+        <!-- Lesson 10: Sorting -->
         <section class="lesson-card" id="lesson10">
-          <h2>🎓 Past Year Questions</h2>
-          <p>Test your knowledge with real past year exam questions provided by your lecturer. These are advanced questions combining structures, linked lists, and pointers.</p>
-          <div class="alert alert-tip">
-            <span class="alert-icon">💡</span>
-            <div>Take your time on these! They are designed to be challenging.</div>
-          </div>
+          <h2><i data-lucide="bar-chart" class="icon-inline"></i> Sorting Algorithms</h2>
+          <p>Sorting is arranging data in a particular order. Let's visualize Bubble Sort and Selection Sort.</p>
+          <div id="viz-sort"></div>
           <div class="quiz-section" id="quiz10" data-quiz-lesson="10">
-            <div class="quiz-title">🏁 Exam Check</div>
+            <div class="quiz-title">🏁 Knowledge Check</div>
           </div>
           <div class="nav-btns">
             <button class="btn btn-secondary" onclick="go(9)">← Back</button>
-            <button class="btn btn-primary locked" id="nextBtn10" onclick="location.reload()">Finish Course 🏆</button>
+            <button class="btn btn-primary" id="nextBtn10" onclick="completeAndGo(11)">Next: Trees →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 11: Trees -->
+        <section class="lesson-card" id="lesson11">
+          <h2><i data-lucide="trees" class="icon-inline"></i> Trees</h2>
+          <p>A Tree is a hierarchical data structure. The top node is the <strong>Root</strong>, nodes below it are <strong>Children</strong>, and nodes with no children are <strong>Leaf</strong> nodes.</p>
+          <div id="viz-tree"></div>
+          <div class="quiz-section" id="quiz11" data-quiz-lesson="11">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(10)">← Back</button>
+            <button class="btn btn-primary" id="nextBtn11" onclick="completeAndGo(12)">Next: Binary Search Tree →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 12: Binary Search Tree -->
+        <section class="lesson-card" id="lesson12">
+          <h2><i data-lucide="search" class="icon-inline"></i> Binary Search Tree (BST)</h2>
+          <p>A BST is a tree where the left child is smaller than the parent, and the right child is greater. Traversals visit nodes in different orders: <strong>Pre-order</strong>, <strong>In-order</strong>, and <strong>Post-order</strong>.</p>
+          <div id="viz-bst"></div>
+          <div class="quiz-section" id="quiz12" data-quiz-lesson="12">
+            <div class="quiz-title">🏁 Knowledge Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(11)">← Back</button>
+            <button class="btn btn-primary" id="nextBtn12" onclick="completeAndGo(13)">Next: Final Project →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 13: Final Project -->
+        <section class="lesson-card" id="lesson13">
+          <h2><i data-lucide="graduation-cap" class="icon-inline"></i> Final Project</h2>
+          <p>Congratulations! You've reached the final level. Use everything you've learned to build a Student Management
+            System.</p>
+          <div class="alert alert-tip">
+            <span class="alert-icon"><i data-lucide="party-popper" class="icon-inline"></i></span>
+            <div>You are now a C Mastery Wizard!</div>
+          </div>
+          <div class="quiz-section" id="quiz13" data-quiz-lesson="13">
+            <div class="quiz-title">🏁 Final Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(12)">← Back</button>
+            <button class="btn btn-primary" id="nextBtn13" onclick="completeAndGo(14)">Next: Past Year →</button>
+          </div>
+        </section>
+
+        <!-- Lesson 14: Past Year -->
+        <section class="lesson-card" id="lesson14">
+          <h2><i data-lucide="graduation-cap" class="icon-inline"></i> Past Year Questions</h2>
+          <p>Test your knowledge with real past year exam questions provided by your lecturer. These are advanced questions combining structures, linked lists, and pointers.</p>
+          <div class="alert alert-tip">
+            <span class="alert-icon"><i data-lucide="lightbulb" class="icon-inline"></i></span>
+            <div>Take your time on these! They are designed to be challenging.</div>
+          </div>
+          <div class="quiz-section" id="quiz14" data-quiz-lesson="14">
+            <div class="quiz-title">🏁 Exam Check</div>
+          </div>
+          <div class="nav-btns">
+            <button class="btn btn-secondary" onclick="go(13)">← Back</button>
+            <button class="btn btn-primary" id="nextBtn14" onclick="completeAndGo('finish')">Finish Course 🏆</button>
           </div>
         </section>
 
@@ -463,11 +560,28 @@
   <script src="quiz-engine.js"></script>
   <script src="ds-visualizer.js"></script>
   <script>
+    
+    // ── Theme Management ────────────────────────────────────────────────
+    function toggleTheme() {
+      const root = document.documentElement;
+      const newTheme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', newTheme);
+      localStorage.setItem('c_mastery_theme', newTheme);
+    }
+    const savedTheme = localStorage.getItem('c_mastery_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Auto-collapse sidebar on smaller laptops (e.g. 13 inch)
+    if (window.innerWidth <= 1280 && window.innerWidth > 1024) {
+      document.body.classList.add('sidebar-collapsed');
+    }
+
+    lucide.createIcons();
     // ── Lesson navigation state ────────────────────────────────────────
     let currentLesson = 1;
-    const totalLessons = 10;
+    const totalLessons = 14;
     let completedLessons = new Set();
-    let unlockedLessons = new Set([1, 10]);
+    let unlockedLessons = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
 
     // ── Persistence ───────────────────────────────────────────────────
     function saveProgress() {
@@ -492,18 +606,42 @@
     }
 
     // ── Navigation ────────────────────────────────────────────────────
-    function go(n) {
-      if (!unlockedLessons.has(n)) {
-        alert('Please answer the quiz correctly to unlock this lesson!');
+    
+    function completeAndGo(n) {
+      completedLessons.add(currentLesson);
+      const btn = document.getElementById(`btn${currentLesson}`);
+      if (btn) btn.classList.add('done');
+      updateProgress();
+      saveProgress();
+      
+      if (n === 'finish') {
+        showCompletion();
         return;
       }
-      document.getElementById(`lesson${currentLesson}`).classList.remove('active');
-      document.getElementById(`btn${currentLesson}`).classList.remove('active');
+      go(n);
+    }
+
+    function go(n) {
+      const prevLesson = document.getElementById(`lesson${currentLesson}`);
+      const prevBtn = document.getElementById(`btn${currentLesson}`);
+      if (prevLesson) prevLesson.classList.remove('active');
+      if (prevBtn) prevBtn.classList.remove('active');
+      
       currentLesson = n;
-      document.getElementById(`lesson${n}`).classList.add('active');
-      document.getElementById(`btn${n}`).classList.add('active');
+
+      const lessonTitleEl = document.querySelector(`#lesson${n} h2`);
+      if (lessonTitleEl) {
+        document.title = lessonTitleEl.innerText + " | C Mastery";
+      }
+
+      const nextLesson = document.getElementById(`lesson${n}`);
+      const nextBtn = document.getElementById(`btn${n}`);
+      if (nextLesson) nextLesson.classList.add('active');
+      if (nextBtn) nextBtn.classList.add('active');
+      
       if (window.innerWidth <= 1024) {
-        document.querySelector('.sidebar').classList.remove('open');
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) sidebar.classList.remove('open');
         const overlay = document.getElementById('sidebarOverlay');
         if (overlay) overlay.classList.remove('open');
       }
@@ -512,10 +650,18 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function toggleSidebar() {
-      document.querySelector('.sidebar').classList.toggle('open');
-      const overlay = document.getElementById('sidebarOverlay');
-      if (overlay) overlay.classList.toggle('open');
+        function toggleSidebar() {
+      if (window.innerWidth <= 1024) {
+        document.querySelector('.sidebar').classList.toggle('open');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) overlay.classList.toggle('open');
+      } else {
+        document.body.classList.toggle('sidebar-collapsed');
+      }
+    }
+    
+    function toggleSection(el) {
+      el.classList.toggle('collapsed');
     }
 
     function updateProgress() {
@@ -585,14 +731,23 @@
         savedState = data.quizState;
         
         completedLessons = new Set(data.completedLessons || []);
-        unlockedLessons = new Set(data.unlockedLessons || [1, 10]);
-        unlockedLessons.add(10); // Always ensure 10 is unlocked
+        unlockedLessons = new Set([1]);
+        completedLessons.forEach(id => {
+          unlockedLessons.add(id);
+          if (id < totalLessons) {
+            unlockedLessons.add(id + 1);
+          }
+        });
         currentLesson = data.currentLesson || 1;
         
         for (let i = 1; i <= totalLessons; i++) {
           const btn = document.getElementById(`btn${i}`);
           const nextBtn = document.getElementById(`nextBtn${i}`);
-          if (unlockedLessons.has(i)) if(btn) btn.classList.remove('locked');
+          if (unlockedLessons.has(i)) {
+            if (btn) btn.classList.remove('locked');
+          } else {
+            if (btn) btn.classList.add('locked');
+          }
           if (completedLessons.has(i)) {
               if(btn) btn.classList.add('done');
               if(nextBtn) nextBtn.classList.remove('locked');
@@ -601,10 +756,15 @@
         
         updateProgress();
         if (currentLesson !== 1) {
-             document.getElementById(`lesson1`).classList.remove('active');
-             document.getElementById(`btn1`).classList.remove('active');
-             document.getElementById(`lesson${currentLesson}`).classList.add('active');
-             document.getElementById(`btn${currentLesson}`).classList.add('active');
+             const l1 = document.getElementById(`lesson1`);
+             const b1 = document.getElementById(`btn1`);
+             if (l1) l1.classList.remove('active');
+             if (b1) b1.classList.remove('active');
+             
+             const cl = document.getElementById(`lesson${currentLesson}`);
+             const cb = document.getElementById(`btn${currentLesson}`);
+             if (cl) cl.classList.add('active');
+             if (cb) cb.classList.add('active');
         }
       } catch (e) {
         console.error("Failed to parse progress", e);
@@ -620,6 +780,10 @@
     DSViz.mountArray('viz-array');
     DSViz.mountLinkedList('viz-ll');
     DSViz.mountStack('viz-stack');
+    DSViz.mountQueue('viz-queue');
+    DSViz.mountSort('viz-sort');
+    DSViz.mountTree('viz-tree');
+    DSViz.mountBST('viz-bst');
 
     // ── Register Service Worker (PWA) ──────────────────────────────────
     if ('serviceWorker' in navigator) {

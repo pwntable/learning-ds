@@ -1,4 +1,4 @@
-const CACHE_NAME = 'c-mastery-v11';
+const CACHE_NAME = 'c-mastery-v21';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -45,32 +45,51 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event: Serve from cache, then network (Cache-First strategy)
+// Fetch event: Network-First for HTML/JS/CSS/JSON, Cache-First for others
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached response if found
-      if (response) {
-        return response;
-      }
-      
-      // Otherwise, fetch from network
-      return fetch(event.request).then((networkResponse) => {
-        // Only cache valid responses from our origin to avoid opaque response issues
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+  const url = new URL(event.request.url);
+  const isLocalAsset = url.origin === self.location.origin && 
+    (url.pathname.endsWith('.html') || 
+     url.pathname.endsWith('.js') || 
+     url.pathname.endsWith('.css') || 
+     url.pathname.endsWith('.json') ||
+     url.pathname === '/');
+
+  if (isLocalAsset) {
+    // Network-First Strategy
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
           return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  } else {
+    // Cache-First Strategy
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        if (response) {
+          return response;
         }
-
-        // Clone the response because it's a stream and can only be consumed once
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+        return fetch(event.request).then((networkResponse) => {
+          if (!networkResponse || networkResponse.status !== 200) {
+            return networkResponse;
+          }
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return networkResponse;
         });
-
-        return networkResponse;
-      }).catch(() => {
-        // Optional: Return an offline fallback page here if we had one
-      });
-    })
-  );
+      })
+    );
+  }
 });

@@ -946,44 +946,7 @@ window.QUESTIONS_DATA = {
         }
       ]
     },
-    "9": {
-      "questions": [
-        {
-          "id": "q9_1",
-          "type": "mcq",
-          "prompt": "Are you ready to build great things?",
-          "options": [
-            "Yes!",
-            "Definitely!"
-          ],
-          "correct": 0,
-          "hints": [
-            "Correct!",
-            "Correct!"
-          ],
-          "explanation": "You've completed all lessons. Go build something amazing with C!"
-        },
-        {
-          "id": "q9_2",
-          "type": "fill_blank",
-          "prompt": "Type 'C' to confirm.",
-          "template": "___",
-          "blanks": [
-            "C"
-          ],
-          "explanation": "C is awesome!"
-        },
-        {
-          "id": "q9_3",
-          "type": "predict_output",
-          "prompt": "Output of your success:",
-          "code": "printf(\"Success\");",
-          "correct": "Success",
-          "explanation": "Great job!"
-        }
-      ]
-    },
-    "10": {
+    "14": {
       "examMode": true,
       "showAll": true,
       "questions": [
@@ -1065,6 +1028,150 @@ window.QUESTIONS_DATA = {
           ],
           "explanation": "In C, you can dereference a struct pointer and access its member using `(*ptr).data`, but the arrow operator `ptr->data` is much more common and readable.",
           "topic": "Pointers"
+        }
+      ]
+    },
+    "13": {
+      "questions": [
+        {
+          "id": "q9_1",
+          "type": "mcq",
+          "prompt": "Are you ready to build great things?",
+          "options": [
+            "Yes!",
+            "Definitely!"
+          ],
+          "correct": 0,
+          "hints": [
+            "Correct!",
+            "Correct!"
+          ],
+          "explanation": "You've completed all lessons. Go build something amazing with C!"
+        },
+        {
+          "id": "q9_2",
+          "type": "fill_blank",
+          "prompt": "Type 'C' to confirm.",
+          "template": "___",
+          "blanks": [
+            "C"
+          ],
+          "explanation": "C is awesome!"
+        },
+        {
+          "id": "q9_3",
+          "type": "predict_output",
+          "prompt": "Output of your success:",
+          "code": "printf(\"Success\");",
+          "correct": "Success",
+          "explanation": "Great job!"
+        }
+      ]
+    },
+    "10": {
+      "questions": [
+        {
+          "id": "q9_1",
+          "type": "mcq",
+          "prompt": "Which sorting algorithm repeatedly swaps adjacent elements if they are in wrong order?",
+          "options": [
+            "Selection Sort",
+            "Bubble Sort",
+            "Insertion Sort"
+          ],
+          "correct": 1,
+          "hints": [
+            "It 'bubbles' the largest elements to the end."
+          ],
+          "explanation": "Bubble sort works by repeatedly swapping adjacent elements that are out of order."
+        }
+      ]
+    },
+    "11": {
+      "questions": [
+        {
+          "id": "q10_1",
+          "type": "mcq",
+          "prompt": "What is the topmost node of a tree called?",
+          "options": [
+            "Leaf",
+            "Child",
+            "Root"
+          ],
+          "correct": 2,
+          "hints": [
+            "It's where the tree starts."
+          ],
+          "explanation": "The Root is the topmost node in a tree hierarchy."
+        }
+      ]
+    },
+    "12": {
+      "questions": [
+        {
+          "id": "q11_1",
+          "type": "mcq",
+          "prompt": "Which traversal visits the left subtree, then the root, then the right subtree?",
+          "options": [
+            "Pre-order",
+            "In-order",
+            "Post-order"
+          ],
+          "correct": 1,
+          "hints": [
+            "The root is visited 'in' between the subtrees."
+          ],
+          "explanation": "In-order traversal visits left child, root, right child. For a BST, this gives elements in sorted order."
+        }
+      ]
+    },
+    "9": {
+      "questions": [
+        {
+          "id": "q9_1",
+          "type": "mcq",
+          "prompt": "What principle does a Queue follow?",
+          "options": [
+            "LIFO",
+            "FIFO",
+            "Random Access"
+          ],
+          "correct": 1,
+          "hints": [
+            "Like a line at a ticket counter."
+          ],
+          "explanation": "A Queue follows the First In, First Out (FIFO) principle."
+        },
+        {
+          "id": "q9_2",
+          "type": "mcq",
+          "prompt": "What principle does a Stack follow?",
+          "options": [
+            "LIFO",
+            "FIFO",
+            "FILO"
+          ],
+          "correct": 0,
+          "hints": [
+            "Like a stack of plates."
+          ],
+          "explanation": "A Stack follows Last In, First Out (LIFO). (FILO is technically equivalent but LIFO is standard terminology)."
+        },
+        {
+          "id": "q9_3",
+          "type": "predict_output",
+          "prompt": "Queue trace: Enqueue(1), Enqueue(2), Dequeue(). What is removed?",
+          "code": "enqueue(1);\nenqueue(2);\nint x = dequeue();",
+          "correct": "1",
+          "explanation": "1 was added first, so it is dequeued first (FIFO)."
+        },
+        {
+          "id": "q9_4",
+          "type": "predict_output",
+          "prompt": "Stack trace: Push(A), Push(B), Pop(). What is removed?",
+          "code": "push('A');\npush('B');\nchar c = pop();",
+          "correct": "B",
+          "explanation": "B was added last, so it is popped first (LIFO)."
         }
       ]
     }

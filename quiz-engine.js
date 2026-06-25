@@ -157,19 +157,22 @@ const QuizEngine = (() => {
         submitBtn.onclick = () => submitExam(lessonId, container);
         container.appendChild(submitBtn);
     }
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
   }
 
   function makeBadge(type) {
     const badges = {
-      'mcq': { icon: '🔘', label: 'Multiple Choice' },
-      'predict_output': { icon: '🔮', label: 'Predict Output' },
-      'code_completion': { icon: '⌨️', label: 'Code Completion' },
-      'fill_blank': { icon: '📝', label: 'Fill in the Blank' }
+      'mcq': { icon: 'circle-dot', label: 'Multiple Choice' },
+      'predict_output': { icon: 'terminal', label: 'Predict Output' },
+      'code_completion': { icon: 'code', label: 'Code Completion' },
+      'fill_blank': { icon: 'file-signature', label: 'Fill in the Blank' }
     };
-    const info = badges[type] || { icon: '❓', label: 'Question' };
+    const info = badges[type] || { icon: 'help-circle', label: 'Question' };
     const badge = document.createElement('div');
     badge.className = 'qe-type-badge';
-    badge.innerHTML = `${info.icon} <span>${info.label}</span>`;
+    badge.innerHTML = `<i data-lucide="${info.icon}" class="icon-inline"></i> <span>${info.label}</span>`;
     return badge;
   }
 
