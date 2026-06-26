@@ -955,6 +955,11 @@ tr:hover td {
         padding: 2rem 1.5rem;
     }
 
+    .quiz-section {
+        padding: 1.25rem;
+        margin-top: 2.5rem;
+    }
+
     h2 {
         font-size: 1.75rem;
     }

@@ -797,6 +797,50 @@ const DSViz = (() => {
           { val: 20, x: 130, y: 10 }, { val: 30, x: 210, y: 60 }, { val: 25, x: 160, y: 110 },
           { val: 35, x: 260, y: 110 }, { val: 32, x: 210, y: 160 }
         ]
+      },
+      leftHeavy: {
+        tree: { 40: { left: 30, right: null }, 30: { left: 20, right: null }, 20: { left: 10, right: null }, 10: { left: null, right: null } },
+        rootNode: 40,
+        edges: [
+          { from: 40, to: 30, x1: 280, y1: 30, x2: 230, y2: 80 },
+          { from: 30, to: 20, x1: 230, y1: 80, x2: 180, y2: 130 },
+          { from: 20, to: 10, x1: 180, y1: 130, x2: 130, y2: 180 }
+        ],
+        nodes: [
+          { val: 40, x: 260, y: 10 }, { val: 30, x: 210, y: 60 }, { val: 20, x: 160, y: 110 }, { val: 10, x: 110, y: 160 }
+        ]
+      },
+      rightHeavy: {
+        tree: { 10: { left: null, right: 20 }, 20: { left: null, right: 30 }, 30: { left: null, right: 40 }, 40: { left: null, right: null } },
+        rootNode: 10,
+        edges: [
+          { from: 10, to: 20, x1: 120, y1: 30, x2: 170, y2: 80 },
+          { from: 20, to: 30, x1: 170, y1: 80, x2: 220, y2: 130 },
+          { from: 30, to: 40, x1: 220, y1: 130, x2: 270, y2: 180 }
+        ],
+        nodes: [
+          { val: 10, x: 100, y: 10 }, { val: 20, x: 150, y: 60 }, { val: 30, x: 200, y: 110 }, { val: 40, x: 250, y: 160 }
+        ]
+      },
+      complex: {
+        tree: {
+          50: { left: 25, right: 75 }, 25: { left: null, right: 35 }, 35: { left: 30, right: null }, 30: { left: null, right: null },
+          75: { left: 60, right: 85 }, 60: { left: null, right: null }, 85: { left: 80, right: null }, 80: { left: null, right: null }
+        },
+        rootNode: 50,
+        edges: [
+          { from: 50, to: 25, x1: 200, y1: 30, x2: 120, y2: 80 },
+          { from: 50, to: 75, x1: 200, y1: 30, x2: 280, y2: 80 },
+          { from: 25, to: 35, x1: 120, y1: 80, x2: 170, y2: 130 },
+          { from: 35, to: 30, x1: 170, y1: 130, x2: 140, y2: 180 },
+          { from: 75, to: 60, x1: 280, y1: 80, x2: 230, y2: 130 },
+          { from: 75, to: 85, x1: 280, y1: 80, x2: 330, y2: 130 },
+          { from: 85, to: 80, x1: 330, y1: 130, x2: 300, y2: 180 }
+        ],
+        nodes: [
+          { val: 50, x: 180, y: 10 }, { val: 25, x: 100, y: 60 }, { val: 35, x: 150, y: 110 }, { val: 30, x: 120, y: 160 },
+          { val: 75, x: 260, y: 60 }, { val: 60, x: 210, y: 110 }, { val: 85, x: 310, y: 110 }, { val: 80, x: 280, y: 160 }
+        ]
       }
     };
 
@@ -817,7 +861,10 @@ const DSViz = (() => {
           <select class="dsv-input dsv-input-sm" id="${containerId}-level" style="background: var(--bg-secondary); cursor: pointer; max-width: 100%;">
             <option value="basic">Basic Tree</option>
             <option value="medium" selected>Medium Tree</option>
-            <option value="hard">Hard (Imbalanced)</option>
+            <option value="hard">Hard (Zigzag)</option>
+            <option value="leftHeavy">Left-Heavy</option>
+            <option value="rightHeavy">Right-Heavy</option>
+            <option value="complex">Complex Edge Cases</option>
           </select>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-pre">Pre-order</button>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-in">In-order</button>

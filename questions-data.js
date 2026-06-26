@@ -1122,6 +1122,29 @@ window.QUESTIONS_DATA = {
             "The root is visited 'in' between the subtrees."
           ],
           "explanation": "In-order traversal visits left child, root, right child. For a BST, this gives elements in sorted order."
+        },
+        {
+          "id": "q12_2",
+          "type": "tree_build",
+          "prompt": "Drag and drop the values to build the 'Medium Tree' (root 10, left 5, right 15) to form a valid Binary Search Tree.",
+          "nodes": ["10", "2", "15", "7", "5", "20", "12"],
+          "treeStructure": [
+            { id: "node_10", x: 200, y: 20, left: "node_5", right: "node_15" },
+            { id: "node_5", x: 100, y: 100, left: "node_2", right: "node_7" },
+            { id: "node_15", x: 300, y: 100, left: "node_12", right: "node_20" },
+            { id: "node_2", x: 50, y: 180 },
+            { id: "node_7", x: 150, y: 180 },
+            { id: "node_12", x: 250, y: 180 },
+            { id: "node_20", x: 350, y: 180 }
+          ],
+          "correctMapping": {
+            "node_10": "10", "node_5": "5", "node_15": "15",
+            "node_2": "2", "node_7": "7", "node_12": "12", "node_20": "20"
+          },
+          "hints": [
+            "Remember the golden rule of BST: Left Child < Parent < Right Child."
+          ],
+          "explanation": "In a Binary Search Tree, all left descendants are smaller than the node, and right descendants are larger. 10 is the root. 5 goes left, 15 goes right. Then 5's left is 2 and right is 7. 15's left is 12 and right is 20."
         }
       ]
     },

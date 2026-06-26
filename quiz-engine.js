@@ -137,6 +137,10 @@ const QuizEngine = (() => {
         block.appendChild(buildTextAnswer(q, isExam, lessonId, qIdx));
       } else if (q.type === 'fill_blank') {
         block.appendChild(buildFillBlank(q, isExam, lessonId, qIdx));
+      } else if (q.type === 'sortable') {
+        block.appendChild(buildSortable(q, isExam, lessonId, qIdx));
+      } else if (q.type === 'tree_build') {
+        block.appendChild(buildTreeBuild(q, isExam, lessonId, qIdx));
       }
 
       const feedback = document.createElement('div');
@@ -167,7 +171,9 @@ const QuizEngine = (() => {
       'mcq': { icon: 'circle-dot', label: 'Multiple Choice' },
       'predict_output': { icon: 'terminal', label: 'Predict Output' },
       'code_completion': { icon: 'code', label: 'Code Completion' },
-      'fill_blank': { icon: 'file-signature', label: 'Fill in the Blank' }
+      'fill_blank': { icon: 'file-signature', label: 'Fill in the Blank' },
+      'sortable': { icon: 'arrow-up-down', label: 'Drag & Drop Order' },
+      'tree_build': { icon: 'git-merge', label: 'Build Tree' }
     };
     const info = badges[type] || { icon: 'help-circle', label: 'Question' };
     const badge = document.createElement('div');
@@ -300,8 +306,313 @@ const QuizEngine = (() => {
     return mainWrap;
   }
 
+  function buildSortable(q, isExam, lessonId, qIdx) {
+    const mainWrap = document.createElement('div');
+    const listWrap = document.createElement('div');
+    listWrap.className = 'qe-sortable-list';
+    
+    let currentItems = [...q.items];
+    if (!examState[lessonId]?.answers?.[qIdx] && !mainWrap.dataset.done) {
+       shuffleArray(currentItems);
+       if (JSON.stringify(currentItems) === JSON.stringify(q.correctOrder)) shuffleArray(currentItems);
+    } else if (examState[lessonId]?.answers?.[qIdx]) {
+       currentItems = examState[lessonId].answers[qIdx];
+    }
+    
+    currentItems.forEach((itemText, idx) => {
+       const itemDiv = document.createElement('div');
+       itemDiv.className = 'qe-sortable-item';
+       itemDiv.draggable = true;
+       itemDiv.dataset.val = itemText;
+       itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted);"></i>`;
+       listWrap.appendChild(itemDiv);
+    });
+
+    let draggedItem = null;
+    listWrap.addEventListener('dragstart', e => {
+      if (mainWrap.dataset.done && !isExam) return;
+      draggedItem = e.target.closest('.qe-sortable-item');
+      if (!draggedItem) return;
+      draggedItem.classList.add('dragging');
+      if(e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', ''); }
+    });
+
+    listWrap.addEventListener('dragend', e => {
+      if (draggedItem) draggedItem.classList.remove('dragging');
+      draggedItem = null;
+      [...listWrap.children].forEach((item, idx) => {
+        const idxSpan = item.querySelector('.qe-sortable-index');
+        if (idxSpan) idxSpan.textContent = `${idx + 1}.`;
+      });
+      if (isExam) examState[lessonId].answers[qIdx] = Array.from(listWrap.children).map(c => c.dataset.val);
+    });
+
+    listWrap.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (mainWrap.dataset.done && !isExam) return;
+      const draggable = document.querySelector('.dragging');
+      if (!draggable) return;
+      const afterElement = [...listWrap.querySelectorAll('.qe-sortable-item:not(.dragging)')].reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = e.clientY - box.top - box.height / 2;
+        return (offset < 0 && offset > closest.offset) ? { offset: offset, element: child } : closest;
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+      
+      if (afterElement == null) listWrap.appendChild(draggable);
+      else listWrap.insertBefore(draggable, afterElement);
+    });
+
+    mainWrap.appendChild(listWrap);
+
+    if (!isExam) {
+      const controlsWrap = document.createElement('div');
+      controlsWrap.className = 'qe-btn-group';
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn btn-primary qe-submit-btn';
+      submitBtn.textContent = 'Check Order';
+      submitBtn.onclick = () => submitSortable(q, listWrap, submitBtn, mainWrap, lessonId, qIdx);
+      
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'btn btn-secondary qe-submit-btn';
+      resetBtn.textContent = 'Reset';
+      resetBtn.onclick = () => {
+        if (mainWrap.dataset.done) return;
+        shuffleArray(currentItems);
+        if (JSON.stringify(currentItems) === JSON.stringify(q.correctOrder)) shuffleArray(currentItems);
+        listWrap.innerHTML = '';
+        currentItems.forEach((itemText, idx) => {
+           const itemDiv = document.createElement('div');
+           itemDiv.className = 'qe-sortable-item';
+           itemDiv.draggable = true;
+           itemDiv.dataset.val = itemText;
+           itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted);"></i>`;
+           listWrap.appendChild(itemDiv);
+        });
+        if (window.lucide) window.lucide.createIcons();
+      };
+
+      controlsWrap.appendChild(submitBtn);
+      controlsWrap.appendChild(resetBtn);
+
+      if (q.hints && q.hints.length > 0) {
+         const hintBtn = document.createElement('button');
+         hintBtn.className = 'btn btn-secondary qe-submit-btn';
+         hintBtn.textContent = 'Hint';
+         hintBtn.onclick = () => alert('Hint: ' + q.hints[0]);
+         controlsWrap.appendChild(hintBtn);
+      }
+
+      mainWrap.appendChild(controlsWrap);
+    }
+    return mainWrap;
+  }
+
   // ── Exam Logic ─────────────────────────────────────────────────────
   
+  
+  function buildTreeBuild(q, isExam, lessonId, qIdx) {
+    const mainWrap = document.createElement('div');
+    mainWrap.className = 'qe-tree-wrap';
+    
+    // Create the tree stage
+    const stage = document.createElement('div');
+    stage.className = 'qe-tree-stage';
+    
+    // Draw SVG lines
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.className = 'qe-tree-svg';
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    // Ensure the SVG canvas matches the stage size so no lines are clipped
+    svg.setAttribute('viewBox', '0 0 420 250');
+    q.treeStructure.forEach(node => {
+        if (node.left) {
+            const child = q.treeStructure.find(n => n.id === node.left);
+            if (child) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', node.x + 20);
+                line.setAttribute('y1', node.y + 20);
+                line.setAttribute('x2', child.x + 20);
+                line.setAttribute('y2', child.y + 20);
+                line.setAttribute('stroke', 'var(--border)');
+                line.setAttribute('stroke-width', '2');
+                svg.appendChild(line);
+            }
+        }
+        if (node.right) {
+            const child = q.treeStructure.find(n => n.id === node.right);
+            if (child) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', node.x + 20);
+                line.setAttribute('y1', node.y + 20);
+                line.setAttribute('x2', child.x + 20);
+                line.setAttribute('y2', child.y + 20);
+                line.setAttribute('stroke', 'var(--border)');
+                line.setAttribute('stroke-width', '2');
+                svg.appendChild(line);
+            }
+        }
+    });
+    stage.appendChild(svg);
+    
+    // Create nodes (drop zones)
+    q.treeStructure.forEach(node => {
+        const nodeDiv = document.createElement('div');
+        nodeDiv.className = 'qe-tree-node qe-dropzone';
+        nodeDiv.id = `zone-${lessonId}-${qIdx}-${node.id}`;
+        nodeDiv.dataset.nodeId = node.id;
+        nodeDiv.style.left = `${node.x}px`;
+        nodeDiv.style.top = `${node.y}px`;
+        
+        nodeDiv.addEventListener('dragover', e => {
+            e.preventDefault();
+            if (mainWrap.dataset.done && !isExam) return;
+            nodeDiv.classList.add('drag-over');
+        });
+        nodeDiv.addEventListener('dragleave', e => {
+            nodeDiv.classList.remove('drag-over');
+        });
+        nodeDiv.addEventListener('drop', e => {
+            e.preventDefault();
+            nodeDiv.classList.remove('drag-over');
+            if (mainWrap.dataset.done && !isExam) return;
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggedEl = document.getElementById(draggedId);
+            if (draggedEl) {
+                if (nodeDiv.children.length > 0) {
+                    // swap logic or put existing back to pool
+                    const existing = nodeDiv.children[0];
+                    draggedEl.parentNode.appendChild(existing);
+                }
+                nodeDiv.appendChild(draggedEl);
+                updateTreeState();
+            }
+        });
+        stage.appendChild(nodeDiv);
+    });
+    
+    const stageWrapper = document.createElement('div');
+    stageWrapper.className = 'qe-tree-stage-wrapper';
+    stageWrapper.appendChild(stage);
+    mainWrap.appendChild(stageWrapper);
+
+    // Create pool
+    const pool = document.createElement('div');
+    pool.className = 'qe-pool qe-dropzone';
+    pool.id = `pool-${lessonId}-${qIdx}`;
+    
+    pool.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (mainWrap.dataset.done && !isExam) return;
+        pool.classList.add('drag-over');
+    });
+    pool.addEventListener('dragleave', e => {
+        pool.classList.remove('drag-over');
+    });
+    pool.addEventListener('drop', e => {
+        e.preventDefault();
+        pool.classList.remove('drag-over');
+        if (mainWrap.dataset.done && !isExam) return;
+        const draggedId = e.dataTransfer.getData('text/plain');
+        const draggedEl = document.getElementById(draggedId);
+        if (draggedEl) {
+            pool.appendChild(draggedEl);
+            updateTreeState();
+        }
+    });
+
+    let currentItems = [...q.nodes];
+    if (!examState[lessonId]?.answers?.[qIdx] && !mainWrap.dataset.done) {
+       shuffleArray(currentItems);
+    }
+    
+    const existingAns = examState[lessonId]?.answers?.[qIdx];
+
+    currentItems.forEach((val, idx) => {
+        const item = document.createElement('div');
+        item.className = 'qe-pool-item';
+        item.draggable = true;
+        item.textContent = val;
+        item.dataset.val = val;
+        item.id = `item-${lessonId}-${qIdx}-${idx}`;
+        
+        item.addEventListener('dragstart', e => {
+            if (mainWrap.dataset.done && !isExam) return;
+            e.dataTransfer.setData('text/plain', item.id);
+            setTimeout(() => item.classList.add('dragging'), 0);
+        });
+        item.addEventListener('dragend', e => {
+            item.classList.remove('dragging');
+        });
+        
+        // Restore state if any
+        if (existingAns) {
+            let placed = false;
+            for (let nodeId in existingAns) {
+                if (existingAns[nodeId] === val) {
+                    const targetZone = stage.querySelector(`[data-node-id="${nodeId}"]`);
+                    if (targetZone) {
+                        targetZone.appendChild(item);
+                        placed = true;
+                        // remove from existingAns to avoid duplicates matching same zone
+                        delete existingAns[nodeId];
+                        break;
+                    }
+                }
+            }
+            if (!placed) pool.appendChild(item);
+        } else {
+            pool.appendChild(item);
+        }
+    });
+    mainWrap.appendChild(pool);
+
+    function updateTreeState() {
+        if (!isExam) return;
+        const state = {};
+        stage.querySelectorAll('.qe-tree-node').forEach(zone => {
+            if (zone.children.length > 0) {
+                state[zone.dataset.nodeId] = zone.children[0].dataset.val;
+            }
+        });
+        examState[lessonId].answers[qIdx] = state;
+    }
+
+    if (!isExam) {
+      const controlsWrap = document.createElement('div');
+      controlsWrap.className = 'qe-btn-group';
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn btn-primary qe-submit-btn';
+      submitBtn.textContent = 'Check Tree';
+      submitBtn.onclick = () => submitTreeBuild(q, stage, submitBtn, mainWrap, lessonId, qIdx);
+
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'btn btn-secondary qe-submit-btn';
+      resetBtn.textContent = 'Reset';
+      resetBtn.onclick = () => {
+         if (mainWrap.dataset.done) return;
+         // Move all items from the tree stage back to the pool
+         stage.querySelectorAll('.qe-pool-item').forEach(el => pool.appendChild(el));
+      };
+
+      controlsWrap.appendChild(submitBtn);
+      controlsWrap.appendChild(resetBtn);
+
+      if (q.hints && q.hints.length > 0) {
+         const hintBtn = document.createElement('button');
+         hintBtn.className = 'btn btn-secondary qe-submit-btn';
+         hintBtn.textContent = 'Hint';
+         hintBtn.onclick = () => alert('Hint: ' + q.hints[0]);
+         controlsWrap.appendChild(hintBtn);
+      }
+
+      mainWrap.appendChild(controlsWrap);
+    }
+    return mainWrap;
+  }
+
   function submitExam(lessonId, container) {
       const pool = activePools[lessonId];
       const allQuestions = questionBank[lessonId];
@@ -341,6 +652,20 @@ const QuizEngine = (() => {
               isCorrect = allOk;
               displayCorrect = exps.join(', ');
               block.querySelectorAll('input').forEach(inp => inp.disabled = true);
+          } else if (q.type === 'sortable') {
+              isCorrect = JSON.stringify(userAns || []) === JSON.stringify(q.correctOrder);
+              displayCorrect = q.correctOrder.join(' → ');
+              block.querySelectorAll('.qe-sortable-item').forEach(inp => inp.draggable = false);
+          } else if (q.type === 'tree_build') {
+              isCorrect = true;
+              let uMap = userAns || {};
+              for (let nodeId in q.correctMapping) {
+                  if (uMap[nodeId] !== q.correctMapping[nodeId]) {
+                      isCorrect = false; break;
+                  }
+              }
+              displayCorrect = "Correct tree structure";
+              block.querySelectorAll('.qe-pool-item').forEach(inp => inp.draggable = false);
           } else {
               isCorrect = checkAnswer(userAns || '', q.correct);
               displayCorrect = Array.isArray(q.correct) ? q.correct[0] : q.correct;
@@ -448,6 +773,53 @@ const QuizEngine = (() => {
     }
   }
 
+  function submitSortable(q, listWrap, submitBtn, wrap, lessonId, qIdx) {
+    if (wrap.dataset.done) return;
+    const currentOrder = Array.from(listWrap.children).map(c => c.dataset.val);
+    const isCorrect = JSON.stringify(currentOrder) === JSON.stringify(q.correctOrder);
+    
+    const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+    if (isCorrect) {
+      submitBtn.disabled = true;
+      wrap.dataset.done = '1';
+      listWrap.querySelectorAll('.qe-sortable-item').forEach(el => el.draggable = false);
+      showFeedback(feedbackEl, true, '✔ Perfect! You got the correct order.', q.explanation);
+      markPassed(lessonId, qIdx);
+    } else {
+      listWrap.classList.add('qe-input-wrong');
+      showFeedback(feedbackEl, false, '✘ Incorrect order. Try dragging them again!');
+      setTimeout(() => listWrap.classList.remove('qe-input-wrong'), 400);
+    }
+  }
+
+  
+  function submitTreeBuild(q, stage, submitBtn, wrap, lessonId, qIdx) {
+    if (wrap.dataset.done) return;
+    
+    let isCorrect = true;
+    stage.querySelectorAll('.qe-tree-node').forEach(zone => {
+        const expected = q.correctMapping[zone.dataset.nodeId];
+        if (expected) {
+            if (zone.children.length === 0 || zone.children[0].dataset.val !== expected) {
+                isCorrect = false;
+            }
+        }
+    });
+
+    const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+    if (isCorrect) {
+      submitBtn.disabled = true;
+      wrap.dataset.done = '1';
+      wrap.querySelectorAll('.qe-pool-item').forEach(el => el.draggable = false);
+      showFeedback(feedbackEl, true, '✔ Perfect! You built the correct tree.', q.explanation);
+      markPassed(lessonId, qIdx);
+    } else {
+      wrap.classList.add('qe-input-wrong');
+      showFeedback(feedbackEl, false, '✘ Incorrect tree structure. Try arranging them again!');
+      setTimeout(() => wrap.classList.remove('qe-input-wrong'), 400);
+    }
+  }
+
   function submitMCQ(q, choiceIndex, btn, wrap, lessonId, qIdx) {
     if (wrap.dataset.done) return;
     const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
@@ -549,6 +921,8 @@ const QuizEngine = (() => {
                 el.disabled = true;
                 if (el.classList.contains('quiz-option')) el.style.pointerEvents = 'none';
               });
+              block.querySelectorAll('.qe-sortable-item').forEach(el => el.draggable = false);
+              block.querySelectorAll('.qe-pool-item').forEach(el => el.draggable = false);
             }
           }
         });

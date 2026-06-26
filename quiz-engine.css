@@ -246,3 +246,190 @@
     width: 90px;
   }
 }
+
+/* ── Sortable Drag & Drop ─────────────────────────────────────────── */
+.qe-sortable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1rem;
+  padding: 4px;
+}
+.qe-sortable-list.qe-input-wrong {
+  animation: shake 0.4s ease;
+  border: 1px solid var(--accent-danger);
+  border-radius: 8px;
+}
+.qe-sortable-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.qe-sortable-item:active {
+  cursor: grabbing;
+}
+.qe-sortable-item.dragging {
+  opacity: 0.6;
+  background: var(--bg-tertiary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.02);
+}
+.qe-sortable-index {
+  font-weight: 600;
+  margin-right: 12px;
+  color: var(--text-muted);
+  min-width: 20px;
+}
+.qe-sortable-text {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+/* Tree Build Quiz Type */
+.qe-tree-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.qe-tree-stage-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  --tree-scale: min(1, calc((100cqw - 8px) / 420px));
+  height: calc(250px * var(--tree-scale));
+  margin: 0 auto;
+}
+
+.qe-tree-stage {
+  position: relative;
+  width: 420px;
+  height: 250px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transform: scale(var(--tree-scale));
+  transform-origin: top center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.qe-tree-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 0;
+}
+
+.qe-tree-node {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.qe-tree-node.drag-over {
+  border-color: var(--accent);
+  background: rgba(43, 108, 176, 0.1);
+  transform: scale(1.1);
+}
+
+.qe-pool {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  min-height: 60px;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  width: 100%;
+  max-width: 420px;
+  justify-content: center;
+}
+
+.qe-pool.drag-over {
+  border-color: var(--accent);
+  background: rgba(43, 108, 176, 0.05);
+}
+
+.qe-pool-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.1s ease;
+  z-index: 100;
+}
+
+.qe-pool-item:active {
+  cursor: grabbing;
+}
+
+.qe-pool-item.dragging {
+  opacity: 0.5;
+}
+
+/* Ensure the pool item fills the node when dropped */
+.qe-tree-node .qe-pool-item {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/* Button Group Responsiveness */
+.qe-btn-group {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.qe-btn-group .btn {
+  flex: 1;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .qe-btn-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .qe-btn-group .btn {
+    width: 100%;
+  }
+}
