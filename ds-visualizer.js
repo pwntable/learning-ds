@@ -591,16 +591,40 @@ const DSViz = (() => {
 
         <div class="dsv-status" id="${containerId}-srt-status"></div>
 
-        <div class="dsv-sort-stage" id="${containerId}-srt-stage"></div>
+        <div style="display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 1rem;">
+          <div style="flex: 1; min-width: 250px;">
+             <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-align: center;">Before Sorting (Original)</h4>
+             <div class="dsv-sort-stage" id="${containerId}-srt-stage-before" style="border: none; border-bottom: 2px solid var(--border); padding-bottom: 0;"></div>
+          </div>
+          <div style="flex: 1; min-width: 250px;">
+             <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-align: center;">After Sorting (Live Progress)</h4>
+             <div class="dsv-sort-stage" id="${containerId}-srt-stage-after" style="border: none; border-bottom: 2px solid var(--border); padding-bottom: 0;"></div>
+          </div>
+        </div>
       </div>`;
     if (window.lucide) window.lucide.createIcons({ root: root });
 
-    const stage = root.querySelector(`#${containerId}-srt-stage`);
+    const stageBefore = root.querySelector(`#${containerId}-srt-stage-before`);
+    const stageAfter = root.querySelector(`#${containerId}-srt-stage-after`);
     const statusEl = root.querySelector(`#${containerId}-srt-status`);
     const resetBtn = root.querySelector('.dsv-reset');
 
+    const originalArr = [...arr];
+
+    function renderBefore() {
+      stageBefore.innerHTML = '';
+      const maxVal = Math.max(...originalArr, 100);
+      originalArr.forEach((val) => {
+        const bar = document.createElement('div');
+        bar.className = 'dsv-sort-bar';
+        bar.style.height = `${(val / maxVal) * 120}px`;
+        bar.textContent = val;
+        stageBefore.appendChild(bar);
+      });
+    }
+
     function render(activeIndices = [], doneIndices = []) {
-      stage.innerHTML = '';
+      stageAfter.innerHTML = '';
       const maxVal = Math.max(...arr, 100);
       arr.forEach((val, i) => {
         const bar = document.createElement('div');
@@ -609,7 +633,7 @@ const DSViz = (() => {
         if (doneIndices.includes(i)) bar.classList.add('dsv-sort-done');
         bar.style.height = `${(val / maxVal) * 120}px`;
         bar.textContent = val;
-        stage.appendChild(bar);
+        stageAfter.appendChild(bar);
       });
     }
 
@@ -679,6 +703,7 @@ const DSViz = (() => {
     root.querySelector(`#${containerId}-selection`).addEventListener('click', selectionSort);
     resetBtn.addEventListener('click', reset);
 
+    renderBefore();
     render();
   }
 
