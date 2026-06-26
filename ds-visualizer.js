@@ -570,7 +570,10 @@ const DSViz = (() => {
     const root = document.getElementById(containerId);
     if (!root) return;
 
-    let arr = [50, 20, 80, 10, 60, 30, 90, 40];
+    function generateRandomArray() {
+      return Array.from({length: 50}, () => Math.floor(Math.random() * 100) + 10);
+    }
+    let arr = generateRandomArray();
     let isSorting = false;
 
     root.innerHTML = `
@@ -608,7 +611,6 @@ const DSViz = (() => {
         if (activeIndices.includes(i)) bar.classList.add('dsv-sort-active');
         if (doneIndices.includes(i)) bar.classList.add('dsv-sort-done');
         bar.style.height = `${(val / maxVal) * 120}px`;
-        bar.textContent = val;
         stage.appendChild(bar);
       });
     }
@@ -624,13 +626,13 @@ const DSViz = (() => {
       for (let i = 0; i < n - 1; i++) {
         for (let j = 0; j < n - i - 1; j++) {
           render([j, j + 1], done);
-          await delay(300);
+          await delay(10);
           if (arr[j] > arr[j + 1]) {
             let temp = arr[j];
             arr[j] = arr[j + 1];
             arr[j + 1] = temp;
             render([j, j + 1], done);
-            await delay(300);
+            await delay(10);
           }
         }
         done.push(n - i - 1);
@@ -651,7 +653,7 @@ const DSViz = (() => {
         let min_idx = i;
         for (let j = i + 1; j < n; j++) {
           render([i, j, min_idx], done);
-          await delay(200);
+          await delay(10);
           if (arr[j] < arr[min_idx]) {
             min_idx = j;
           }
@@ -670,7 +672,7 @@ const DSViz = (() => {
 
     function reset() {
       if (isSorting) return;
-      arr = [50, 20, 80, 10, 60, 30, 90, 40];
+      arr = generateRandomArray();
       render();
       status(statusEl, 'Array reset.', 'info');
     }
