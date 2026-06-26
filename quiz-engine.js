@@ -539,7 +539,10 @@ const QuizEngine = (() => {
         
         item.addEventListener('dragstart', e => {
             if (mainWrap.dataset.done && !isExam) return;
-            e.dataTransfer.setData('text/plain', item.id);
+            if(e.dataTransfer) {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', item.id);
+            }
             setTimeout(() => item.classList.add('dragging'), 0);
         });
         item.addEventListener('dragend', e => {
