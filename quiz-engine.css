@@ -306,13 +306,19 @@
 .qe-tree-stage-wrapper {
   width: 100%;
   max-width: 100%;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  --tree-scale: min(1, calc((100cqw - 8px) / 420px));
+  --tree-scale: min(1, calc((100vw - 4rem) / 420px));
   height: calc(250px * var(--tree-scale));
   margin: 0 auto;
+}
+
+@supports (container-type: inline-size) {
+  .qe-tree-stage-wrapper {
+    --tree-scale: min(1, calc((100cqw - 8px) / 420px));
+  }
 }
 
 .qe-tree-stage {
