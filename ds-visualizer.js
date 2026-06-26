@@ -750,17 +750,75 @@ const DSViz = (() => {
 
     let isTraversing = false;
 
+    const treesData = {
+      basic: {
+        tree: { 10: { left: 5, right: 15 }, 5: { left: null, right: null }, 15: { left: null, right: null } },
+        rootNode: 10,
+        edges: [
+          { from: 10, to: 5, x1: 200, y1: 30, x2: 120, y2: 100 },
+          { from: 10, to: 15, x1: 200, y1: 30, x2: 280, y2: 100 }
+        ],
+        nodes: [
+          { val: 10, x: 180, y: 10 }, { val: 5, x: 100, y: 80 }, { val: 15, x: 260, y: 80 }
+        ]
+      },
+      medium: {
+        tree: {
+          10: { left: 5, right: 15 }, 5: { left: 2, right: 7 }, 15: { left: 12, right: 20 },
+          2: { left: null, right: null }, 7: { left: null, right: null }, 12: { left: null, right: null }, 20: { left: null, right: null }
+        },
+        rootNode: 10,
+        edges: [
+          { from: 10, to: 5, x1: 200, y1: 30, x2: 100, y2: 100 },
+          { from: 10, to: 15, x1: 200, y1: 30, x2: 300, y2: 100 },
+          { from: 5, to: 2, x1: 100, y1: 100, x2: 50, y2: 170 },
+          { from: 5, to: 7, x1: 100, y1: 100, x2: 150, y2: 170 },
+          { from: 15, to: 12, x1: 300, y1: 100, x2: 250, y2: 170 },
+          { from: 15, to: 20, x1: 300, y1: 100, x2: 350, y2: 170 }
+        ],
+        nodes: [
+          { val: 10, x: 180, y: 10 }, { val: 5, x: 80, y: 80 }, { val: 15, x: 280, y: 80 },
+          { val: 2, x: 30, y: 150 }, { val: 7, x: 130, y: 150 }, { val: 12, x: 230, y: 150 }, { val: 20, x: 330, y: 150 }
+        ]
+      },
+      hard: {
+        tree: {
+          20: { left: null, right: 30 }, 30: { left: 25, right: 35 }, 25: { left: null, right: null },
+          35: { left: 32, right: null }, 32: { left: null, right: null }
+        },
+        rootNode: 20,
+        edges: [
+          { from: 20, to: 30, x1: 150, y1: 30, x2: 230, y2: 80 },
+          { from: 30, to: 25, x1: 230, y1: 80, x2: 180, y2: 130 },
+          { from: 30, to: 35, x1: 230, y1: 80, x2: 280, y2: 130 },
+          { from: 35, to: 32, x1: 280, y1: 130, x2: 230, y2: 180 }
+        ],
+        nodes: [
+          { val: 20, x: 130, y: 10 }, { val: 30, x: 210, y: 60 }, { val: 25, x: 160, y: 110 },
+          { val: 35, x: 260, y: 110 }, { val: 32, x: 210, y: 160 }
+        ]
+      }
+    };
+
+    let currentLevel = 'medium';
+    let currentTreeData = treesData[currentLevel];
+
     root.innerHTML = `
       <div class="dsv-panel" id="${containerId}-bst">
         <div class="dsv-panel-header">
           <span class="dsv-panel-icon"><i data-lucide="search" class="icon-inline"></i></span>
           <div>
             <div class="dsv-panel-title">Binary Search Tree (BST)</div>
-            <div class="dsv-panel-sub">Left child &lt; Parent &lt; Right child</div>
+            <div class="dsv-panel-sub">BST Property: Left Value &lt; Parent Value &lt; Right Value</div>
           </div>
         </div>
 
-        <div class="dsv-controls" style="justify-content: center;">
+        <div class="dsv-controls" style="justify-content: center; margin-bottom: 1rem;">
+          <select class="dsv-input dsv-input-sm" id="${containerId}-level" style="background: var(--bg-secondary); cursor: pointer; max-width: 100%;">
+            <option value="basic">Basic Tree</option>
+            <option value="medium" selected>Medium Tree</option>
+            <option value="hard">Hard (Imbalanced)</option>
+          </select>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-pre">Pre-order</button>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-in">In-order</button>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-post">Post-order</button>
@@ -768,53 +826,135 @@ const DSViz = (() => {
         
         <div class="dsv-status" id="${containerId}-bst-status" style="text-align: center; font-weight: bold; min-height: 24px;"></div>
 
-        <div class="dsv-tree-stage">
-          <svg class="dsv-tree-svg">
-            <line x1="200" y1="30" x2="100" y2="100" stroke="var(--border)" stroke-width="2"/>
-            <line x1="200" y1="30" x2="300" y2="100" stroke="var(--border)" stroke-width="2"/>
-            <line x1="100" y1="100" x2="50" y2="170" stroke="var(--border)" stroke-width="2"/>
-            <line x1="100" y1="100" x2="150" y2="170" stroke="var(--border)" stroke-width="2"/>
-            <line x1="300" y1="100" x2="250" y2="170" stroke="var(--border)" stroke-width="2"/>
-            <line x1="300" y1="100" x2="350" y2="170" stroke="var(--border)" stroke-width="2"/>
-          </svg>
-          <div class="dsv-t-node node-10" style="left: 180px; top: 10px;">10</div>
-          <div class="dsv-t-node node-5" style="left: 80px; top: 80px;">5</div>
-          <div class="dsv-t-node node-15" style="left: 280px; top: 80px;">15</div>
-          <div class="dsv-t-node node-2" style="left: 30px; top: 150px;">2</div>
-          <div class="dsv-t-node node-7" style="left: 130px; top: 150px;">7</div>
-          <div class="dsv-t-node node-12" style="left: 230px; top: 150px;">12</div>
-          <div class="dsv-t-node node-20" style="left: 330px; top: 150px;">20</div>
+        <div class="dsv-tree-stage" id="${containerId}-stage">
+          <!-- Rendered dynamically -->
         </div>
       </div>`;
+    
     if (window.lucide) window.lucide.createIcons({ root: root });
 
     const statusEl = root.querySelector(`#${containerId}-bst-status`);
+    const stageEl = root.querySelector(`#${containerId}-stage`);
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
-    async function traverse(orderName, nodesList) {
+    function renderTree() {
+      let svgLines = currentTreeData.edges.map((e, idx) => 
+        `<line id="edge-${e.from}-${e.to}" x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--border)" stroke-width="2"/>`
+      ).join('');
+      let htmlNodes = currentTreeData.nodes.map(n => 
+        `<div class="dsv-t-node node-${n.val}" style="left: ${n.x}px; top: ${n.y}px;">${n.val}</div>`
+      ).join('');
+      
+      stageEl.innerHTML = `
+        <svg class="dsv-tree-svg">
+          ${svgLines}
+        </svg>
+        ${htmlNodes}
+      `;
+    }
+
+    renderTree();
+
+    root.querySelector(`#${containerId}-level`).addEventListener('change', (e) => {
+      if (isTraversing) {
+        e.target.value = currentLevel; // Revert change if busy
+        return;
+      }
+      currentLevel = e.target.value;
+      currentTreeData = treesData[currentLevel];
+      renderTree();
+      statusEl.innerHTML = '';
+    });
+
+    async function traverse(orderName) {
       if (isTraversing) return;
       isTraversing = true;
-      root.querySelectorAll('.dsv-t-node').forEach(el => el.classList.remove('dsv-t-hl'));
-      statusEl.textContent = orderName + " Traversal: ";
+
+      const treeObj = currentTreeData.tree;
+      const rootNode = currentTreeData.rootNode;
+
+      root.querySelectorAll('.dsv-t-node').forEach(el => {
+        el.classList.remove('dsv-t-hl', 'dsv-t-done');
+      });
+      const lines = root.querySelectorAll('.dsv-tree-svg line');
+      lines.forEach(el => {
+        el.setAttribute('stroke', 'var(--border)');
+        el.classList.remove('dsv-edge-active', 'dsv-edge-backtrack');
+      });
       
-      for (let i = 0; i < nodesList.length; i++) {
-        const val = nodesList[i];
-        const nodeEl = root.querySelector('.node-' + val);
-        nodeEl.classList.add('dsv-t-hl');
-        statusEl.textContent += val + (i < nodesList.length - 1 ? " → " : "");
-        await delay(800);
-        nodeEl.classList.remove('dsv-t-hl');
-        nodeEl.classList.add('dsv-t-done'); // just a custom class for visited
+      statusEl.innerHTML = `<div><strong>${orderName} Traversal:</strong> <span id="${containerId}-trav-result"></span></div>
+                            <div id="${containerId}-trav-explain" style="color:var(--text-secondary); font-size: 0.85em; font-weight: normal; margin-top: 4px;"></div>`;
+      
+      const resultEl = root.querySelector(`#${containerId}-trav-result`);
+      const explainEl = root.querySelector(`#${containerId}-trav-explain`);
+
+      const highlightEdge = (from, to, state) => {
+        const line = root.querySelector(`#edge-${from}-${to}`) || root.querySelector(`#edge-${to}-${from}`);
+        if (line) {
+          line.classList.remove('dsv-edge-active', 'dsv-edge-backtrack');
+          if (state === 'active') line.classList.add('dsv-edge-active');
+          if (state === 'backtrack') line.classList.add('dsv-edge-backtrack');
+        }
+      };
+
+      async function visit(node) {
+        explainEl.innerHTML = `<strong>Action:</strong> Visiting Node <span style="color:var(--accent-primary)">${node}</span>`;
+        const el = root.querySelector('.node-' + node);
+        el.classList.add('dsv-t-hl');
+        await delay(700);
+        resultEl.textContent += (resultEl.textContent ? " → " : "") + node;
+        el.classList.remove('dsv-t-hl');
+        el.classList.add('dsv-t-done');
       }
+
+      async function rec(node, parent) {
+        if (!node) return;
+        
+        if (parent) {
+          highlightEdge(parent, node, 'active');
+          explainEl.innerHTML = `Traversing down from ${parent} to <strong>${node}</strong>`;
+          await delay(600);
+        }
+
+        if (orderName === 'Pre-order') await visit(node);
+
+        if (treeObj[node].left) {
+          await rec(treeObj[node].left, node);
+        } else {
+          explainEl.innerHTML = `Node <strong>${node}</strong> has no left child.`;
+          await delay(400);
+        }
+
+        if (orderName === 'In-order') await visit(node);
+
+        if (treeObj[node].right) {
+          await rec(treeObj[node].right, node);
+        } else {
+          explainEl.innerHTML = `Node <strong>${node}</strong> has no right child.`;
+          await delay(400);
+        }
+
+        if (orderName === 'Post-order') await visit(node);
+
+        if (parent) {
+          explainEl.innerHTML = `Backtracking up from ${node} to <strong>${parent}</strong>`;
+          highlightEdge(parent, node, 'backtrack');
+          await delay(500);
+          highlightEdge(parent, node, 'default');
+        }
+      }
+
+      await rec(rootNode, null);
+      explainEl.innerHTML = "<strong style='color:#10b981'>Traversal Complete!</strong>";
       
-      await delay(1000);
+      await delay(1500);
       root.querySelectorAll('.dsv-t-node').forEach(el => el.classList.remove('dsv-t-done'));
       isTraversing = false;
     }
 
-    root.querySelector(`#${containerId}-pre`).addEventListener('click', () => traverse('Pre-order', [10, 5, 2, 7, 15, 12, 20]));
-    root.querySelector(`#${containerId}-in`).addEventListener('click', () => traverse('In-order', [2, 5, 7, 10, 12, 15, 20]));
-    root.querySelector(`#${containerId}-post`).addEventListener('click', () => traverse('Post-order', [2, 7, 5, 12, 20, 15, 10]));
+    root.querySelector(`#${containerId}-pre`).addEventListener('click', () => traverse('Pre-order'));
+    root.querySelector(`#${containerId}-in`).addEventListener('click', () => traverse('In-order'));
+    root.querySelector(`#${containerId}-post`).addEventListener('click', () => traverse('Post-order'));
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────

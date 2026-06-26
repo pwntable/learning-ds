@@ -494,6 +494,13 @@ body.sidebar-collapsed .sidebar-section {
     display: none; 
 }
 
+/* Allow tooltips to overflow without being clipped */
+body.sidebar-collapsed .sidebar-nav,
+body.sidebar-collapsed .sidebar-group {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
 /* Buttons: show only number badge */
 body.sidebar-collapsed .sidebar-btn {
     justify-content: center;
@@ -587,6 +594,8 @@ body, .sidebar, .lesson-card, .header, .sidebar-btn, .dsv-panel, .dsv-input, .si
     border: 1px solid var(--glass-border);
     display: none;
     animation: fadeIn 0.5s ease-out;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .lesson-card.active {
@@ -896,6 +905,7 @@ tr:hover td {
     /* On mobile, hide collapsed branding and collapse button */
     .brand-collapsed { display: none !important; }
     .sidebar-collapse-btn { display: none !important; }
+    .sidebar-edge-toggle { display: none !important; }
     .brand-full { display: flex !important; }
 
     .sidebar-overlay {
