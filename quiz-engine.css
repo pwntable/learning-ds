@@ -351,6 +351,7 @@
   justify-content: center;
   transition: all 0.2s ease;
   z-index: 10;
+  cursor: pointer;
 }
 
 .qe-tree-node.drag-over {
@@ -431,5 +432,22 @@
   }
   .qe-btn-group .btn {
     width: 100%;
+  }
+}
+
+/* Tap-to-Select Glowing Visual State */
+.qe-pool-item.selected {
+  outline: 3px solid var(--accent, #3b82f6);
+  box-shadow: 0 0 15px var(--accent, #3b82f6);
+  transform: scale(1.1);
+  animation: qe-pulse-glow 1.5s infinite ease-in-out;
+}
+
+@keyframes qe-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px var(--accent, #3b82f6);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent, #3b82f6);
   }
 }

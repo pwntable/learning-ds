@@ -415,6 +415,8 @@ const QuizEngine = (() => {
     const mainWrap = document.createElement('div');
     mainWrap.className = 'qe-tree-wrap';
     
+    let activeSelection = null;
+    
     // Create the tree stage
     const stage = document.createElement('div');
     stage.className = 'qe-tree-stage';
@@ -489,6 +491,21 @@ const QuizEngine = (() => {
                 updateTreeState();
             }
         });
+
+        nodeDiv.addEventListener('click', e => {
+            if (mainWrap.dataset.done && !isExam) return;
+            if (activeSelection) {
+                const item = activeSelection;
+                item.classList.remove('selected');
+                activeSelection = null;
+                if (nodeDiv.children.length > 0) {
+                    const existing = nodeDiv.children[0];
+                    item.parentNode.appendChild(existing);
+                }
+                nodeDiv.appendChild(item);
+                updateTreeState();
+            }
+        });
         stage.appendChild(nodeDiv);
     });
     
@@ -522,6 +539,17 @@ const QuizEngine = (() => {
         }
     });
 
+    pool.addEventListener('click', e => {
+        if (mainWrap.dataset.done && !isExam) return;
+        if (activeSelection) {
+            const item = activeSelection;
+            item.classList.remove('selected');
+            activeSelection = null;
+            pool.appendChild(item);
+            updateTreeState();
+        }
+    });
+
     let currentItems = [...q.nodes];
     if (!examState[lessonId]?.answers?.[qIdx] && !mainWrap.dataset.done) {
        shuffleArray(currentItems);
@@ -547,6 +575,21 @@ const QuizEngine = (() => {
         });
         item.addEventListener('dragend', e => {
             item.classList.remove('dragging');
+        });
+
+        item.addEventListener('click', e => {
+            if (mainWrap.dataset.done && !isExam) return;
+            e.stopPropagation();
+            if (activeSelection && activeSelection !== item) {
+                activeSelection.classList.remove('selected');
+            }
+            if (item.classList.contains('selected')) {
+                item.classList.remove('selected');
+                activeSelection = null;
+            } else {
+                item.classList.add('selected');
+                activeSelection = item;
+            }
         });
         
         // Restore state if any
@@ -594,11 +637,15 @@ const QuizEngine = (() => {
       const resetBtn = document.createElement('button');
       resetBtn.className = 'btn btn-secondary qe-submit-btn';
       resetBtn.textContent = 'Reset';
-      resetBtn.onclick = () => {
-         if (mainWrap.dataset.done) return;
-         // Move all items from the tree stage back to the pool
-         stage.querySelectorAll('.qe-pool-item').forEach(el => pool.appendChild(el));
-      };
+       resetBtn.onclick = () => {
+          if (mainWrap.dataset.done) return;
+          if (activeSelection) {
+              activeSelection.classList.remove('selected');
+              activeSelection = null;
+          }
+          // Move all items from the tree stage back to the pool
+          stage.querySelectorAll('.qe-pool-item').forEach(el => pool.appendChild(el));
+       };
 
       controlsWrap.appendChild(submitBtn);
       controlsWrap.appendChild(resetBtn);
