@@ -1126,16 +1126,34 @@
         {
           "id": "q12_2",
           "type": "tree_build",
-          "prompt": "Drag and drop the values to build the 'Medium Tree' (root 10, left 5, right 15) to form a valid Binary Search Tree.",
+          "prompt": "Drag and drop the values to build the **Easy BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
+          "nodes": ["10", "5", "15"],
+          "treeStructure": [
+            { "id": "node_10", "x": 200, "y": 30, "left": "node_5", "right": "node_15" },
+            { "id": "node_5", "x": 100, "y": 130 },
+            { "id": "node_15", "x": 300, "y": 130 }
+          ],
+          "correctMapping": {
+            "node_10": "10", "node_5": "5", "node_15": "15"
+          },
+          "hints": [
+            "Remember: Values smaller than the parent go to the left, and values larger go to the right."
+          ],
+          "explanation": "For a simple BST: 10 is the root. 5 is smaller than 10, so it must go to the left. 15 is larger than 10, so it must go to the right."
+        },
+        {
+          "id": "q12_3",
+          "type": "tree_build",
+          "prompt": "Drag and drop the values to build the **Medium BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
           "nodes": ["10", "2", "15", "7", "5", "20", "12"],
           "treeStructure": [
-            { id: "node_10", x: 200, y: 20, left: "node_5", right: "node_15" },
-            { id: "node_5", x: 100, y: 100, left: "node_2", right: "node_7" },
-            { id: "node_15", x: 300, y: 100, left: "node_12", right: "node_20" },
-            { id: "node_2", x: 50, y: 180 },
-            { id: "node_7", x: 150, y: 180 },
-            { id: "node_12", x: 250, y: 180 },
-            { id: "node_20", x: 350, y: 180 }
+            { "id": "node_10", "x": 200, "y": 20, "left": "node_5", "right": "node_15" },
+            { "id": "node_5", "x": 100, "y": 100, "left": "node_2", "right": "node_7" },
+            { "id": "node_15", "x": 300, "y": 100, "left": "node_12", "right": "node_20" },
+            { "id": "node_2", "x": 50, "y": 180 },
+            { "id": "node_7", "x": 150, "y": 180 },
+            { "id": "node_12", "x": 250, "y": 180 },
+            { "id": "node_20", "x": 350, "y": 180 }
           ],
           "correctMapping": {
             "node_10": "10", "node_5": "5", "node_15": "15",
@@ -1145,6 +1163,29 @@
             "Remember the golden rule of BST: Left Child < Parent < Right Child."
           ],
           "explanation": "In a Binary Search Tree, all left descendants are smaller than the node, and right descendants are larger. 10 is the root. 5 goes left, 15 goes right. Then 5's left is 2 and right is 7. 15's left is 12 and right is 20."
+        },
+        {
+          "id": "q12_4",
+          "type": "tree_build",
+          "prompt": "Drag and drop the values to build the **Hard BST** (root 15) to form a valid Binary Search Tree.",
+          "nodes": ["15", "8", "3", "10", "12", "22", "30"],
+          "treeStructure": [
+            { "id": "node_15", "x": 200, "y": 20, "left": "node_8", "right": "node_22" },
+            { "id": "node_8", "x": 120, "y": 80, "left": "node_3", "right": "node_10" },
+            { "id": "node_3", "x": 60, "y": 140 },
+            { "id": "node_10", "x": 180, "y": 140, "right": "node_12" },
+            { "id": "node_12", "x": 220, "y": 200 },
+            { "id": "node_22", "x": 280, "y": 80, "right": "node_30" },
+            { "id": "node_30", "x": 340, "y": 140 }
+          ],
+          "correctMapping": {
+            "node_15": "15", "node_8": "8", "node_3": "3", "node_10": "10",
+            "node_12": "12", "node_22": "22", "node_30": "30"
+          },
+          "hints": [
+            "This is an unbalanced tree. Trace carefully: is 12 greater or smaller than 10? Where does it go relative to 15, 8, and 10?"
+          ],
+          "explanation": "15 is the root. 8 goes left (<15), 22 goes right (>15). Under 8, 3 goes left (<8), 10 goes right (>8). Under 10, 12 goes right (>10). Under 22, 30 goes right (>22)."
         }
       ]
     },

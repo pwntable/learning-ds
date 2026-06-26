@@ -377,7 +377,17 @@ const QuizEngine = (() => {
       resetBtn.className = 'btn btn-secondary qe-submit-btn';
       resetBtn.textContent = 'Reset';
       resetBtn.onclick = () => {
-        if (mainWrap.dataset.done) return;
+        if (mainWrap.dataset.done && isExam) return;
+        if (mainWrap.dataset.done) {
+            delete mainWrap.dataset.done;
+            submitBtn.disabled = false;
+            const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+            if (feedbackEl) {
+                feedbackEl.style.display = 'none';
+                feedbackEl.className = 'qe-feedback';
+                feedbackEl.innerHTML = '';
+            }
+        }
         shuffleArray(currentItems);
         if (JSON.stringify(currentItems) === JSON.stringify(q.correctOrder)) shuffleArray(currentItems);
         listWrap.innerHTML = '';
@@ -638,7 +648,18 @@ const QuizEngine = (() => {
       resetBtn.className = 'btn btn-secondary qe-submit-btn';
       resetBtn.textContent = 'Reset';
        resetBtn.onclick = () => {
-          if (mainWrap.dataset.done) return;
+          if (mainWrap.dataset.done && isExam) return;
+          if (mainWrap.dataset.done) {
+              delete mainWrap.dataset.done;
+              submitBtn.disabled = false;
+              mainWrap.querySelectorAll('.qe-pool-item').forEach(el => el.draggable = true);
+              const feedbackEl = document.getElementById(`feedback-${lessonId}-${qIdx}`);
+              if (feedbackEl) {
+                  feedbackEl.style.display = 'none';
+                  feedbackEl.className = 'qe-feedback';
+                  feedbackEl.innerHTML = '';
+              }
+          }
           if (activeSelection) {
               activeSelection.classList.remove('selected');
               activeSelection = null;
