@@ -457,7 +457,7 @@
 }
 .dsv-sort-bar {
   width: 30px;
-  background: var(--primary);
+  background: var(--accent-secondary);
   transition: height 0.3s, background 0.3s;
   text-align: center;
   color: white;

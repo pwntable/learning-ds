@@ -587,6 +587,7 @@ const DSViz = (() => {
         <div class="dsv-controls">
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-bubble">Bubble Sort</button>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-selection">Selection Sort</button>
+          <button class="dsv-btn dsv-btn-ghost" id="${containerId}-pause" style="display: none;">Pause</button>
         </div>
 
         <div class="dsv-status" id="${containerId}-srt-status"></div>
@@ -608,6 +609,37 @@ const DSViz = (() => {
     const stageAfter = root.querySelector(`#${containerId}-srt-stage-after`);
     const statusEl = root.querySelector(`#${containerId}-srt-status`);
     const resetBtn = root.querySelector('.dsv-reset');
+    const pauseBtn = root.querySelector(`#${containerId}-pause`);
+
+    let isPaused = false;
+    let pauseResolve = null;
+
+    pauseBtn.addEventListener('click', () => {
+      if (!isSorting) return;
+      isPaused = !isPaused;
+      if (isPaused) {
+        pauseBtn.textContent = 'Continue';
+        pauseBtn.classList.replace('dsv-btn-ghost', 'dsv-btn-accent');
+      } else {
+        pauseBtn.textContent = 'Pause';
+        pauseBtn.classList.replace('dsv-btn-accent', 'dsv-btn-ghost');
+        if (pauseResolve) {
+          pauseResolve();
+          pauseResolve = null;
+        }
+      }
+    });
+
+    async function checkPause() {
+      if (isPaused) {
+        const prevStatus = statusEl.innerHTML;
+        const prevClass = statusEl.className;
+        status(statusEl, '⏸ Sorting Paused', 'warn');
+        await new Promise(r => pauseResolve = r);
+        statusEl.innerHTML = prevStatus;
+        statusEl.className = prevClass;
+      }
+    }
 
     const originalArr = [...arr];
 
@@ -642,11 +674,14 @@ const DSViz = (() => {
     async function bubbleSort() {
       if (isSorting) return;
       isSorting = true;
+      pauseBtn.style.display = 'inline-block';
       let n = arr.length;
       let done = [];
       status(statusEl, 'Starting Bubble Sort...', 'info');
       for (let i = 0; i < n - 1; i++) {
         for (let j = 0; j < n - i - 1; j++) {
+          await checkPause();
+          if (!isSorting) return; // In case reset was clicked
           render([j, j + 1], done);
           await delay(300);
           if (arr[j] > arr[j + 1]) {
@@ -663,17 +698,22 @@ const DSViz = (() => {
       render([], done);
       status(statusEl, 'Bubble Sort Complete!', 'ok');
       isSorting = false;
+      pauseBtn.style.display = 'none';
+      if (isPaused) pauseBtn.click(); // Reset pause state
     }
 
     async function selectionSort() {
       if (isSorting) return;
       isSorting = true;
+      pauseBtn.style.display = 'inline-block';
       let n = arr.length;
       let done = [];
       status(statusEl, 'Starting Selection Sort...', 'info');
       for (let i = 0; i < n; i++) {
         let min_idx = i;
         for (let j = i + 1; j < n; j++) {
+          await checkPause();
+          if (!isSorting) return;
           render([i, j, min_idx], done);
           await delay(200);
           if (arr[j] < arr[min_idx]) {
@@ -690,10 +730,14 @@ const DSViz = (() => {
       }
       status(statusEl, 'Selection Sort Complete!', 'ok');
       isSorting = false;
+      pauseBtn.style.display = 'none';
+      if (isPaused) pauseBtn.click();
     }
 
     function reset() {
-      if (isSorting) return;
+      isSorting = false;
+      if (isPaused) pauseBtn.click();
+      pauseBtn.style.display = 'none';
       arr = [50, 20, 80, 10, 60, 30, 90, 40];
       render();
       status(statusEl, 'Array reset.', 'info');
