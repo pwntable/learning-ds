@@ -319,12 +319,44 @@ const QuizEngine = (() => {
        currentItems = examState[lessonId].answers[qIdx];
     }
     
+    let selectedSortableItem = null;
+    
     currentItems.forEach((itemText, idx) => {
        const itemDiv = document.createElement('div');
        itemDiv.className = 'qe-sortable-item';
        itemDiv.draggable = true;
        itemDiv.dataset.val = itemText;
-       itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted);"></i>`;
+       itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted); cursor: pointer;"></i>`;
+       
+       itemDiv.addEventListener('click', () => {
+         if (mainWrap.dataset.done && !isExam) return;
+         if (!selectedSortableItem) {
+           selectedSortableItem = itemDiv;
+           itemDiv.style.borderColor = 'var(--accent-secondary)';
+           itemDiv.style.background = 'var(--glass-bg)';
+         } else {
+           if (selectedSortableItem !== itemDiv) {
+             const valA = selectedSortableItem.dataset.val;
+             const valB = itemDiv.dataset.val;
+             const textElA = selectedSortableItem.querySelector('.qe-sortable-text');
+             const textElB = itemDiv.querySelector('.qe-sortable-text');
+             const textA = textElA.textContent;
+             const textB = textElB.textContent;
+             
+             selectedSortableItem.dataset.val = valB;
+             textElA.textContent = textB;
+             
+             itemDiv.dataset.val = valA;
+             textElB.textContent = textA;
+             
+             if (isExam) examState[lessonId].answers[qIdx] = Array.from(listWrap.children).map(c => c.dataset.val);
+           }
+           selectedSortableItem.style.borderColor = '';
+           selectedSortableItem.style.background = '';
+           selectedSortableItem = null;
+         }
+       });
+       
        listWrap.appendChild(itemDiv);
     });
 
@@ -396,7 +428,37 @@ const QuizEngine = (() => {
            itemDiv.className = 'qe-sortable-item';
            itemDiv.draggable = true;
            itemDiv.dataset.val = itemText;
-           itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted);"></i>`;
+           itemDiv.innerHTML = `<span class="qe-sortable-index">${idx + 1}.</span> <span class="qe-sortable-text">${escHtml(itemText)}</span> <i data-lucide="grip-vertical" style="margin-left:auto; color:var(--text-muted); cursor: pointer;"></i>`;
+           
+           itemDiv.addEventListener('click', () => {
+             if (mainWrap.dataset.done && !isExam) return;
+             if (!selectedSortableItem) {
+               selectedSortableItem = itemDiv;
+               itemDiv.style.borderColor = 'var(--accent-secondary)';
+               itemDiv.style.background = 'var(--glass-bg)';
+             } else {
+               if (selectedSortableItem !== itemDiv) {
+                 const valA = selectedSortableItem.dataset.val;
+                 const valB = itemDiv.dataset.val;
+                 const textElA = selectedSortableItem.querySelector('.qe-sortable-text');
+                 const textElB = itemDiv.querySelector('.qe-sortable-text');
+                 const textA = textElA.textContent;
+                 const textB = textElB.textContent;
+                 
+                 selectedSortableItem.dataset.val = valB;
+                 textElA.textContent = textB;
+                 
+                 itemDiv.dataset.val = valA;
+                 textElB.textContent = textA;
+                 
+                 if (isExam) examState[lessonId].answers[qIdx] = Array.from(listWrap.children).map(c => c.dataset.val);
+               }
+               selectedSortableItem.style.borderColor = '';
+               selectedSortableItem.style.background = '';
+               selectedSortableItem = null;
+             }
+           });
+           
            listWrap.appendChild(itemDiv);
         });
         if (window.lucide) window.lucide.createIcons();
