@@ -736,7 +736,15 @@ const DSViz = (() => {
 
     function reset() {
       isSorting = false;
-      if (isPaused) pauseBtn.click();
+      if (isPaused) {
+        isPaused = false;
+        pauseBtn.textContent = 'Pause';
+        pauseBtn.classList.replace('dsv-btn-accent', 'dsv-btn-ghost');
+        if (pauseResolve) {
+          pauseResolve();
+          pauseResolve = null;
+        }
+      }
       pauseBtn.style.display = 'none';
       arr = [50, 20, 80, 10, 60, 30, 90, 40];
       render();
