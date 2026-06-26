@@ -592,7 +592,7 @@ const DSViz = (() => {
 
         <div class="dsv-status" id="${containerId}-srt-status"></div>
 
-        <div style="display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 1rem;">
+        <div class="dsv-sort-split" style="display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 1rem;">
           <div style="flex: 1; min-width: 250px;">
              <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-align: center;">Before Sorting (Original)</h4>
              <div class="dsv-sort-stage" id="${containerId}-srt-stage-before" style="border: none; border-bottom: 2px solid var(--border); padding-bottom: 0;"></div>

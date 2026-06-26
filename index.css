@@ -31,6 +31,7 @@
     --glass-bg: rgba(0, 0, 0, 0.04);
     --glass-border: rgba(0, 0, 0, 0.1);
     --border: rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb: #cbd5e1;
 }
 
 
@@ -66,7 +67,7 @@ h4 {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--bg-secondary);
+    background: var(--scrollbar-thumb, var(--bg-secondary));
     border-radius: 10px;
 }
 
@@ -109,7 +110,7 @@ h4 {
     display: flex;
     background: transparent;
     border: none;
-    color: white;
+    color: var(--text-primary);
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 8px;

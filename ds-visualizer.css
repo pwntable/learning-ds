@@ -131,8 +131,8 @@
 
 .dsv-btn-ghost {
   background: rgba(255, 255, 255, 0.06);
-  color: #94a3b8;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
 }
 .dsv-btn-ghost:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -441,6 +441,7 @@
   .dsv-btn { width: 100%; text-align: center; }
   .dsv-arr-cell { width: 54px; height: 54px; font-size: 0.9rem; }
   .dsv-arr-lbl  { width: 54px; }
+  .dsv-sort-split { flex-direction: column; gap: 1.5rem !important; }
 }
 
 /* ── Sorting Visualizer ── */
