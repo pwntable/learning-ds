@@ -1107,6 +1107,7 @@ window.QUESTIONS_DATA = {
       ]
     },
     "12": {
+      "showAll": true,
       "questions": [
         {
           "id": "q11_1",
