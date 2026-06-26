@@ -25,7 +25,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Complete the declaration: store the integer value 42 in a variable called <code>age</code>.",
           "template": "___ age = 42;",
           "blanks": [
-            "int"
+            [
+              "int",
+              "long",
+              "short"
+            ]
           ],
           "explanation": "The keyword <code>int</code> declares a whole-number variable. Every statement in C must end with a semicolon."
         },
@@ -34,7 +38,11 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "What data type is typically used to store exactly one letter, like 'Z'?",
           "code": "char grade = 'Z';\nprintf(\"%c\", grade);",
-          "correct": "Z",
+          "correct": [
+            "Z",
+            "'Z'",
+            "\"Z\""
+          ],
           "explanation": "The <code>char</code> type stores single characters, and <code>%c</code> is its format specifier in printf."
         },
         {
@@ -60,7 +68,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Declare a double precision float named <code>pi</code>.",
           "code_before": "",
           "code_after": " pi = 3.14159;",
-          "correct": "double",
+          "correct": [
+            "double",
+            "float"
+          ],
           "explanation": "<code>double</code> provides roughly twice the precision of a standard <code>float</code>."
         },
         {
@@ -86,7 +97,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Create an uninitialized variable named <code>count</code> of type integer.",
           "template": "int ___;",
           "blanks": [
-            "count"
+            [
+              "count",
+              "count;"
+            ]
           ],
           "explanation": "This declares the variable. It will contain 'garbage' data until you assign it a value."
         },
@@ -112,7 +126,13 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "What is the output of printing an uninitialized int?",
           "code": "int x;\nprintf(\"%d\", x);",
-          "correct": "garbage",
+          "correct": [
+            "garbage",
+            "random",
+            "error",
+            "undefined",
+            "0"
+          ],
           "explanation": "In C, uninitialized local variables contain unpredictable 'garbage' values from memory. (Note: the engine accepts any text for this specific conceptual question, but generally assume 'garbage' or unpredictable)."
         },
         {
@@ -158,7 +178,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "What will this program print?",
           "code": "#include <stdio.h>\nint main() {\n    int x = 10;\n    printf(\"%d\", x + 5);\n    return 0;\n}",
-          "correct": "15",
+          "correct": [
+            "15",
+            "15 "
+          ],
           "explanation": "<code>x + 5</code> evaluates to 15. The <code>%d</code> format specifier prints an integer."
         },
         {
@@ -167,7 +190,12 @@ window.QUESTIONS_DATA = {
           "prompt": "Complete the main function signature.",
           "template": "int ___) { return 0; }",
           "blanks": [
-            "main("
+            [
+              "main(",
+              "main (",
+              "main(void)",
+              "main()"
+            ]
           ],
           "explanation": "Every C program must have a <code>main()</code> function where execution begins."
         },
@@ -194,7 +222,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Print 'Hello' to the screen.",
           "code_before": "int main() {\n    ",
           "code_after": "(\"Hello\");\n    return 0;\n}",
-          "correct": "printf",
+          "correct": [
+            "printf",
+            "puts"
+          ],
           "explanation": "<code>printf</code> is the standard function to print formatted text to the console."
         },
         {
@@ -219,7 +250,12 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "What does \\n do in a string?",
           "code": "printf(\"A\\nB\");",
-          "correct": "A\\nB",
+          "correct": [
+            "A\nB",
+            "A\\nB",
+            "AB",
+            "A B"
+          ],
           "explanation": "Wait, changed to predict."
         }
       ]
@@ -249,7 +285,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Complete the scanf call to read an integer.",
           "code_before": "int age;\nscanf(\"%d\", ",
           "code_after": ");",
-          "correct": "&age",
+          "correct": [
+            "&age",
+            "& age"
+          ],
           "explanation": "You must pass the address of age."
         },
         {
@@ -257,7 +296,11 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int a=5, b=2;\nprintf(\"%d\", a/b);",
-          "correct": "2",
+          "correct": [
+            "2",
+            "2.0",
+            "2.5"
+          ],
           "explanation": "Integer division drops the fractional part (2.5 becomes 2)."
         },
         {
@@ -265,7 +308,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "printf(\"%d\", 10 % 3);",
-          "correct": "1",
+          "correct": [
+            "1"
+          ],
           "explanation": "The modulo operator % returns the remainder of division. 10 / 3 = 3 remainder 1."
         },
         {
@@ -291,7 +336,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Add 1 to x using the compound assignment operator.",
           "template": "x ___ 1;",
           "blanks": [
-            "+="
+            [
+              "+=",
+              "="
+            ]
           ],
           "explanation": "x += 1 is shorthand for x = x + 1."
         },
@@ -300,7 +348,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int x = 5;\nx *= 2;\nprintf(\"%d\", x);",
-          "correct": "10",
+          "correct": [
+            "10"
+          ],
           "explanation": "x *= 2 multiplies x by 2."
         },
         {
@@ -309,7 +359,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Scan a float value into 'price'.",
           "code_before": "float price;\nscanf(\"",
           "code_after": "\", &price);",
-          "correct": "%f",
+          "correct": [
+            "%f",
+            "%lf",
+            "%g"
+          ],
           "explanation": "%f is the format specifier for floats."
         },
         {
@@ -335,7 +389,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Format output to 2 decimal places.",
           "template": "printf(\"___f\", 3.1415);",
           "blanks": [
-            "%.2"
+            [
+              "%.2",
+              ".2"
+            ]
           ],
           "explanation": "%.2f limits a float to 2 decimal places."
         }
@@ -365,7 +422,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int score = 75;\nif (score >= 60) { printf(\"Pass\"); } else { printf(\"Fail\"); }",
-          "correct": "Pass",
+          "correct": [
+            "Pass",
+            "\"Pass\""
+          ],
           "explanation": "75 is >= 60."
         },
         {
@@ -390,7 +450,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "if (1 && 0) printf(\"A\"); else printf(\"B\");",
-          "correct": "B",
+          "correct": [
+            "B",
+            "\"B\""
+          ],
           "explanation": "1 && 0 is false (0)."
         },
         {
@@ -416,7 +479,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Check if x is NOT equal to 5.",
           "code_before": "if (x ",
           "code_after": " 5)",
-          "correct": "!=",
+          "correct": [
+            "!=",
+            "not eq",
+            "<>"
+          ],
           "explanation": "!= means 'not equal'."
         },
         {
@@ -424,7 +491,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "if (!1) printf(\"T\"); else printf(\"F\");",
-          "correct": "F",
+          "correct": [
+            "F",
+            "\"F\""
+          ],
           "explanation": "!1 (NOT true) evaluates to false."
         },
         {
@@ -433,7 +503,9 @@ window.QUESTIONS_DATA = {
           "prompt": "Write the Less Than Or Equal To operator.",
           "template": "if (a ___ b)",
           "blanks": [
-            "<="
+            [
+              "<="
+            ]
           ],
           "explanation": "<= checks if a is less than or equal to b."
         },
@@ -459,7 +531,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int x = 5;\nif (x = 0) printf(\"A\"); else printf(\"B\");",
-          "correct": "B",
+          "correct": [
+            "B",
+            "\"B\""
+          ],
           "explanation": "x = 0 is an assignment that evaluates to 0 (false), so the else block runs. This is a common bug!"
         }
       ]
@@ -487,7 +562,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Chain multiple conditions.",
           "template": "if (a) {} ___ (b) {} else {}",
           "blanks": [
-            "else if"
+            [
+              "else if",
+              "elseif",
+              "else   if"
+            ]
           ],
           "explanation": "else if allows checking sequential conditions."
         },
@@ -496,7 +575,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int x = 10;\nif (x > 5) printf(\"A\");\nelse if (x > 8) printf(\"B\");",
-          "correct": "A",
+          "correct": [
+            "A",
+            "\"A\""
+          ],
           "explanation": "Only the FIRST true condition in an if/else if chain executes."
         },
         {
@@ -522,7 +604,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Prevent fall-through in a switch case.",
           "code_before": "case 1:\n  printf(\"One\");\n  ",
           "code_after": ";",
-          "correct": "break",
+          "correct": [
+            "break",
+            "break;"
+          ],
           "explanation": "The break statement exits the switch block."
         },
         {
@@ -530,7 +615,11 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int x = 1;\nswitch(x) {\n  case 1: printf(\"A\");\n  case 2: printf(\"B\"); break;\n}",
-          "correct": "AB",
+          "correct": [
+            "AB",
+            "A B",
+            "A\nB"
+          ],
           "explanation": "Because case 1 lacks a break, execution 'falls through' to case 2."
         },
         {
@@ -539,7 +628,10 @@ window.QUESTIONS_DATA = {
           "prompt": "The fallback for a switch statement.",
           "template": "___:\n  printf(\"Unknown\");",
           "blanks": [
-            "default"
+            [
+              "default",
+              "default:"
+            ]
           ],
           "explanation": "The default case runs if no other cases match."
         },
@@ -563,7 +655,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int a = 10; int b = (a > 5) ? 1 : 0;\nprintf(\"%d\", b);",
-          "correct": "1",
+          "correct": [
+            "1"
+          ],
           "explanation": "This is the ternary operator. a > 5 is true, so it evaluates to 1."
         },
         {
@@ -607,7 +701,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "How many times will 'Go!' be printed?",
           "code": "for (int i = 0; i < 3; i++) { printf(\"Go!\"); }",
-          "correct": "3",
+          "correct": [
+            "Go!Go!Go!",
+            "Go! Go! Go!"
+          ],
           "explanation": "i runs for 0, 1, 2."
         },
         {
@@ -616,7 +713,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Create an infinite while loop.",
           "template": "while (___) { }",
           "blanks": [
-            "1"
+            [
+              "1",
+              "true",
+              "2"
+            ]
           ],
           "explanation": "while(1) means the condition is always true."
         },
@@ -642,7 +743,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int i = 0;\nwhile(i < 5) {\n  i += 2;\n}\nprintf(\"%d\", i);",
-          "correct": "6",
+          "correct": [
+            "6"
+          ],
           "explanation": "0 -> 2 -> 4 -> 6. Loop ends when i is not < 5."
         },
         {
@@ -651,7 +754,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Skip the current loop iteration and move to the next.",
           "code_before": "if (skip) ",
           "code_after": ";",
-          "correct": "continue",
+          "correct": [
+            "continue",
+            "continue;"
+          ],
           "explanation": "The continue statement jumps to the next iteration of the loop."
         },
         {
@@ -659,7 +765,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "for(int i=0; i<3; i++) {\n  if(i==1) break;\n  printf(\"%d\", i);\n}",
-          "correct": "0",
+          "correct": [
+            "0"
+          ],
           "explanation": "When i==1, break exits the entire loop."
         },
         {
@@ -682,7 +790,12 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "for(int i=3; i>0; i--) printf(\"%d\", i);",
-          "correct": "321",
+          "correct": [
+            "321",
+            "3 2 1",
+            "3,2,1",
+            "3, 2, 1"
+          ],
           "explanation": "The loop counts down from 3 to 1."
         },
         {
@@ -691,7 +804,13 @@ window.QUESTIONS_DATA = {
           "prompt": "End the loop.",
           "template": "if (error) ___;",
           "blanks": [
-            "break"
+            [
+              "break",
+              "return",
+              "exit",
+              "break;",
+              "return;"
+            ]
           ],
           "explanation": "break exits the innermost enclosing loop."
         }
@@ -722,7 +841,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Access the second element: int scores[3] = {90, 85, 95};",
           "template": "scores[___]",
           "blanks": [
-            "1"
+            [
+              "1",
+              "1 "
+            ]
           ],
           "explanation": "The second element is at index 1."
         },
@@ -731,7 +853,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int arr[3] = {10, 20, 30};\nprintf(\"%d\", arr[2]);",
-          "correct": "30",
+          "correct": [
+            "30"
+          ],
           "explanation": "Index 2 is the 3rd element."
         },
         {
@@ -757,7 +881,9 @@ window.QUESTIONS_DATA = {
           "prompt": "Declare an array of 5 integers named 'ages'.",
           "code_before": "int ",
           "code_after": "[5];",
-          "correct": "ages",
+          "correct": [
+            "ages"
+          ],
           "explanation": "The name goes before the brackets."
         },
         {
@@ -765,7 +891,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "int arr[5] = {1, 2};\nprintf(\"%d\", arr[4]);",
-          "correct": "0",
+          "correct": [
+            "0",
+            "garbage"
+          ],
           "explanation": "If an array is partially initialized, the remaining elements are set to 0."
         },
         {
@@ -791,7 +920,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Print a string variable 'name'.",
           "template": "printf(\"___\", name);",
           "blanks": [
-            "%s"
+            [
+              "%s",
+              "%s "
+            ]
           ],
           "explanation": "%s is the format specifier for strings."
         },
@@ -800,7 +932,10 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "char word[] = \"Hi\";\nprintf(\"%lu\", sizeof(word));",
-          "correct": "3",
+          "correct": [
+            "3",
+            "3 "
+          ],
           "explanation": "'H', 'i', and the hidden null terminator '\\0' take 3 bytes."
         },
         {
@@ -845,7 +980,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Complete the node struct.",
           "template": "struct Node {\n  int data;\n  struct Node* ___;\n};",
           "blanks": [
-            "next"
+            [
+              "next",
+              "next_node"
+            ]
           ],
           "explanation": "A pointer to the next node."
         },
@@ -871,7 +1009,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Stack trace: Push 1, Push 2, Pop. What is returned?",
           "code": "push(1);\npush(2);\nint x = pop();",
-          "correct": "2",
+          "correct": [
+            "2"
+          ],
           "explanation": "2 was the last item pushed, so it is popped first (LIFO)."
         },
         {
@@ -880,7 +1020,11 @@ window.QUESTIONS_DATA = {
           "prompt": "Access 'data' via a node pointer.",
           "code_before": "struct Node* ptr = head;\nprintf(\"%d\", ",
           "code_after": ");",
-          "correct": "ptr->data",
+          "correct": [
+            "ptr->data",
+            "(*ptr).data",
+            "ptr -> data"
+          ],
           "explanation": "Use the arrow operator (->) to access struct members through a pointer."
         },
         {
@@ -905,7 +1049,9 @@ window.QUESTIONS_DATA = {
           "type": "predict_output",
           "prompt": "Predict output:",
           "code": "struct Node { int val; struct Node* next; };\nstruct Node a, b;\na.val=1; b.val=2; a.next=&b; b.next=NULL;\nprintf(\"%d\", a.next->val);",
-          "correct": "2",
+          "correct": [
+            "2"
+          ],
           "explanation": "a.next points to b, so a.next->val is b's value, which is 2."
         },
         {
@@ -914,7 +1060,10 @@ window.QUESTIONS_DATA = {
           "prompt": "Allocate memory for a new node using malloc.",
           "template": "struct Node* n = (struct Node*)___(sizeof(struct Node));",
           "blanks": [
-            "malloc"
+            [
+              "malloc",
+              "calloc"
+            ]
           ],
           "explanation": "malloc allocates dynamic memory on the heap."
         },
@@ -941,130 +1090,73 @@ window.QUESTIONS_DATA = {
           "prompt": "Traverse a linked list.",
           "code_before": "while(ptr != ",
           "code_after": ") { ptr = ptr->next; }",
-          "correct": "NULL",
+          "correct": [
+            "NULL",
+            "0"
+          ],
           "explanation": "Traverse until the pointer hits NULL (the end of the list)."
         }
       ]
     },
-    "14": {
-      "examMode": true,
-      "showAll": true,
-      "questions": [
-        {
-          "id": "q10_1",
-          "type": "mcq",
-          "prompt": "[Past Year] Which is the correct way to define an Employee structure and an array for 12 employees based on the lecturer's requirements?",
-          "options": [
-            "struct Employee {\n    char name[50];\n    float salary;\n} emp[12];",
-            "Employee {\n    char name[50];\n    float salary;\n} emp[12];",
-            "struct Employee {\n    char name[50];\n    float salary;\n};\n\nEmployee emp = new Employee[12];"
-          ],
-          "correct": 0,
-          "hints": [
-            "Correct! 'struct' defines the type, and 'emp[12]' declares an array of 12.",
-            "You must use the 'struct' keyword in C.",
-            "C does not use the 'new' keyword for arrays like Java or C++."
-          ],
-          "explanation": "In standard C, you define a structure using the <code>struct</code> keyword. You can declare an array of that struct immediately after the closing brace.",
-          "topic": "Structs"
-        },
-        {
-          "id": "q10_2",
-          "type": "predict_output",
-          "prompt": "[Past Year] Predict the final Linked List output (head to tail):<br><code>int n=1; while(n<=4) {<br>&nbsp;&nbsp;p1=malloc(sizeof(Node));<br>&nbsp;&nbsp;p1->data = (n%2!=0) ? n*5 : n*2;<br>&nbsp;&nbsp;p1->next=front; front=p1; n++;<br>}</code>",
-          "code": "// Note: Elements are prepended (LIFO) for n=1 to 4.\n// Format: val1 val2 val3 val4",
-          "correct": "8 15 4 5",
-          "explanation": "n=1(odd)->5, n=2(even)->4, n=3(odd)->15, n=4(even)->8. Because nodes are prepended (<code>p1->next=front; front=p1</code>), the list is built backwards. Final list: 8 -> 15 -> 4 -> 5.",
-          "topic": "Linked Lists"
-        },
-        {
-          "id": "q10_3",
-          "type": "mcq",
-          "prompt": "[Past Year] Given <code>struct Node* ptr = head;</code>, which of these is INVALID in C?",
-          "options": [
-            "ptr = ptr->next;",
-            "if (ptr == NULL)",
-            "ptr.data = 10;"
-          ],
-          "correct": 2,
-          "hints": [
-            "This is valid pointer traversal.",
-            "This is a valid null check.",
-            "Correct! You cannot use a dot '.' on a pointer."
-          ],
-          "explanation": "Because <code>ptr</code> is a pointer (<code>*</code>), you must use the arrow operator (<code>-&gt;</code>) to access its members, not the dot operator (<code>.</code>).",
-          "topic": "Pointers"
-        },
-        {
-          "id": "q10_4",
-          "type": "fill_blank",
-          "prompt": "[Past Year] Complete the loop to calculate the average fee of 50 students.",
-          "template": "for(int i=0; i<50; i++) {\n  total += students[i].___;\n}\navg = total / 50;",
-          "blanks": [
-            "fee"
-          ],
-          "explanation": "You access the 'fee' member of each student struct inside the array using <code>students[i].fee</code>.",
-          "topic": "Arrays"
-        },
-        {
-          "id": "q10_5",
-          "type": "predict_output",
-          "prompt": "[Past Year] What is the value of 'x' after this executes?<br><code>int x = 5; int *p = &x; *p = 20;</code>",
-          "code": "printf(\"%d\", x);",
-          "correct": "20",
-          "explanation": "The pointer <code>p</code> holds the memory address of <code>x</code>. Dereferencing it (<code>*p = 20</code>) changes the actual value of <code>x</code> to 20.",
-          "topic": "Arrays"
-        },
-        {
-          "id": "q10_6",
-          "type": "fill_blank",
-          "prompt": "[Past Year] Access the integer `data` member of the Node using the pointer `ptr`.",
-          "template": "printf(\"%d\", ___);",
-          "blanks": [
-            [
-              "ptr->data",
-              "(*ptr).data"
-            ]
-          ],
-          "explanation": "In C, you can dereference a struct pointer and access its member using `(*ptr).data`, but the arrow operator `ptr->data` is much more common and readable.",
-          "topic": "Pointers"
-        }
-      ]
-    },
-    "13": {
+    "9": {
       "questions": [
         {
           "id": "q9_1",
           "type": "mcq",
-          "prompt": "Are you ready to build great things?",
+          "prompt": "What principle does a Queue follow?",
           "options": [
-            "Yes!",
-            "Definitely!"
+            "LIFO",
+            "FIFO",
+            "Random Access"
           ],
-          "correct": 0,
+          "correct": 1,
           "hints": [
-            "Correct!",
-            "Correct!"
+            "Like a line at a ticket counter."
           ],
-          "explanation": "You've completed all lessons. Go build something amazing with C!"
+          "explanation": "A Queue follows the First In, First Out (FIFO) principle."
         },
         {
           "id": "q9_2",
-          "type": "fill_blank",
-          "prompt": "Type 'C' to confirm.",
-          "template": "___",
-          "blanks": [
-            "C"
+          "type": "mcq",
+          "prompt": "What principle does a Stack follow?",
+          "options": [
+            "LIFO",
+            "FIFO",
+            "FILO"
           ],
-          "explanation": "C is awesome!"
+          "correct": 0,
+          "hints": [
+            "Like a stack of plates."
+          ],
+          "explanation": "A Stack follows Last In, First Out (LIFO). (FILO is technically equivalent but LIFO is standard terminology).",
+          "blanks": [
+            [
+              "FIFO",
+              "First In First Out"
+            ]
+          ]
         },
         {
           "id": "q9_3",
           "type": "predict_output",
-          "prompt": "Output of your success:",
-          "code": "printf(\"Success\");",
-          "correct": "Success",
-          "explanation": "Great job!"
+          "prompt": "Queue trace: Enqueue(1), Enqueue(2), Dequeue(). What is removed?",
+          "code": "enqueue(1);\nenqueue(2);\nint x = dequeue();",
+          "correct": [
+            "1"
+          ],
+          "explanation": "1 was added first, so it is dequeued first (FIFO)."
+        },
+        {
+          "id": "q9_4",
+          "type": "predict_output",
+          "prompt": "Stack trace: Push(A), Push(B), Pop(). What is removed?",
+          "code": "push('A');\npush('B');\nchar c = pop();",
+          "correct": [
+            "B",
+            "'B'",
+            "\"B\""
+          ],
+          "explanation": "B was added last, so it is popped first (LIFO)."
         }
       ]
     },
@@ -1128,14 +1220,34 @@ window.QUESTIONS_DATA = {
           "id": "q12_2",
           "type": "tree_build",
           "prompt": "Drag and drop the values to build the **Easy BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
-          "nodes": ["10", "5", "15"],
+          "nodes": [
+            "10",
+            "5",
+            "15"
+          ],
           "treeStructure": [
-            { "id": "node_10", "x": 200, "y": 30, "left": "node_5", "right": "node_15" },
-            { "id": "node_5", "x": 100, "y": 130 },
-            { "id": "node_15", "x": 300, "y": 130 }
+            {
+              "id": "node_10",
+              "x": 200,
+              "y": 30,
+              "left": "node_5",
+              "right": "node_15"
+            },
+            {
+              "id": "node_5",
+              "x": 100,
+              "y": 130
+            },
+            {
+              "id": "node_15",
+              "x": 300,
+              "y": 130
+            }
           ],
           "correctMapping": {
-            "node_10": "10", "node_5": "5", "node_15": "15"
+            "node_10": "10",
+            "node_5": "5",
+            "node_15": "15"
           },
           "hints": [
             "Remember: Values smaller than the parent go to the left, and values larger go to the right."
@@ -1146,19 +1258,66 @@ window.QUESTIONS_DATA = {
           "id": "q12_3",
           "type": "tree_build",
           "prompt": "Drag and drop the values to build the **Medium BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
-          "nodes": ["10", "2", "15", "7", "5", "20", "12"],
+          "nodes": [
+            "10",
+            "2",
+            "15",
+            "7",
+            "5",
+            "20",
+            "12"
+          ],
           "treeStructure": [
-            { "id": "node_10", "x": 200, "y": 20, "left": "node_5", "right": "node_15" },
-            { "id": "node_5", "x": 100, "y": 100, "left": "node_2", "right": "node_7" },
-            { "id": "node_15", "x": 300, "y": 100, "left": "node_12", "right": "node_20" },
-            { "id": "node_2", "x": 50, "y": 180 },
-            { "id": "node_7", "x": 150, "y": 180 },
-            { "id": "node_12", "x": 250, "y": 180 },
-            { "id": "node_20", "x": 350, "y": 180 }
+            {
+              "id": "node_10",
+              "x": 200,
+              "y": 20,
+              "left": "node_5",
+              "right": "node_15"
+            },
+            {
+              "id": "node_5",
+              "x": 100,
+              "y": 100,
+              "left": "node_2",
+              "right": "node_7"
+            },
+            {
+              "id": "node_15",
+              "x": 300,
+              "y": 100,
+              "left": "node_12",
+              "right": "node_20"
+            },
+            {
+              "id": "node_2",
+              "x": 50,
+              "y": 180
+            },
+            {
+              "id": "node_7",
+              "x": 150,
+              "y": 180
+            },
+            {
+              "id": "node_12",
+              "x": 250,
+              "y": 180
+            },
+            {
+              "id": "node_20",
+              "x": 350,
+              "y": 180
+            }
           ],
           "correctMapping": {
-            "node_10": "10", "node_5": "5", "node_15": "15",
-            "node_2": "2", "node_7": "7", "node_12": "12", "node_20": "20"
+            "node_10": "10",
+            "node_5": "5",
+            "node_15": "15",
+            "node_2": "2",
+            "node_7": "7",
+            "node_12": "12",
+            "node_20": "20"
           },
           "hints": [
             "Remember the golden rule of BST: Left Child < Parent < Right Child."
@@ -1169,19 +1328,66 @@ window.QUESTIONS_DATA = {
           "id": "q12_4",
           "type": "tree_build",
           "prompt": "Drag and drop the values to build the **Hard BST** (root 15) to form a valid Binary Search Tree.",
-          "nodes": ["15", "8", "3", "10", "12", "22", "30"],
+          "nodes": [
+            "15",
+            "8",
+            "3",
+            "10",
+            "12",
+            "22",
+            "30"
+          ],
           "treeStructure": [
-            { "id": "node_15", "x": 200, "y": 20, "left": "node_8", "right": "node_22" },
-            { "id": "node_8", "x": 120, "y": 80, "left": "node_3", "right": "node_10" },
-            { "id": "node_3", "x": 60, "y": 140 },
-            { "id": "node_10", "x": 180, "y": 140, "right": "node_12" },
-            { "id": "node_12", "x": 220, "y": 200 },
-            { "id": "node_22", "x": 280, "y": 80, "right": "node_30" },
-            { "id": "node_30", "x": 340, "y": 140 }
+            {
+              "id": "node_15",
+              "x": 200,
+              "y": 20,
+              "left": "node_8",
+              "right": "node_22"
+            },
+            {
+              "id": "node_8",
+              "x": 120,
+              "y": 80,
+              "left": "node_3",
+              "right": "node_10"
+            },
+            {
+              "id": "node_3",
+              "x": 60,
+              "y": 140
+            },
+            {
+              "id": "node_10",
+              "x": 180,
+              "y": 140,
+              "right": "node_12"
+            },
+            {
+              "id": "node_12",
+              "x": 220,
+              "y": 200
+            },
+            {
+              "id": "node_22",
+              "x": 280,
+              "y": 80,
+              "right": "node_30"
+            },
+            {
+              "id": "node_30",
+              "x": 340,
+              "y": 140
+            }
           ],
           "correctMapping": {
-            "node_15": "15", "node_8": "8", "node_3": "3", "node_10": "10",
-            "node_12": "12", "node_22": "22", "node_30": "30"
+            "node_15": "15",
+            "node_8": "8",
+            "node_3": "3",
+            "node_10": "10",
+            "node_12": "12",
+            "node_22": "22",
+            "node_30": "30"
           },
           "hints": [
             "This is an unbalanced tree. Trace carefully: is 12 greater or smaller than 10? Where does it go relative to 15, 8, and 10?"
@@ -1192,78 +1398,219 @@ window.QUESTIONS_DATA = {
           "id": "q12_5",
           "type": "sortable",
           "prompt": "Drag and drop the nodes into the correct order for an **In-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
-          "items": ["10", "5", "2", "7", "15", "12", "20"],
-          "correctOrder": ["2", "5", "7", "10", "12", "15", "20"],
-          "hints": ["In-order visits: Left, Root, Right. For a BST, this results in a sorted list!"],
+          "items": [
+            "10",
+            "5",
+            "2",
+            "7",
+            "15",
+            "12",
+            "20"
+          ],
+          "correctOrder": [
+            "2",
+            "5",
+            "7",
+            "10",
+            "12",
+            "15",
+            "20"
+          ],
+          "hints": [
+            "In-order visits: Left, Root, Right. For a BST, this results in a sorted list!"
+          ],
           "explanation": "In-order traversal visits the left subtree, then the root, then the right subtree. For this tree: 2 -> 5 -> 7 -> 10 -> 12 -> 15 -> 20."
         },
         {
           "id": "q12_6",
           "type": "sortable",
           "prompt": "Drag and drop the nodes into the correct order for a **Pre-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
-          "items": ["10", "5", "2", "7", "15", "12", "20"],
-          "correctOrder": ["10", "5", "2", "7", "15", "12", "20"],
-          "hints": ["Pre-order visits: Root, Left, Right."],
+          "items": [
+            "10",
+            "5",
+            "2",
+            "7",
+            "15",
+            "12",
+            "20"
+          ],
+          "correctOrder": [
+            "10",
+            "5",
+            "2",
+            "7",
+            "15",
+            "12",
+            "20"
+          ],
+          "hints": [
+            "Pre-order visits: Root, Left, Right."
+          ],
           "explanation": "Pre-order visits the root (10), then its left subtree starting at 5 (5, 2, 7), then the right subtree starting at 15 (15, 12, 20)."
         },
         {
           "id": "q12_7",
           "type": "sortable",
           "prompt": "Drag and drop the nodes into the correct order for a **Post-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
-          "items": ["10", "5", "2", "7", "15", "12", "20"],
-          "correctOrder": ["2", "7", "5", "12", "20", "15", "10"],
-          "hints": ["Post-order visits: Left, Right, Root. The root is always visited last!"],
+          "items": [
+            "10",
+            "5",
+            "2",
+            "7",
+            "15",
+            "12",
+            "20"
+          ],
+          "correctOrder": [
+            "2",
+            "7",
+            "5",
+            "12",
+            "20",
+            "15",
+            "10"
+          ],
+          "hints": [
+            "Post-order visits: Left, Right, Root. The root is always visited last!"
+          ],
           "explanation": "Post-order visits the left child, right child, and then the root. For this tree: left subtree (2, 7, 5), right subtree (12, 20, 15), then root (10)."
         }
       ]
     },
-    "9": {
+    "13": {
       "questions": [
         {
           "id": "q9_1",
           "type": "mcq",
-          "prompt": "What principle does a Queue follow?",
+          "prompt": "Are you ready to build great things?",
           "options": [
-            "LIFO",
-            "FIFO",
-            "Random Access"
-          ],
-          "correct": 1,
-          "hints": [
-            "Like a line at a ticket counter."
-          ],
-          "explanation": "A Queue follows the First In, First Out (FIFO) principle."
-        },
-        {
-          "id": "q9_2",
-          "type": "mcq",
-          "prompt": "What principle does a Stack follow?",
-          "options": [
-            "LIFO",
-            "FIFO",
-            "FILO"
+            "Yes!",
+            "Definitely!"
           ],
           "correct": 0,
           "hints": [
-            "Like a stack of plates."
+            "Correct!",
+            "Correct!"
           ],
-          "explanation": "A Stack follows Last In, First Out (LIFO). (FILO is technically equivalent but LIFO is standard terminology)."
+          "explanation": "You've completed all lessons. Go build something amazing with C!"
+        },
+        {
+          "id": "q9_2",
+          "type": "fill_blank",
+          "prompt": "Type 'C' to confirm.",
+          "template": "___",
+          "blanks": [
+            [
+              "FIFO",
+              "First In First Out"
+            ]
+          ],
+          "explanation": "C is awesome!"
         },
         {
           "id": "q9_3",
           "type": "predict_output",
-          "prompt": "Queue trace: Enqueue(1), Enqueue(2), Dequeue(). What is removed?",
-          "code": "enqueue(1);\nenqueue(2);\nint x = dequeue();",
-          "correct": "1",
-          "explanation": "1 was added first, so it is dequeued first (FIFO)."
+          "prompt": "Output of your success:",
+          "code": "printf(\"Success\");",
+          "correct": [
+            "1"
+          ],
+          "explanation": "Great job!"
+        }
+      ]
+    },
+    "14": {
+      "examMode": true,
+      "showAll": true,
+      "questions": [
+        {
+          "id": "q10_1",
+          "type": "mcq",
+          "prompt": "[Past Year] Which is the correct way to define an Employee structure and an array for 12 employees based on the lecturer's requirements?",
+          "options": [
+            "struct Employee {\n    char name[50];\n    float salary;\n} emp[12];",
+            "Employee {\n    char name[50];\n    float salary;\n} emp[12];",
+            "struct Employee {\n    char name[50];\n    float salary;\n};\n\nEmployee emp = new Employee[12];"
+          ],
+          "correct": 0,
+          "hints": [
+            "Correct! 'struct' defines the type, and 'emp[12]' declares an array of 12.",
+            "You must use the 'struct' keyword in C.",
+            "C does not use the 'new' keyword for arrays like Java or C++."
+          ],
+          "explanation": "In standard C, you define a structure using the <code>struct</code> keyword. You can declare an array of that struct immediately after the closing brace.",
+          "topic": "Structs"
         },
         {
-          "id": "q9_4",
+          "id": "q10_2",
           "type": "predict_output",
-          "prompt": "Stack trace: Push(A), Push(B), Pop(). What is removed?",
-          "code": "push('A');\npush('B');\nchar c = pop();",
-          "correct": "B",
-          "explanation": "B was added last, so it is popped first (LIFO)."
+          "prompt": "[Past Year] Predict the final Linked List output (head to tail):<br><code>int n=1; while(n<=4) {<br>&nbsp;&nbsp;p1=malloc(sizeof(Node));<br>&nbsp;&nbsp;p1->data = (n%2!=0) ? n*5 : n*2;<br>&nbsp;&nbsp;p1->next=front; front=p1; n++;<br>}</code>",
+          "code": "// Note: Elements are prepended (LIFO) for n=1 to 4.\n// Format: val1 val2 val3 val4",
+          "correct": [
+            "8 15 4 5",
+            "8, 15, 4, 5",
+            "8,15,4,5"
+          ],
+          "explanation": "n=1(odd)->5, n=2(even)->4, n=3(odd)->15, n=4(even)->8. Because nodes are prepended (<code>p1->next=front; front=p1</code>), the list is built backwards. Final list: 8 -> 15 -> 4 -> 5.",
+          "topic": "Linked Lists"
+        },
+        {
+          "id": "q10_3",
+          "type": "mcq",
+          "prompt": "[Past Year] Given <code>struct Node* ptr = head;</code>, which of these is INVALID in C?",
+          "options": [
+            "ptr = ptr->next;",
+            "if (ptr == NULL)",
+            "ptr.data = 10;"
+          ],
+          "correct": 2,
+          "hints": [
+            "This is valid pointer traversal.",
+            "This is a valid null check.",
+            "Correct! You cannot use a dot '.' on a pointer."
+          ],
+          "explanation": "Because <code>ptr</code> is a pointer (<code>*</code>), you must use the arrow operator (<code>-&gt;</code>) to access its members, not the dot operator (<code>.</code>).",
+          "topic": "Pointers"
+        },
+        {
+          "id": "q10_4",
+          "type": "fill_blank",
+          "prompt": "[Past Year] Complete the loop to calculate the average fee of 50 students.",
+          "template": "for(int i=0; i<50; i++) {\n  total += students[i].___;\n}\navg = total / 50;",
+          "blanks": [
+            [
+              "fee",
+              "fees"
+            ]
+          ],
+          "explanation": "You access the 'fee' member of each student struct inside the array using <code>students[i].fee</code>.",
+          "topic": "Arrays"
+        },
+        {
+          "id": "q10_5",
+          "type": "predict_output",
+          "prompt": "[Past Year] What is the value of 'x' after this executes?<br><code>int x = 5; int *p = &x; *p = 20;</code>",
+          "code": "printf(\"%d\", x);",
+          "correct": [
+            "20"
+          ],
+          "explanation": "The pointer <code>p</code> holds the memory address of <code>x</code>. Dereferencing it (<code>*p = 20</code>) changes the actual value of <code>x</code> to 20.",
+          "topic": "Arrays"
+        },
+        {
+          "id": "q10_6",
+          "type": "fill_blank",
+          "prompt": "[Past Year] Access the integer `data` member of the Node using the pointer `ptr`.",
+          "template": "printf(\"%d\", ___);",
+          "blanks": [
+            [
+              "ptr->data",
+              "(*ptr).data",
+              "ptr -> data"
+            ]
+          ],
+          "explanation": "In C, you can dereference a struct pointer and access its member using `(*ptr).data`, but the arrow operator `ptr->data` is much more common and readable.",
+          "topic": "Pointers"
         }
       ]
     }
