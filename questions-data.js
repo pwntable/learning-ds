@@ -69,10 +69,9 @@ window.QUESTIONS_DATA = {
           "code_before": "",
           "code_after": " pi = 3.14159;",
           "correct": [
-            "double",
-            "float"
+            "double"
           ],
-          "explanation": "<code>double</code> provides roughly twice the precision of a standard <code>float</code>."
+          "explanation": "<code>double</code> is the <strong>double-precision</strong> floating-point type (~15–16 decimal digits). <code>float</code> is <em>single-precision</em> (~6–7 decimal digits). The question asks specifically for <em>double precision</em>, so only <code>double</code> is correct."
         },
         {
           "id": "q1_6",

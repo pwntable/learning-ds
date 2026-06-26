@@ -588,6 +588,10 @@ const DSViz = (() => {
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-bubble">Bubble Sort</button>
           <button class="dsv-btn dsv-btn-accent" id="${containerId}-selection">Selection Sort</button>
           <button class="dsv-btn dsv-btn-ghost" id="${containerId}-pause" style="display: none;">Pause</button>
+          <div class="dsv-speed-ctrl">
+             <label for="${containerId}-speed" style="font-size: 0.8rem; color: var(--text-secondary);">Speed:</label>
+             <input type="range" id="${containerId}-speed" min="1" max="5" value="3" style="cursor: pointer;">
+          </div>
         </div>
 
         <div class="dsv-status" id="${containerId}-srt-status"></div>
@@ -600,6 +604,17 @@ const DSViz = (() => {
           <div style="flex: 1; min-width: 250px;">
              <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-align: center;">After Sorting (Live Progress)</h4>
              <div class="dsv-sort-stage" id="${containerId}-srt-stage-after" style="border: none; border-bottom: 2px solid var(--border); padding-bottom: 0;"></div>
+             <div style="text-align: center; margin-top: 0.75rem; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; padding: 0 0.5rem;">
+               <strong>Array State:</strong> <span id="${containerId}-srt-array-state"></span>
+             </div>
+             <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+               <div style="display: flex; align-items: center; gap: 0.35rem;">
+                 <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 2px;"></div> Comparing / Swapping
+               </div>
+               <div style="display: flex; align-items: center; gap: 0.35rem;">
+                 <div style="width: 12px; height: 12px; background: #10b981; border-radius: 2px;"></div> Sorted
+               </div>
+             </div>
           </div>
         </div>
       </div>`;
@@ -667,9 +682,26 @@ const DSViz = (() => {
         bar.textContent = val;
         stageAfter.appendChild(bar);
       });
+
+      const stateEl = root.querySelector(`#${containerId}-srt-array-state`);
+      if (stateEl) {
+        stateEl.innerHTML = arr.map((val, idx) => {
+          let color = '';
+          if (activeIndices.includes(idx)) color = 'color: #f59e0b; font-weight: bold;';
+          else if (doneIndices.includes(idx)) color = 'color: #10b981; font-weight: bold;';
+          return `<span style="${color}">${val}</span>`;
+        }).join(' &rarr; ');
+      }
     }
 
-    const delay = ms => new Promise(res => setTimeout(res, ms));
+    const getDelay = () => {
+      const speedInput = root.querySelector(`#${containerId}-speed`);
+      const speed = speedInput ? parseInt(speedInput.value) : 3;
+      // speed 1=800ms, 2=500ms, 3=300ms, 4=150ms, 5=50ms
+      const delays = [0, 800, 500, 300, 150, 50];
+      return delays[speed];
+    };
+    const delay = () => new Promise(res => setTimeout(res, getDelay()));
 
     async function bubbleSort() {
       if (isSorting) return;
@@ -683,13 +715,13 @@ const DSViz = (() => {
           await checkPause();
           if (!isSorting) return; // In case reset was clicked
           render([j, j + 1], done);
-          await delay(300);
+          await delay();
           if (arr[j] > arr[j + 1]) {
             let temp = arr[j];
             arr[j] = arr[j + 1];
             arr[j + 1] = temp;
             render([j, j + 1], done);
-            await delay(300);
+            await delay();
           }
         }
         done.push(n - i - 1);
@@ -715,7 +747,7 @@ const DSViz = (() => {
           await checkPause();
           if (!isSorting) return;
           render([i, j, min_idx], done);
-          await delay(200);
+          await delay();
           if (arr[j] < arr[min_idx]) {
             min_idx = j;
           }

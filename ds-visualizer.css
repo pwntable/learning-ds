@@ -433,6 +433,16 @@
   font-family: 'Inter', sans-serif;
 }
 
+.dsv-speed-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+.dsv-speed-ctrl input[type="range"] {
+  width: 80px;
+}
+
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .dsv-panel { padding: 1.25rem 1rem; }
@@ -442,6 +452,8 @@
   .dsv-arr-cell { width: 54px; height: 54px; font-size: 0.9rem; }
   .dsv-arr-lbl  { width: 54px; }
   .dsv-sort-split { flex-direction: column; gap: 1.5rem !important; }
+  .dsv-speed-ctrl { margin-left: 0; margin-top: 0.5rem; justify-content: center; width: 100%; }
+  .dsv-speed-ctrl input[type="range"] { width: 120px; }
 }
 
 /* ── Sorting Visualizer ── */

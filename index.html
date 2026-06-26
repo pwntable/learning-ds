@@ -9,6 +9,7 @@
   <!-- PWA Metadata -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#10b981">
+  <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <!-- Open Graph / Social Preview -->
@@ -29,7 +30,7 @@
   <script src="questions-data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/drag-drop-touch@1.0.1/DragDropTouch.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="quiz-engine.js"></script>
   <script src="ds-visualizer.js"></script>
 </head>
@@ -560,9 +561,6 @@
     </main>
   </div>
 
-  <script src="quiz-engine.js"></script>
-  <script src="ds-visualizer.js"></script>
-  <script src="ds-visualizer.js"></script>
   <script>
     
     // ── Theme Management ────────────────────────────────────────────────
@@ -580,7 +578,7 @@
       document.body.classList.add('sidebar-collapsed');
     }
 
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
     // ── Lesson navigation state ────────────────────────────────────────
     let currentLesson = 1;
     const totalLessons = 14;
