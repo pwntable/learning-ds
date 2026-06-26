@@ -26,7 +26,7 @@
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
   background: rgba(59, 130, 246, 0.12);
-  color: #93c5fd;
+  color: var(--accent-secondary);
   border: 1px solid rgba(59, 130, 246, 0.25);
   margin-bottom: 1rem;
   user-select: none;
@@ -35,7 +35,7 @@
 /* ── Prompt ──────────────────────────────────────────────────────── */
 .qe-prompt {
   font-size: 1.05rem;
-  color: #e2e8f0;
+  color: var(--text-primary);
   margin-bottom: 1.25rem;
   line-height: 1.7;
 }
@@ -50,8 +50,8 @@
 
 /* Blank marker inside code completion preview */
 .qe-blank-marker {
-  background: rgba(245, 158, 11, 0.25);
-  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-warning);
   border-radius: 4px;
   padding: 0 4px;
   font-style: italic;
@@ -146,7 +146,7 @@
   background: rgba(59, 130, 246, 0.1);
   border: 1px dashed rgba(59, 130, 246, 0.4);
   border-radius: 6px;
-  color: #93c5fd;
+  color: var(--accent-secondary);
   font-family: 'Fira Code', monospace;
   font-size: 0.9rem;
   text-align: center;
@@ -182,15 +182,15 @@
 }
 
 .qe-feedback-correct {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.12);
   border-left: 4px solid var(--accent-primary);
-  color: #6ee7b7;
+  color: var(--accent-primary);
 }
 
 .qe-feedback-wrong {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.12);
   border-left: 4px solid var(--accent-danger);
-  color: #fca5a5;
+  color: var(--accent-danger);
 }
 
 .qe-feedback-msg {
@@ -219,13 +219,13 @@
 .qe-explanation {
   font-size: 0.9rem;
   font-weight: 400;
-  color: #cbd5e1;
+  color: var(--text-primary);
   line-height: 1.6;
 }
 
 .qe-explanation code {
   background: rgba(59, 130, 246, 0.12);
-  color: #93c5fd;
+  color: var(--accent-secondary);
   padding: 0.1rem 0.35rem;
   border-radius: 4px;
   font-family: 'Fira Code', monospace;
@@ -355,7 +355,7 @@
 }
 
 .qe-tree-node.drag-over {
-  border-color: var(--accent);
+  border-color: var(--accent-secondary);
   background: rgba(43, 108, 176, 0.1);
   transform: scale(1.1);
 }
@@ -375,7 +375,7 @@
 }
 
 .qe-pool.drag-over {
-  border-color: var(--accent);
+  border-color: var(--accent-secondary);
   background: rgba(43, 108, 176, 0.05);
 }
 
@@ -383,8 +383,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-secondary);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
