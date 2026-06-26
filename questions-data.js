@@ -36,7 +36,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q1_3",
           "type": "predict_output",
-          "prompt": "What data type is typically used to store exactly one letter, like 'Z'?",
+          "prompt": "What is the exact output of this code?",
           "code": "char grade = 'Z';\nprintf(\"%c\", grade);",
           "correct": [
             "Z",
@@ -699,7 +699,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q6_2",
           "type": "predict_output",
-          "prompt": "How many times will 'Go!' be printed?",
+          "prompt": "What is the exact output of this code?",
           "code": "for (int i = 0; i < 3; i++) { printf(\"Go!\"); }",
           "correct": [
             "Go!Go!Go!",
