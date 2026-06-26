@@ -248,15 +248,13 @@ window.QUESTIONS_DATA = {
         {
           "id": "q2_7",
           "type": "predict_output",
-          "prompt": "What does \\n do in a string?",
+          "prompt": "What is the exact output of this program? (Use a newline / Enter key to represent the line break)",
           "code": "printf(\"A\\nB\");",
           "correct": [
             "A\nB",
-            "A\\nB",
-            "AB",
-            "A B"
+            "A\nB "
           ],
-          "explanation": "Wait, changed to predict."
+          "explanation": "The escape sequence <code>\\n</code> is a newline character. It moves the cursor to the next line. So <code>printf(\"A\\nB\")</code> prints 'A', then a newline, then 'B' on the next line."
         }
       ]
     },
@@ -297,11 +295,9 @@ window.QUESTIONS_DATA = {
           "prompt": "Predict output:",
           "code": "int a=5, b=2;\nprintf(\"%d\", a/b);",
           "correct": [
-            "2",
-            "2.0",
-            "2.5"
+            "2"
           ],
-          "explanation": "Integer division drops the fractional part (2.5 becomes 2)."
+          "explanation": "Both <code>a</code> and <code>b</code> are integers, so C performs <strong>integer division</strong>. The result is 2 (the fractional part .5 is truncated). The <code>%d</code> format specifier also only prints whole integers, so <code>2.0</code> or <code>2.5</code> are not valid outputs here."
         },
         {
           "id": "q3_4",
@@ -360,11 +356,9 @@ window.QUESTIONS_DATA = {
           "code_before": "float price;\nscanf(\"",
           "code_after": "\", &price);",
           "correct": [
-            "%f",
-            "%lf",
-            "%g"
+            "%f"
           ],
-          "explanation": "%f is the format specifier for floats."
+          "explanation": "For <code>scanf</code>, use <code>%f</code> to read a <code>float</code>. Note: <code>%lf</code> is for <code>double</code> in scanf (not float). This is different from <code>printf</code> where <code>%f</code> works for both."
         },
         {
           "id": "q3_9",
@@ -480,11 +474,9 @@ window.QUESTIONS_DATA = {
           "code_before": "if (x ",
           "code_after": " 5)",
           "correct": [
-            "!=",
-            "not eq",
-            "<>"
+            "!="
           ],
-          "explanation": "!= means 'not equal'."
+          "explanation": "<code>!=</code> is the 'not equal to' operator in C. Note: <code>&lt;&gt;</code> is used in Pascal/SQL and <code>not eq</code> is not valid C syntax."
         },
         {
           "id": "q4_7",
@@ -892,10 +884,9 @@ window.QUESTIONS_DATA = {
           "prompt": "Predict output:",
           "code": "int arr[5] = {1, 2};\nprintf(\"%d\", arr[4]);",
           "correct": [
-            "0",
-            "garbage"
+            "0"
           ],
-          "explanation": "If an array is partially initialized, the remaining elements are set to 0."
+          "explanation": "In C, when an array is <strong>partially initialized</strong> (fewer values than its size), all remaining elements are automatically set to <code>0</code>. So <code>arr[2]</code>, <code>arr[3]</code>, and <code>arr[4]</code> are all 0. This is a guaranteed rule in C — it is NOT garbage."
         },
         {
           "id": "q7_7",
@@ -1163,7 +1154,7 @@ window.QUESTIONS_DATA = {
     "10": {
       "questions": [
         {
-          "id": "q9_1",
+          "id": "q10s_1",
           "type": "mcq",
           "prompt": "Which sorting algorithm repeatedly swaps adjacent elements if they are in wrong order?",
           "options": [
@@ -1176,13 +1167,68 @@ window.QUESTIONS_DATA = {
             "It 'bubbles' the largest elements to the end."
           ],
           "explanation": "Bubble sort works by repeatedly swapping adjacent elements that are out of order."
+        },
+        {
+          "id": "q10s_2",
+          "type": "mcq",
+          "prompt": "What is the worst-case time complexity of Bubble Sort?",
+          "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(n²)"
+          ],
+          "correct": 2,
+          "hints": [
+            "Think about how many comparisons are needed for n elements in the worst case."
+          ],
+          "explanation": "Bubble Sort compares every pair of adjacent elements. In the worst case (reverse-sorted list), it needs n*(n-1)/2 comparisons, which is <strong>O(n²)</strong>."
+        },
+        {
+          "id": "q10s_3",
+          "type": "mcq",
+          "prompt": "Which sorting algorithm finds the minimum element and places it at the correct position in each pass?",
+          "options": [
+            "Bubble Sort",
+            "Selection Sort",
+            "Merge Sort"
+          ],
+          "correct": 1,
+          "hints": [
+            "It 'selects' the smallest item from the unsorted portion each pass."
+          ],
+          "explanation": "<strong>Selection Sort</strong> scans the unsorted portion to find the minimum element and swaps it into its correct sorted position."
+        },
+        {
+          "id": "q10s_4",
+          "type": "predict_output",
+          "prompt": "How many swaps does Bubble Sort perform on this array in the FIRST pass?",
+          "code": "// Array: {5, 3, 1, 4}\n// First pass: compare and swap adjacent elements",
+          "correct": [
+            "3"
+          ],
+          "explanation": "First pass comparisons: (5,3)→swap, (5,1)→swap, (5,4)→swap. That is <strong>3 swaps</strong>. After the first pass, 5 is 'bubbled' to the end: {3, 1, 4, 5}."
+        },
+        {
+          "id": "q10s_5",
+          "type": "mcq",
+          "prompt": "Which sorting algorithm builds the sorted array one element at a time by inserting each element into its correct position?",
+          "options": [
+            "Selection Sort",
+            "Bubble Sort",
+            "Insertion Sort"
+          ],
+          "correct": 2,
+          "hints": [
+            "Think of how you would sort a hand of playing cards."
+          ],
+          "explanation": "<strong>Insertion Sort</strong> picks each element and inserts it into the correct position in the already-sorted portion, similar to how you sort cards in your hand."
         }
       ]
     },
     "11": {
       "questions": [
         {
-          "id": "q10_1",
+          "id": "q11t_1",
           "type": "mcq",
           "prompt": "What is the topmost node of a tree called?",
           "options": [
@@ -1194,7 +1240,62 @@ window.QUESTIONS_DATA = {
           "hints": [
             "It's where the tree starts."
           ],
-          "explanation": "The Root is the topmost node in a tree hierarchy."
+          "explanation": "The <strong>Root</strong> is the topmost node in a tree hierarchy. It has no parent."
+        },
+        {
+          "id": "q11t_2",
+          "type": "mcq",
+          "prompt": "What is a 'leaf node' in a tree?",
+          "options": [
+            "The root node",
+            "A node with no children",
+            "A node with exactly two children"
+          ],
+          "correct": 1,
+          "hints": [
+            "Think of a leaf on a real tree — it's at the very end of a branch."
+          ],
+          "explanation": "A <strong>leaf node</strong> is any node that has no children. It sits at the bottom of the tree."
+        },
+        {
+          "id": "q11t_3",
+          "type": "mcq",
+          "prompt": "In a Binary Search Tree (BST), where are values smaller than the root stored?",
+          "options": [
+            "In the right subtree",
+            "In the left subtree",
+            "At the root level"
+          ],
+          "correct": 1,
+          "hints": [
+            "The BST property: Left < Root < Right."
+          ],
+          "explanation": "The core BST rule: every value in the <strong>left subtree</strong> is smaller than the root, and every value in the <strong>right subtree</strong> is larger."
+        },
+        {
+          "id": "q11t_4",
+          "type": "predict_output",
+          "prompt": "Insert values in this order into an empty BST: 10, 5, 15. What is the root?",
+          "code": "// Insert: 10, then 5, then 15",
+          "correct": [
+            "10"
+          ],
+          "explanation": "The <strong>first value inserted</strong> always becomes the root. After inserting 10, then 5 (goes left of 10), then 15 (goes right of 10), the root remains <strong>10</strong>."
+        },
+        {
+          "id": "q11t_5",
+          "type": "mcq",
+          "prompt": "What is the height of a tree with only a single root node?",
+          "options": [
+            "0",
+            "1",
+            "-1"
+          ],
+          "correct": 0,
+          "hints": [
+            "Height is the number of edges from root to the deepest leaf."
+          ],
+          "explanation": "A single root with no children has a height of <strong>0</strong> (zero edges from root to a leaf)."
         }
       ]
     },
@@ -1480,42 +1581,70 @@ window.QUESTIONS_DATA = {
     "13": {
       "questions": [
         {
-          "id": "q9_1",
+          "id": "q13_1",
           "type": "mcq",
-          "prompt": "Are you ready to build great things?",
+          "prompt": "What keyword is used to define a custom data type grouping multiple variables in C?",
           "options": [
-            "Yes!",
-            "Definitely!"
+            "class",
+            "struct",
+            "object"
           ],
-          "correct": 0,
+          "correct": 1,
           "hints": [
-            "Correct!",
-            "Correct!"
+            "C does not have 'class' — that's C++.",
+            "Correct! 'struct' is C's way to group variables.",
+            "'object' is not a C keyword."
           ],
-          "explanation": "You've completed all lessons. Go build something amazing with C!"
+          "explanation": "In C, <code>struct</code> (structure) is used to define a custom data type that groups different variables under one name. C does not have classes."
         },
         {
-          "id": "q9_2",
+          "id": "q13_2",
+          "type": "predict_output",
+          "prompt": "What does this print?",
+          "code": "struct Point { int x; int y; };\nstruct Point p;\np.x = 3; p.y = 7;\nprintf(\"%d %d\", p.x, p.y);",
+          "correct": [
+            "3 7"
+          ],
+          "explanation": "<code>p.x</code> holds 3 and <code>p.y</code> holds 7. Using <code>%d %d</code> prints them separated by a space: <strong>3 7</strong>."
+        },
+        {
+          "id": "q13_3",
           "type": "fill_blank",
-          "prompt": "Type 'C' to confirm.",
-          "template": "___",
+          "prompt": "Access the 'salary' member of a struct variable 'emp'.",
+          "template": "printf(\"%f\", emp.___)",
           "blanks": [
             [
-              "FIFO",
-              "First In First Out"
+              "salary"
             ]
           ],
-          "explanation": "C is awesome!"
+          "explanation": "Use the dot operator (<code>.</code>) to access struct members via a struct variable. For struct pointers, use the arrow operator (<code>-&gt;</code>)."
         },
         {
-          "id": "q9_3",
+          "id": "q13_4",
+          "type": "mcq",
+          "prompt": "Which operator accesses a struct member through a pointer?",
+          "options": [
+            ". (dot)",
+            "-> (arrow)",
+            "* (dereference)"
+          ],
+          "correct": 1,
+          "hints": [
+            "Dot is for non-pointer struct variables.",
+            "Correct! The arrow operator is shorthand for (*ptr).member.",
+            "Dereference alone doesn't access a member."
+          ],
+          "explanation": "<code>ptr-&gt;member</code> is equivalent to <code>(*ptr).member</code>. The arrow operator <code>-&gt;</code> is used when you have a <strong>pointer</strong> to a struct."
+        },
+        {
+          "id": "q13_5",
           "type": "predict_output",
-          "prompt": "Output of your success:",
+          "prompt": "What does this print?",
           "code": "printf(\"Success\");",
           "correct": [
-            "1"
+            "Success"
           ],
-          "explanation": "Great job!"
+          "explanation": "<code>printf(\"Success\")</code> prints the string <strong>Success</strong> to the console. The function returns the number of characters printed (7), but that return value is not captured here."
         }
       ]
     },
