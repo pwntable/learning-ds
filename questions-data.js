@@ -804,6 +804,21 @@ window.QUESTIONS_DATA = {
             ]
           ],
           "explanation": "break exits the innermost enclosing loop."
+        },
+        {
+          "id": "q6_11",
+          "type": "fill_blank",
+          "prompt": "Assign ID 101 to the first student in the array of structs.",
+          "template": "students[___].___ = 101;",
+          "blanks": [
+            [
+              "0"
+            ],
+            [
+              "id"
+            ]
+          ],
+          "explanation": "Arrays are 0-indexed, so the first element is students[0]. Use the dot operator to access the id field."
         }
       ]
     },

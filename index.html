@@ -397,6 +397,32 @@
             live.</p>
           <div id="viz-array"></div>
 
+          <hr style="border: 0; height: 1px; background: var(--border); margin: 2rem 0;">
+          
+          <p class="dsv-section-title">🔬 Interactive: Array of Structs Visualizer</p>
+          <p class="dsv-section-sub">Instead of storing single values, an array can store complex "Structs". Here, each index holds a <code>Student</code> with an <code>id</code> and a <code>score</code>.</p>
+          
+          <div class="code-container">
+            <pre class="code-block"><span class="code-kw">typedef struct</span> {
+    <span class="code-type">int</span> id;
+    <span class="code-type">int</span> score;
+} Student;
+
+<span class="code-cmt">// Declare an array of 4 Student structs</span>
+Student students[<span class="code-num">4</span>];
+
+<span class="code-cmt">// Accessing and assigning values to index 0</span>
+students[<span class="code-num">0</span>].id = <span class="code-num">101</span>;
+students[<span class="code-num">0</span>].score = <span class="code-num">95</span>;
+
+<span class="code-cmt">// Loop through and display the whole array</span>
+<span class="code-kw">for</span> (<span class="code-type">int</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">4</span>; i++) {
+    <span class="code-fn">printf</span>(<span class="code-str">"Student %d - ID: %d, Score: %d\n"</span>, i, students[i].id, students[i].score);
+}</pre>
+          </div>
+          
+          <div id="viz-array-struct"></div>
+
           <div class="quiz-section" id="quiz6" data-quiz-lesson="6">
             <div class="quiz-title">🏁 Knowledge Check</div>
           </div>
@@ -780,6 +806,7 @@
 
     // ── Mount DS Visualizers ───────────────────────────────────────────
     DSViz.mountArray('viz-array');
+    DSViz.mountArrayOfStructs('viz-array-struct');
     DSViz.mountLinkedList('viz-ll');
     DSViz.mountStack('viz-stack');
     DSViz.mountQueue('viz-queue');

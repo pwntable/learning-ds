@@ -561,6 +561,131 @@ const DSViz = (() => {
     render();
   }
 
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── ARRAY OF STRUCTS VISUALIZER ───────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+  function mountArrayOfStructs(containerId) {
+    const root = document.getElementById(containerId);
+    if (!root) { console.warn('[DSViz] ArrayOfStruct: container not found:', containerId); return; }
+
+    const SIZE = 4;
+    let arr = new Array(SIZE).fill(null).map(() => ({ id: null, score: null }));
+
+    root.innerHTML = `
+      <div class="dsv-panel" id="${containerId}-arr-struct">
+        <div class="dsv-panel-header">
+          <span class="dsv-panel-icon"><i data-lucide="layers" class="icon-inline"></i></span>
+          <div>
+            <div class="dsv-panel-title">Array of Structs <span class="dsv-badge">Student[${SIZE}]</span></div>
+            <div class="dsv-panel-sub">Each element is a struct containing multiple fields: { id, score }</div>
+          </div>
+          <button class="dsv-btn dsv-btn-ghost dsv-reset-struct" title="Reset">↺ Reset</button>
+        </div>
+
+        <div class="dsv-controls" style="flex-wrap: wrap; justify-content: center;">
+          <input class="dsv-input dsv-input-sm" id="${containerId}-arr-idx" type="number"
+                 placeholder="Idx (0–${SIZE - 1})" min="0" max="${SIZE - 1}" style="width: 100px;">
+          <input class="dsv-input dsv-input-sm" id="${containerId}-arr-id" type="number"
+                 placeholder="ID" style="width: 100px;">
+          <input class="dsv-input dsv-input-sm" id="${containerId}-arr-score" type="number"
+                 placeholder="Score" style="width: 100px;">
+          <button class="dsv-btn dsv-btn-accent" id="${containerId}-arr-set">Set</button>
+          <button class="dsv-btn dsv-btn-danger" id="${containerId}-arr-clr">Clear</button>
+        </div>
+
+        <div class="dsv-status" id="${containerId}-arr-status"></div>
+
+        <div class="dsv-arr-stage" id="${containerId}-arr-stage" style="display: flex; gap: 10px; padding: 1rem 0;"></div>
+      </div>`;
+    if (window.lucide) window.lucide.createIcons({ root: root });
+
+    const idxInput = root.querySelector(`#${containerId}-arr-idx`);
+    const idInput = root.querySelector(`#${containerId}-arr-id`);
+    const scoreInput = root.querySelector(`#${containerId}-arr-score`);
+    const stage    = root.querySelector(`#${containerId}-arr-stage`);
+    const statusEl = root.querySelector(`#${containerId}-arr-status`);
+    const resetBtn = root.querySelector('.dsv-reset-struct');
+
+    function render(highlightIdx = -1, mode = '') {
+      stage.innerHTML = '';
+
+      arr.forEach((val, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'dsv-arr-cell dsv-struct-cell';
+        cell.style.flexDirection = 'column';
+        cell.style.alignItems = 'center';
+        cell.style.minWidth = '80px';
+        cell.style.width = 'auto';
+        cell.style.height = 'auto';
+        cell.style.padding = '8px';
+        cell.style.gap = '4px';
+
+        if (i === highlightIdx) {
+          cell.classList.add(mode === 'get' ? 'dsv-arr-get' : 'dsv-arr-set');
+        }
+        
+        let html = `<div class="dsv-arr-lbl" style="position: static; margin-bottom: 4px; font-weight: bold; background: var(--bg-tertiary); border-radius: 4px; padding: 2px 6px;">[${i}]</div>`;
+        if (val.id === null && val.score === null) {
+          cell.classList.add('dsv-arr-empty');
+          html += `<div><small>id:</small> —</div><div><small>score:</small> —</div>`;
+        } else {
+          html += `
+            <div style="background: var(--bg-primary); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; width: 100%; text-align: center;"><small style="color: var(--text-muted)">id:</small> <b>${val.id !== null ? val.id : '—'}</b></div>
+            <div style="background: var(--bg-primary); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; width: 100%; text-align: center;"><small style="color: var(--text-muted)">score:</small> <b>${val.score !== null ? val.score : '—'}</b></div>
+          `;
+        }
+        cell.innerHTML = html;
+        stage.appendChild(cell);
+
+        if (i === highlightIdx) flash(cell, 'dsv-flash');
+      });
+    }
+
+    function getIdx() {
+      const n = parseVal(idxInput.value);
+      if (n === null || n < 0 || n >= SIZE) {
+        status(statusEl, `⚠ Index must be 0 – ${SIZE - 1}.`, 'warn');
+        return null;
+      }
+      return n;
+    }
+
+    function setCell() {
+      const i = getIdx(); if (i === null) return;
+      const idVal = parseVal(idInput.value);
+      const scoreVal = parseVal(scoreInput.value);
+      if (idVal === null && scoreVal === null) { status(statusEl, '⚠ Enter ID or Score.', 'warn'); return; }
+      
+      if (idVal !== null) arr[i].id = idVal;
+      if (scoreVal !== null) arr[i].score = scoreVal;
+      
+      render(i, 'set');
+      status(statusEl, `✔ students[${i}] updated`, 'ok');
+    }
+
+    function clearCell() {
+      const i = getIdx(); if (i === null) return;
+      arr[i] = { id: null, score: null };
+      render(i);
+      status(statusEl, `✔ students[${i}] cleared`, 'ok');
+    }
+
+    function reset() {
+      arr = new Array(SIZE).fill(null).map(() => ({ id: null, score: null }));
+      render();
+      status(statusEl, 'Array reset.', 'info');
+    }
+
+    root.querySelector(`#${containerId}-arr-set`).addEventListener('click', setCell);
+    root.querySelector(`#${containerId}-arr-clr`).addEventListener('click', clearCell);
+    resetBtn.addEventListener('click', reset);
+
+    // Seed
+    arr[0] = { id: 101, score: 95 };
+    arr[1] = { id: 102, score: 88 };
+    render();
+  }
+
   // ── Public API ─────────────────────────────────────────────────────────────
   
   // ══════════════════════════════════════════════════════════════════════════
@@ -1114,6 +1239,6 @@ const DSViz = (() => {
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
-  return { mountLinkedList, mountStack, mountQueue, mountArray, mountSort, mountTree, mountBST };
+  return { mountLinkedList, mountStack, mountQueue, mountArray, mountArrayOfStructs, mountSort, mountTree, mountBST };
 
 })();
