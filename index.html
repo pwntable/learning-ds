@@ -327,6 +327,34 @@
 <span class="code-fn">scanf</span>(<span class="code-str">"%d"</span>, &age); <span class="code-cmt">// & means "address of"</span></pre>
           </div>
 
+          <h3>Other Data Types</h3>
+          <p>Each data type has a specific <strong>format specifier</strong>. Here is how you read and write them:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang">types_io.c</span>
+              <button class="copy-btn" onclick="cp(this)">Copy</button>
+            </div>
+            <pre class="code-block"><span class="code-cmt">// 1. Float (%f)</span>
+<span class="code-type">float</span> price;
+<span class="code-fn">scanf</span>(<span class="code-str">"%f"</span>, &price);
+<span class="code-fn">printf</span>(<span class="code-str">"Price is %.2f\n"</span>, price); <span class="code-cmt">// %.2f limits to 2 decimal places</span>
+
+<span class="code-cmt">// 2. Double (%lf)</span>
+<span class="code-type">double</span> pi;
+<span class="code-fn">scanf</span>(<span class="code-str">"%lf"</span>, &pi);
+<span class="code-fn">printf</span>(<span class="code-str">"Pi is %lf\n"</span>, pi);
+
+<span class="code-cmt">// 3. Character (%c)</span>
+<span class="code-type">char</span> grade;
+<span class="code-fn">scanf</span>(<span class="code-str">" %c"</span>, &grade); <span class="code-cmt">// Add a space before %c to ignore previous newlines!</span>
+<span class="code-fn">printf</span>(<span class="code-str">"Grade: %c\n"</span>, grade);
+
+<span class="code-cmt">// 4. String (%s)</span>
+<span class="code-type">char</span> name[<span class="code-num">50</span>];
+<span class="code-fn">scanf</span>(<span class="code-str">"%s"</span>, name); <span class="code-cmt">// No & needed for strings!</span>
+<span class="code-fn">printf</span>(<span class="code-str">"Hello, %s\n"</span>, name);</pre>
+          </div>
+
           <div class="alert alert-warning">
             <span class="alert-icon">⚠️</span>
             <div>Don't forget the <span class="tag">&</span> before the variable name in <span class="tag">scanf</span>!
