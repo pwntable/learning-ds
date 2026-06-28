@@ -71,7 +71,7 @@ window.QUESTIONS_DATA = {
           "correct": [
             "double"
           ],
-          "explanation": "<code>double</code> is the <strong>double-precision</strong> floating-point type (~15–16 decimal digits). <code>float</code> is <em>single-precision</em> (~6–7 decimal digits). The question asks specifically for <em>double precision</em>, so only <code>double</code> is correct."
+          "explanation": "<code>double</code> is the <strong>double-precision</strong> floating-point type (~15\u201316 decimal digits). <code>float</code> is <em>single-precision</em> (~6\u20137 decimal digits). The question asks specifically for <em>double precision</em>, so only <code>double</code> is correct."
         },
         {
           "id": "q1_6",
@@ -900,7 +900,7 @@ window.QUESTIONS_DATA = {
           "correct": [
             "0"
           ],
-          "explanation": "In C, when an array is <strong>partially initialized</strong> (fewer values than its size), all remaining elements are automatically set to <code>0</code>. So <code>arr[2]</code>, <code>arr[3]</code>, and <code>arr[4]</code> are all 0. This is a guaranteed rule in C — it is NOT garbage."
+          "explanation": "In C, when an array is <strong>partially initialized</strong> (fewer values than its size), all remaining elements are automatically set to <code>0</code>. So <code>arr[2]</code>, <code>arr[3]</code>, and <code>arr[4]</code> are all 0. This is a guaranteed rule in C \u2014 it is NOT garbage."
         },
         {
           "id": "q7_7",
@@ -1189,13 +1189,13 @@ window.QUESTIONS_DATA = {
           "options": [
             "O(n)",
             "O(n log n)",
-            "O(n²)"
+            "O(n\u00b2)"
           ],
           "correct": 2,
           "hints": [
             "Think about how many comparisons are needed for n elements in the worst case."
           ],
-          "explanation": "Bubble Sort compares every pair of adjacent elements. In the worst case (reverse-sorted list), it needs n*(n-1)/2 comparisons, which is <strong>O(n²)</strong>."
+          "explanation": "Bubble Sort compares every pair of adjacent elements. In the worst case (reverse-sorted list), it needs n*(n-1)/2 comparisons, which is <strong>O(n\u00b2)</strong>."
         },
         {
           "id": "q10s_3",
@@ -1220,7 +1220,7 @@ window.QUESTIONS_DATA = {
           "correct": [
             "3"
           ],
-          "explanation": "First pass comparisons: (5,3)→swap, (5,1)→swap, (5,4)→swap. That is <strong>3 swaps</strong>. After the first pass, 5 is 'bubbled' to the end: {3, 1, 4, 5}."
+          "explanation": "First pass comparisons: (5,3)\u2192swap, (5,1)\u2192swap, (5,4)\u2192swap. That is <strong>3 swaps</strong>. After the first pass, 5 is 'bubbled' to the end: {3, 1, 4, 5}."
         },
         {
           "id": "q10s_5",
@@ -1267,7 +1267,7 @@ window.QUESTIONS_DATA = {
           ],
           "correct": 1,
           "hints": [
-            "Think of a leaf on a real tree — it's at the very end of a branch."
+            "Think of a leaf on a real tree \u2014 it's at the very end of a branch."
           ],
           "explanation": "A <strong>leaf node</strong> is any node that has no children. It sits at the bottom of the tree."
         },
@@ -1334,6 +1334,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q12_2",
           "type": "tree_build",
+          "topic": "Level: Basic",
           "prompt": "Drag and drop the values to build the **Easy BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
           "nodes": [
             "10",
@@ -1372,6 +1373,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q12_3",
           "type": "tree_build",
+          "topic": "Level: Medium",
           "prompt": "Drag and drop the values to build the **Medium BST** (root 10, left 5, right 15) to form a valid Binary Search Tree.",
           "nodes": [
             "10",
@@ -1442,6 +1444,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q12_4",
           "type": "tree_build",
+          "topic": "Level: Hard",
           "prompt": "Drag and drop the values to build the **Hard BST** (root 15) to form a valid Binary Search Tree.",
           "nodes": [
             "15",
@@ -1512,6 +1515,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q12_5",
           "type": "sortable",
+          "topic": "Level: Medium",
           "prompt": "Drag and drop the nodes into the correct order for an **In-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
           "items": [
             "10",
@@ -1539,6 +1543,7 @@ window.QUESTIONS_DATA = {
         {
           "id": "q12_6",
           "type": "sortable",
+          "topic": "Level: Medium",
           "prompt": "Drag and drop the nodes into the correct order for a **Pre-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
           "items": [
             "10",
@@ -1559,13 +1564,14 @@ window.QUESTIONS_DATA = {
             "20"
           ],
           "hints": [
-            "Pre-order visits: Root, Left, Right."
+            "Pre-order: Root, Left, Right."
           ],
           "explanation": "Pre-order visits the root (10), then its left subtree starting at 5 (5, 2, 7), then the right subtree starting at 15 (15, 12, 20)."
         },
         {
           "id": "q12_7",
           "type": "sortable",
+          "topic": "Level: Medium",
           "prompt": "Drag and drop the nodes into the correct order for a **Post-order** traversal of the 'Medium Tree'.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='120' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='320' y2='120' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='70' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='120' y1='120' x2='170' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='270' y2='200' stroke='var(--border)' stroke-width='2'/><line x1='320' y1='120' x2='370' y2='200' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='120' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='120' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>5</text><circle cx='320' cy='120' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='126' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>15</text><circle cx='70' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='70' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>2</text><circle cx='170' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>7</text><circle cx='270' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='270' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>12</text><circle cx='370' cy='200' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='370' y='206' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text></svg></div>",
           "items": [
             "10",
@@ -1589,6 +1595,332 @@ window.QUESTIONS_DATA = {
             "Post-order visits: Left, Right, Root. The root is always visited last!"
           ],
           "explanation": "Post-order visits the left child, right child, and then the root. For this tree: left subtree (2, 7, 5), right subtree (12, 20, 15), then root (10)."
+        },
+        {
+          "id": "q12_8",
+          "type": "tree_build",
+          "topic": "Level: Hard (Zigzag)",
+          "prompt": "Drag and drop the values to build the **Hard (Zigzag) BST** (root 20) to form a valid Binary Search Tree.",
+          "nodes": [
+            "20",
+            "30",
+            "25",
+            "35",
+            "32"
+          ],
+          "treeStructure": [
+            {
+              "id": "node_20",
+              "x": 150,
+              "y": 20,
+              "right": "node_30"
+            },
+            {
+              "id": "node_30",
+              "x": 230,
+              "y": 80,
+              "left": "node_25",
+              "right": "node_35"
+            },
+            {
+              "id": "node_25",
+              "x": 180,
+              "y": 140
+            },
+            {
+              "id": "node_35",
+              "x": 280,
+              "y": 140,
+              "left": "node_32"
+            },
+            {
+              "id": "node_32",
+              "x": 230,
+              "y": 200
+            }
+          ],
+          "correctMapping": {
+            "node_20": "20",
+            "node_30": "30",
+            "node_25": "25",
+            "node_35": "35",
+            "node_32": "32"
+          },
+          "hints": [
+            "Follow the BST property strictly: Left < Parent < Right. Trace where 25 and 32 go carefully."
+          ],
+          "explanation": "20 is the root. 30 goes right (>20). Under 30, 25 goes left (<30) and 35 goes right (>30). Under 35, 32 goes left (<35)."
+        },
+        {
+          "id": "q12_9",
+          "type": "tree_build",
+          "topic": "Level: Left-Heavy",
+          "prompt": "Drag and drop the values to build the **Left-Heavy BST** (root 40) to form a valid Binary Search Tree.",
+          "nodes": [
+            "40",
+            "30",
+            "20",
+            "10"
+          ],
+          "treeStructure": [
+            {
+              "id": "node_40",
+              "x": 280,
+              "y": 20,
+              "left": "node_30"
+            },
+            {
+              "id": "node_30",
+              "x": 230,
+              "y": 80,
+              "left": "node_20"
+            },
+            {
+              "id": "node_20",
+              "x": 180,
+              "y": 140,
+              "left": "node_10"
+            },
+            {
+              "id": "node_10",
+              "x": 130,
+              "y": 200
+            }
+          ],
+          "correctMapping": {
+            "node_40": "40",
+            "node_30": "30",
+            "node_20": "20",
+            "node_10": "10"
+          },
+          "hints": [
+            "Since each node is smaller than its parent, they all cascade down to the left."
+          ],
+          "explanation": "40 is the root. 30 is less than 40, so it goes left. 20 is less than 30, so it goes left. 10 is less than 20, so it goes left. This forms a completely left-skewed tree."
+        },
+        {
+          "id": "q12_10",
+          "type": "tree_build",
+          "topic": "Level: Right-Heavy",
+          "prompt": "Drag and drop the values to build the **Right-Heavy BST** (root 10) to form a valid Binary Search Tree.",
+          "nodes": [
+            "10",
+            "20",
+            "30",
+            "40"
+          ],
+          "treeStructure": [
+            {
+              "id": "node_10",
+              "x": 120,
+              "y": 20,
+              "right": "node_20"
+            },
+            {
+              "id": "node_20",
+              "x": 170,
+              "y": 80,
+              "right": "node_30"
+            },
+            {
+              "id": "node_30",
+              "x": 220,
+              "y": 140,
+              "right": "node_40"
+            },
+            {
+              "id": "node_40",
+              "x": 270,
+              "y": 200
+            }
+          ],
+          "correctMapping": {
+            "node_10": "10",
+            "node_20": "20",
+            "node_30": "30",
+            "node_40": "40"
+          },
+          "hints": [
+            "Since each node is larger than its parent, they all cascade down to the right."
+          ],
+          "explanation": "10 is the root. 20 is greater than 10, so it goes right. 30 is greater than 20, so it goes right. 40 is greater than 30, so it goes right. This forms a completely right-skewed tree."
+        },
+        {
+          "id": "q12_11",
+          "type": "tree_build",
+          "topic": "Level: Complex Edge Cases",
+          "prompt": "Drag and drop the values to build the **Complex Edge Cases BST** (root 50) to form a valid Binary Search Tree.",
+          "nodes": [
+            "50",
+            "25",
+            "75",
+            "35",
+            "30",
+            "60",
+            "85",
+            "80"
+          ],
+          "treeStructure": [
+            {
+              "id": "node_50",
+              "x": 200,
+              "y": 20,
+              "left": "node_25",
+              "right": "node_75"
+            },
+            {
+              "id": "node_25",
+              "x": 120,
+              "y": 80,
+              "right": "node_35"
+            },
+            {
+              "id": "node_35",
+              "x": 170,
+              "y": 140,
+              "left": "node_30"
+            },
+            {
+              "id": "node_30",
+              "x": 140,
+              "y": 200
+            },
+            {
+              "id": "node_75",
+              "x": 280,
+              "y": 80,
+              "left": "node_60",
+              "right": "node_85"
+            },
+            {
+              "id": "node_60",
+              "x": 230,
+              "y": 140
+            },
+            {
+              "id": "node_85",
+              "x": 330,
+              "y": 140,
+              "left": "node_80"
+            },
+            {
+              "id": "node_80",
+              "x": 300,
+              "y": 200
+            }
+          ],
+          "correctMapping": {
+            "node_50": "50",
+            "node_25": "25",
+            "node_35": "35",
+            "node_30": "30",
+            "node_75": "75",
+            "node_60": "60",
+            "node_85": "85",
+            "node_80": "80"
+          },
+          "hints": [
+            "Take your time and trace from the root (50) for each node. Check: is 30 greater than 25 but less than 35?"
+          ],
+          "explanation": "50 is root. Left: 25, Right: 75. For 25, right is 35 (since >25 but <50). For 35, left is 30 (since <35 but >25). For 75, left is 60 and right is 85. For 85, left is 80."
+        },
+        {
+          "id": "q12_12",
+          "type": "sortable",
+          "topic": "Level: Hard (Zigzag)",
+          "prompt": "Drag and drop the nodes into the correct order for a **Post-order** traversal of the Hard (Zigzag) Tree.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='170' y1='40' x2='250' y2='100' stroke='var(--border)' stroke-width='2'/><line x1='250' y1='100' x2='200' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='250' y1='100' x2='300' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='300' y1='160' x2='250' y2='220' stroke='var(--border)' stroke-width='2'/><circle cx='170' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='170' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text><circle cx='250' cy='100' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='250' y='106' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>30</text><circle cx='200' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='200' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>25</text><circle cx='300' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='300' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>35</text><circle cx='250' cy='220' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='250' y='226' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>32</text></svg></div>",
+          "items": [
+            "20",
+            "30",
+            "25",
+            "35",
+            "32"
+          ],
+          "correctOrder": [
+            "25",
+            "32",
+            "35",
+            "30",
+            "20"
+          ],
+          "hints": [
+            "Post-order: Left, Right, Root. The root (20) must be visited last!"
+          ],
+          "explanation": "Post-order traversal visits the left subtree (none), then the right subtree of 20 (rooted at 30). For 30, it visits its left subtree (25), then right subtree (32 -> 35), then root of subtree (30), and finally the main root (20)."
+        },
+        {
+          "id": "q12_13",
+          "type": "sortable",
+          "topic": "Level: Left-Heavy",
+          "prompt": "Drag and drop the nodes into the correct order for a **Pre-order** traversal of the Left-Heavy Tree.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='300' y1='40' x2='250' y2='100' stroke='var(--border)' stroke-width='2'/><line x1='250' y1='100' x2='200' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='200' y1='160' x2='150' y2='220' stroke='var(--border)' stroke-width='2'/><circle cx='300' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='300' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>40</text><circle cx='250' cy='100' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='250' y='106' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>30</text><circle cx='200' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='200' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text><circle cx='150' cy='220' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='150' y='226' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text></svg></div>",
+          "items": [
+            "40",
+            "30",
+            "20",
+            "10"
+          ],
+          "correctOrder": [
+            "40",
+            "30",
+            "20",
+            "10"
+          ],
+          "hints": [
+            "Pre-order: Root, Left, Right. Since it's all left children, you visit them as you go down."
+          ],
+          "explanation": "Pre-order visits the root (40), then the left subtree: root (30) -> left (20) -> left (10). This gives the exact top-down order."
+        },
+        {
+          "id": "q12_14",
+          "type": "sortable",
+          "topic": "Level: Right-Heavy",
+          "prompt": "Drag and drop the nodes into the correct order for a **Post-order** traversal of the Right-Heavy Tree.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='140' y1='40' x2='190' y2='100' stroke='var(--border)' stroke-width='2'/><line x1='190' y1='100' x2='240' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='240' y1='160' x2='290' y2='220' stroke='var(--border)' stroke-width='2'/><circle cx='140' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='140' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>10</text><circle cx='190' cy='100' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='190' y='106' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>20</text><circle cx='240' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='240' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>30</text><circle cx='290' cy='220' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='290' y='226' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>40</text></svg></div>",
+          "items": [
+            "10",
+            "20",
+            "30",
+            "40"
+          ],
+          "correctOrder": [
+            "40",
+            "30",
+            "20",
+            "10"
+          ],
+          "hints": [
+            "Post-order: Left, Right, Root. Since each node has only a right child, the child is always visited before its parent."
+          ],
+          "explanation": "Post-order starts at 10, goes right to 20, goes right to 30, goes right to 40. 40 has no children, so it's visited first. Then 30, then 20, and finally the root 10."
+        },
+        {
+          "id": "q12_15",
+          "type": "sortable",
+          "topic": "Level: Complex Edge Cases",
+          "prompt": "Drag and drop the nodes into the correct order for an **In-order** traversal of the Complex Tree.<br/><br/><div style='display:flex;justify-content:center;margin-top:1rem;margin-bottom:1rem;'><svg width='100%' height='100%' viewBox='0 0 420 250' style='max-width:300px;'><line x1='220' y1='40' x2='140' y2='100' stroke='var(--border)' stroke-width='2'/><line x1='220' y1='40' x2='300' y2='100' stroke='var(--border)' stroke-width='2'/><line x1='140' y1='100' x2='190' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='190' y1='160' x2='160' y2='220' stroke='var(--border)' stroke-width='2'/><line x1='300' y1='100' x2='250' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='300' y1='100' x2='350' y2='160' stroke='var(--border)' stroke-width='2'/><line x1='350' y1='160' x2='320' y2='220' stroke='var(--border)' stroke-width='2'/><circle cx='220' cy='40' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='220' y='46' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>50</text><circle cx='140' cy='100' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='140' y='106' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>25</text><circle cx='190' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='190' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>35</text><circle cx='160' cy='220' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='160' y='226' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>30</text><circle cx='300' cy='100' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='300' y='106' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>75</text><circle cx='250' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='250' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>60</text><circle cx='350' cy='160' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='350' y='166' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>85</text><circle cx='320' cy='220' r='18' fill='var(--bg-secondary)' stroke='var(--border)' stroke-width='2'/><text x='320' y='226' text-anchor='middle' fill='var(--text-primary)' font-weight='bold'>80</text></svg></div>",
+          "items": [
+            "50",
+            "25",
+            "35",
+            "30",
+            "75",
+            "60",
+            "85",
+            "80"
+          ],
+          "correctOrder": [
+            "25",
+            "30",
+            "35",
+            "50",
+            "60",
+            "75",
+            "80",
+            "85"
+          ],
+          "hints": [
+            "Remember: In-order traversal of a valid Binary Search Tree (BST) *always* yields the elements in sorted ascending order!"
+          ],
+          "explanation": "In-order traversal visits: Left, Root, Right. For a BST, this always results in the elements sorted in ascending order: 25, 30, 35, 50, 60, 75, 80, 85."
         }
       ]
     },
@@ -1605,7 +1937,7 @@ window.QUESTIONS_DATA = {
           ],
           "correct": 1,
           "hints": [
-            "C does not have 'class' — that's C++.",
+            "C does not have 'class' \u2014 that's C++.",
             "Correct! 'struct' is C's way to group variables.",
             "'object' is not a C keyword."
           ],
